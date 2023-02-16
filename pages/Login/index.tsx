@@ -44,9 +44,28 @@ const Login = () => {
         .catch((error) => {
           setLogInError(error.response?.data?.statusCode === 401);
         });
+      testAxios();
     },
     [email, password],
   );
+
+  const testAxios = () => {
+    axios
+      .post(
+        'https://memolucky.run.goorm.io/users/dj-rest-auth/login/',
+        {
+          username: 'han1113',
+          password: 'goddns1234',
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      .then((r) => {
+        console.log('clear : ', r);
+      })
+      .catch(console.error);
+  };
 
   // if (data === undefined) {
   //   return <div>로딩중...</div>;

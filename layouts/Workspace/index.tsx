@@ -33,6 +33,7 @@ import InviteChannelModal from '@components/InviteChannelModal';
 import ChannelList from '@components/ChannalList';
 import DMList from '@components/DMList/inex';
 import useSocket from '@hooks/useSocket';
+import leaf from '../Workspace/leaf.png';
 
 const Channel = loadable(() => import('../../pages/Channel'));
 const DirectMessage = loadable(() => import('../../pages/DirectMessage'));
@@ -172,11 +173,11 @@ const Workspace: VFC = () => {
     <div>
       <Header>
         <span onClick={onClickUserProfile}>
-          <ProfileImg src={leafUrl} alt="fail to load profile" />
+          <ProfileImg src={leaf} alt="fail to load profile" />
           {showUserMenu && (
             <Menu style={{ right: 0, top: 38 }} show={showUserMenu} onCloseModal={onClickUserProfile}>
               <ProfileModal>
-                <img src={leafUrl} />
+                <img src={leaf} />
                 <div>
                   <span id="profile-name">{UserData ? UserData.nickname : 'false'}</span>
                   <span id="profile-active">Active</span>
