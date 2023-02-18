@@ -86,6 +86,10 @@ const config: Configuration = {
         target: 'http://localhost:3095',
         changeOrigin: true,
       },
+      '/users/': {
+        target: 'https://memolucky.run.goorm.io',
+        changeOrigin: true,
+      },
     },
     devMiddleware: { publicPath: '/dist/' },
     static: { directory: path.resolve(__dirname) },
