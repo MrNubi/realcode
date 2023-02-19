@@ -2,21 +2,21 @@ import axios from 'axios';
 
 const fetcherLocals = <Data,>(url: string): any => {
   const A = axios
-    .post<Data>(url, {
+    .get<Data>('http://localhost:3095/api/users', {
       withCredentials: true,
     })
     .then((r) => {
-      logout;
+      console.log('1차: 통과');
       testAxios;
     })
     .catch(() => {
-      logout;
+      console.log('1차: 실패');
       testAxios;
     });
 
   const testAxios = axios
     .post<Data>(
-      'https://memolucky.run.goorm.io/users/dj-rest-auth/login/',
+      url,
       {
         username: 'han1113',
         password: 'goddns1234',
@@ -25,19 +25,11 @@ const fetcherLocals = <Data,>(url: string): any => {
         withCredentials: true,
       },
     )
-    .then((r) => r.data)
-    .catch(console.error);
-
-  const logout = axios
-    .post('http://localhost:3095/api/users/logout', null, {
-      withCredentials: true,
+    .then((r) => {
+      console.log('2차 성공');
+      return r.data;
     })
-    .then(() => {
-      console.log('onLogOut');
-    })
-    .catch((error) => {
-      console.log('error', error);
-    });
+    .catch(() => console.log('2차실패'));
 
   return A;
 };

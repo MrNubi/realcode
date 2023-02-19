@@ -90,7 +90,7 @@ const MemoLogin = () => {
   console.log('datacheck login out: ', LoginData);
   if (LoginData) {
     console.log('datacheck login in: ', LoginData);
-    // return <Redirect to="/workspace/sleact/channel/일반" />;
+    return <Redirect to="/Memoworkspace" />;
   }
 
   return (

@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./components/MemoInput/index.tsx'],
+  content: ['./**/**/**.tsx'],
   theme: {
     extend: {},
   },

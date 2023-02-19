@@ -1,15 +1,8 @@
 import styled from '@emotion/styled';
 
-export const BaseContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-  width: 100%;
-  height: 100%;
-
-  background: #bebebe;
-`;
-
 export const GroupTopBar = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 160px;
   margin: 5px;
@@ -64,7 +57,8 @@ export const SearchTextDiv = styled.form`
   margin-top: 14px;
   background: #D9D9D9;
   border-radius: 15px;
-  height: 30px;
+  height: 3%;
+  max-high:30px;
   padding: 0px 15px 0px 10px;
   color: white;
  
@@ -95,4 +89,25 @@ export const SearchTextArea = styled.input`
     font-size: 12px;
     line-height: 15px;
   }
+`;
+
+export const GroupSidebarTitle = styled.div`
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  fontsize: 14px;
+  margin: 8px;
+`;
+export const DashedLine = styled.div`
+  flex-grow: 1;
+  height: 1px;
+  font-size: 0px;
+  line-height: 0px;
+  border: 0.2px;
+  border-style: dashed;
+  border-color: black;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  margin-left: 3px;
+  margin-right: 10px;
 `;
