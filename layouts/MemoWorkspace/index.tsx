@@ -231,21 +231,8 @@ const MemoWorkspace = () => {
                   color: ' #000000',
                 }}
               >
-                그룹 설명 :
+                그룹 설명 : {'설명'}
               </span>
-              <div
-                style={{
-                  marginLeft: '10px',
-
-                  fontFamily: 'Inter',
-                  fontStyle: 'normal',
-
-                  fontSize: 12,
-                  color: ' #000000',
-                }}
-              >
-                설명 !!!!!!!
-              </div>
             </div>
             <div
               style={{
@@ -263,6 +250,7 @@ const MemoWorkspace = () => {
                   fontStyle: 'normal',
 
                   fontSize: 12,
+
                   color: ' #000000',
                 }}
               >
@@ -297,6 +285,9 @@ const MemoWorkspace = () => {
             </div>
           </div>
         </GroupTopBar>
+
+        {/*워크스페이스 : 상세 / 내용 / dmbar*/}
+
         <ContextLayout>
           <WorkDescriptionBar></WorkDescriptionBar>
           <WorkspaceZone></WorkspaceZone>
