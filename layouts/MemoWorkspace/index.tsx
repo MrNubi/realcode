@@ -25,10 +25,12 @@ import FolderOPen from '../../img/folder_open.png';
 import FolderClose from '../../img/folder_close.png';
 import plus from '../../img/add_group.png';
 import Setting from '../../img/Setting.png';
+import memo from '../../img/memo.png';
 import fetcherLocals from '../../utills/fetcherLocals';
 import useSWR from 'swr';
 import { MLogin } from '@typings/memot';
 import { Link } from 'react-router-dom';
+import MemoContent from '@components/MemoContent';
 
 const MemoWorkspace = () => {
   const [searchText, onChangeSearchText, setSearchText] = useInput('');
@@ -289,8 +291,99 @@ const MemoWorkspace = () => {
         {/*워크스페이스 : 상세 / 내용 / dmbar*/}
 
         <ContextLayout>
-          <WorkDescriptionBar></WorkDescriptionBar>
-          <WorkspaceZone></WorkspaceZone>
+          <WorkDescriptionBar>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: 5,
+                paddingLeft: 27,
+                width: '100%',
+                height: '10%',
+              }}
+            >
+              <img width={38} height={37} src={memo} alt="file-color-reverse" />
+              <span
+                style={{
+                  marginLeft: '10',
+                  fontFamily: 'Inter',
+                  fontStyle: 'normal',
+                  fontWeight: '400px',
+                  fontSize: '24px',
+                  color: 'white',
+                }}
+              >
+                작업명
+              </span>
+            </div>
+            <div style={{ width: '100%', height: '60%', display: 'flex' }}>
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                }}
+              >
+                <span
+                  style={{
+                    marginLeft: '29px',
+
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+
+                    fontSize: 12,
+
+                    color: ' #ffffff',
+                  }}
+                >
+                  참여자 : {`유저수`}
+                </span>
+                <span
+                  style={{
+                    marginLeft: '29px',
+
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+
+                    fontSize: 12,
+                    color: ' #ffffff',
+                  }}
+                >
+                  파일 수 : {`파일 수`}
+                </span>
+                <span
+                  style={{
+                    marginLeft: '29px',
+
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+
+                    fontSize: 12,
+                    color: ' #ffffff',
+                  }}
+                >
+                  작업 수 : {`작업 수`}
+                </span>
+                <span
+                  style={{
+                    marginLeft: '29px',
+
+                    fontFamily: 'Inter',
+                    fontStyle: 'normal',
+
+                    fontSize: 12,
+                    color: ' #ffffff',
+                  }}
+                >
+                  파일 설명 : {`설명`}
+                </span>
+              </div>
+            </div>
+          </WorkDescriptionBar>
+          <WorkspaceZone>
+            <MemoContent />
+          </WorkspaceZone>
           <DireecMessageBar></DireecMessageBar>
         </ContextLayout>
       </div>

@@ -78,7 +78,7 @@ const Login = () => {
 
   return (
     <div id="container">
-      <Header>Sleact</Header>
+      <Header>test</Header>
       <Form onSubmit={onSubmit}>
         <Label id="email-label">
           <span>이메일 주소</span>

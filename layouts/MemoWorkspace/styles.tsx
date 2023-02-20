@@ -20,6 +20,7 @@ export const WorkDescriptionBar = styled.div`
   width: 25%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   background: #8b8b8b;
   border-radius: 15px 0px 0px 15px;
 `;
