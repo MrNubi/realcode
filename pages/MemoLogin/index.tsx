@@ -67,8 +67,8 @@ const MemoLogin = () => {
       .post(
         memoUrl + '/users/dj-rest-auth/login/',
         {
-          username: 'han1113',
-          password: 'goddns1234',
+          username: 'test1234',
+          password: 'clone1234',
         },
         {
           withCredentials: true,
@@ -82,7 +82,6 @@ const MemoLogin = () => {
       })
       .catch(console.error);
   };
-  <></>;
 
   // if (data === undefined) {
   //   return <div>로딩중...</div>;
@@ -90,7 +89,7 @@ const MemoLogin = () => {
   console.log('datacheck login out: ', LoginData);
   if (LoginData) {
     console.log('datacheck login in: ', LoginData);
-    return <Redirect to="/Memoworkspace" />;
+    return <Redirect to="/Memoworkspace/ " />;
   }
 
   return (

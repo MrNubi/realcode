@@ -28,9 +28,12 @@ import Setting from '../../img/Setting.png';
 import memo from '../../img/memo.png';
 import fetcherLocals from '../../utills/fetcherLocals';
 import useSWR from 'swr';
-import { MLogin } from '@typings/memot';
+import { MGroup, MLogin, MUSer } from '@typings/memot';
 import { Link } from 'react-router-dom';
 import MemoContent from '@components/MemoContent';
+import fetchMemoGet from '../../utills/fetchMemoGet';
+import axios from 'axios';
+import GroupSidebarA from '@components/GroupSideBarA';
 
 const MemoWorkspace = () => {
   const [searchText, onChangeSearchText, setSearchText] = useInput('');
@@ -41,10 +44,24 @@ const MemoWorkspace = () => {
     error,
     mutate,
   } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
-    dedupingInterval: 10000,
+    dedupingInterval: 1000,
   });
+
+  const {
+    data: GroupData,
+    error: GroupErr,
+    mutate: GroupMutate,
+  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${LoginData?.access_token}`), {});
+
   const [folderOpen, setFolderOpen] = useState(false);
   const [onclick, setOnClick] = useState(false);
+  const [clickUserName, setClickUserName] = useState(true);
+
+  const onClickUserName = () => {
+    setClickUserName((prev) => !prev);
+    console.log(clickUserName);
+    console.log(GroupData);
+  };
   const onSearch = useCallback(
     (e: any) => {
       e.preventDefault();
@@ -52,7 +69,40 @@ const MemoWorkspace = () => {
     },
     [searchText],
   );
+  const onClickFolder = useCallback(
+    (e) => {
+      e.preventDefault();
+      setFolderOpen((prev) => !prev);
+    },
+    [setFolderOpen],
+  );
+
+  const Groupcall = () => {
+    const A = axios
+      .get(
+        memoUrl + '/group',
+
+        {
+          headers: {
+            Authorization: `Bearer ${LoginData?.access_token}`,
+          },
+
+          withCredentials: true,
+        },
+      )
+      .then((r) => {
+        GroupMutate(r.data, false);
+        console.log('get: 3차 성공', r.data);
+      })
+      .catch(() => console.log('get: 3차실패', LoginData?.access_token));
+  };
+
   console.log('mwLogin:  ', LoginData);
+  console.log('mwGroup:  ', GroupData);
+
+  if (!GroupData) {
+    Groupcall();
+  }
   return (
     <div
       style={{
@@ -85,81 +135,29 @@ const MemoWorkspace = () => {
           }}
         >
           {/* group 바 상단 /이미지 이름 선 addIcon */}
-
-          <GroupSidebarTitle>
+          {/* 그룹 데이터 처리 : 이걸 map로 넣을 예정 */}
+          <GroupSidebarTitle onClick={onClickUserName}>
             <img src={Box} alt="group_boxImg" />
-            <span style={{ color: 'blue' }}>그룹명</span>
+            <span style={{ color: 'blue' }}>{LoginData ? LoginData.user.nickname : 'Loading...'}</span>
             <DashedLine />
 
             <img src={plus} alt="create_group_plusImg" />
           </GroupSidebarTitle>
-
-          {/* 그룹 데이터 처리 : 이걸 map로 넣을 예정 */}
-
-          <GroupSidebarTitle style={{ marginLeft: 32, cursor: 'pointer' }}>
-            <img
-              onClick={() => {
-                setFolderOpen((prev) => !prev);
-              }}
-              src={folderOpen ? FolderOPen : FolderClose}
-              alt="group_boxImg"
-            />
-            <span
-              onClick={() => {
-                setFolderOpen((prev) => !prev);
-              }}
-              style={{ color: 'blue' }}
-            >
-              그룹명
-            </span>
-            <DashedLine
-              onClick={() => {
-                setFolderOpen((prev) => !prev);
-              }}
-            />
-
-            <img
-              src={onclick ? Box : plus}
-              alt="create_group_plusImg"
-              onClick={(e) => {
-                e.preventDefault();
-                setOnClick((prev) => !prev);
-              }}
-            />
-          </GroupSidebarTitle>
-
-          <GroupSidebarTitle style={{ marginLeft: 48, cursor: 'pointer' }}>
-            <img
-              onClick={() => {
-                setFolderOpen((prev) => !prev);
-              }}
-              src={folderOpen ? FolderOPen : FolderClose}
-              alt="group_boxImg"
-            />
-            <span
-              onClick={() => {
-                setFolderOpen((prev) => !prev);
-              }}
-              style={{ color: 'blue' }}
-            >
-              그룹명-inner
-            </span>
-            <DashedLine
-              onClick={() => {
-                setFolderOpen((prev) => !prev);
-              }}
-            />
-
-            <img
-              src={onclick ? Box : plus}
-              alt="create_group_plusImg"
-              onClick={(e) => {
-                e.preventDefault();
-                setOnClick((prev) => !prev);
-              }}
-            />
-          </GroupSidebarTitle>
+          ;
+          {clickUserName &&
+            GroupData?.results!!.map((result) => {
+              console.log('kiki :', GroupData);
+              return (
+                <div
+                  key={result.id}
+                  style={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 10 }}
+                >
+                  <GroupSidebarA resultName={result.name}></GroupSidebarA>
+                </div>
+              );
+            })}
         </div>
+
         <DashedLine />
         <div
           style={{

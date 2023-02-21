@@ -93,11 +93,16 @@ export const SearchTextArea = styled.input`
 `;
 
 export const GroupSidebarTitle = styled.div`
+  background-color: white;
+
   display: flex;
+
   flex-basis: 100%;
   align-items: center;
   fontsize: 14px;
-  margin: 8px;
+  margin-left: 8px;
+  margin-right: 8px;
+  cursor: pointer;
 `;
 export const DashedLine = styled.div`
   flex-grow: 1;

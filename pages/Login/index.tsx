@@ -6,12 +6,14 @@ import { Success, Form, Error, Label, Input, LinkContainer, Button, Header } fro
 import useSWR from 'swr';
 import fetcher from '../../utills/fetcher';
 import { IUser } from '../../typings/db';
+import fetcherLocals from '../../utills/fetcherLocals';
+import { MLogin } from '@typings/memot';
 const Login = () => {
   const {
     data: LoginData,
     error,
     mutate,
-  } = useSWR<IUser[]>('/api/users', fetcher, {
+  } = useSWR<MLogin[]>('https://memolucky.run.goorm.io/users/dj-rest-auth/login/', fetcherLocals, {
     dedupingInterval: 10000, // 100초 안에는 호출 보내도 캐시값안에서 처리
     //focusThrottleInterval  : 이 시간 범위 동안 단 한 번만 갱신,즉 중복 갱신요청 씹음
     //errorRetryInterval : 에러시 재시도 기간, 입력값 이후 다시 보냄,
@@ -37,9 +39,7 @@ const Login = () => {
           },
         )
         .then((response) => {
-          mutate(response.data);
           console.log('로그인 성공', response.data);
-          console.log('로그인 성공data', LoginData);
         })
         .catch((error) => {
           setLogInError(error.response?.data?.statusCode === 401);
@@ -54,14 +54,15 @@ const Login = () => {
       .post(
         'https://memolucky.run.goorm.io/users/dj-rest-auth/login/',
         {
-          username: 'han1113',
-          password: 'goddns1234',
+          username: 'test1234',
+          password: 'clone1234',
         },
         {
           withCredentials: true,
         },
       )
       .then((r) => {
+        mutate(r.data, false);
         console.log('clear : ', r);
       })
       .catch(console.error);
