@@ -21,8 +21,7 @@ const App = () => {
       <Route path="/signup" component={SignUp} />
       <Route path="/signup" component={SignUp} />
       <Route path="/workspace/:workspace" component={workspace} />
-      <Route path="/workspace/:workspace" component={workspace} />
-      <Route path="/MemoWorkspace" component={MemoWorkspace} />
+      <Route path="/MemoWorkspace/:groupname" component={MemoWorkspace} />
     </Switch>
   );
 
