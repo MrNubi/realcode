@@ -4,7 +4,7 @@ export const GroupTopBar = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 160px;
+  height: 20%;
   margin: 5px;
 
   background: #ffffff;
@@ -12,7 +12,7 @@ export const GroupTopBar = styled.div`
 `;
 export const ContextLayout = styled.div`
   width: 100%;
-  height: 890px;
+  height: 80%;
   display: flex;
   background: transparent;
 `;
@@ -42,10 +42,10 @@ export const DireecMessageBar = styled.div`
 
 export const GroupSidebar = styled.div`
   width: 20%;
-  height: 1060px;
+  height: 100%;
   padding-left: 9px;
   padding-right: 9px;
-  margin: 5px;
+  margin: 1px;
   margin-right: 10px;
   background: #ffffff;
   border-radius: 15px;

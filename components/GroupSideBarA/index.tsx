@@ -10,12 +10,13 @@ import useSWR from 'swr';
 import fetchMemoGet from '../../utills/fetchMemoGet';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
+import GroupSidebarInnerData from '@components/GroupSideInnerData';
 
 interface Props {
   resultName: string;
 }
 
-const GroupSidebarA = ({ resultName }: Props) => {
+function GroupSidebarA({ resultName }: Props) {
   const [CilickInnerFolder, setCilickInnerFolder] = useState(false);
   const [clickFolder, setClickFolder] = useState(false);
   const GroupName = useParams<{ groupname?: string }>();
@@ -35,16 +36,6 @@ const GroupSidebarA = ({ resultName }: Props) => {
     mutate: GroupMutate,
   } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${LoginData?.access_token}`), {});
 
-  const {
-    data: InnerGroupData,
-    error: InnerGroupErr,
-    mutate: InnerGroupMutate,
-  } = useSWR<MInnerGroup>(
-    memoUrl + `/group/group-data/${GroupName}/`,
-    fetchMemoGet(memoUrl + `/group/group-data/${GroupName}/`, `${LoginData?.access_token}`),
-    {},
-  );
-
   const setFolderOpen = () =>
     useCallback(() => {
       setClickFolder((p) => !p);
@@ -55,29 +46,8 @@ const GroupSidebarA = ({ resultName }: Props) => {
     setCilickInnerFolder((p) => !p);
   };
 
-  if (GroupData && !InnerGroupData) {
-    axios
-      .get(
-        memoUrl + `/group/group-data/${GroupName}/`,
-
-        {
-          headers: {
-            Authorization: `Bearer ${LoginData?.access_token}`,
-          },
-
-          withCredentials: true,
-        },
-      )
-      .then((r) => {
-        InnerGroupMutate(r.data);
-        console.log('get: InnerData성공', r.data);
-      })
-      .catch((e) => console.log('get: Inner실패', e));
-  }
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 10 }}>
-      {GroupData?.results.map()}
       <Link to={`/Memoworkspace/${resultName}`}>
         <GroupSidebarTitle style={{ marginBottom: 12, cursor: 'pointer' }}>
           <img
@@ -113,27 +83,14 @@ const GroupSidebarA = ({ resultName }: Props) => {
           />
         </GroupSidebarTitle>
       </Link>
-      {clickFolder && InnerGroupData && (
-        <GroupSidebarTitle style={{ marginLeft: 48, cursor: 'pointer' }}>
-          <img onClick={onCilickInnerFolder} src={CilickInnerFolder ? FolderOPen : FolderClose} alt="group_boxImg" />
-          <span onClick={onCilickInnerFolder} style={{ color: 'blue' }}>
-            그룹명-inner
-          </span>
-          <DashedLine onClick={onCilickInnerFolder} />
 
-          <img
-            src={plus}
-            alt="create_group_plusImg"
-            onClick={(e) => {
-              e.preventDefault();
-              console.log('innerclick');
-              // createNewGroupData();
-            }}
-          />
-        </GroupSidebarTitle>
-      )}
+      {GroupData &&
+        GroupData?.results.map((r, i) => {
+          console.log(GroupData);
+          return <GroupSidebarInnerData key={r.id} nickname={r.name} index={i}></GroupSidebarInnerData>;
+        })}
     </div>
   );
-};
+}
 
 export default GroupSidebarA;
