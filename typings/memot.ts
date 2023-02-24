@@ -47,3 +47,32 @@ export interface MIGroupResult {
   file_type: string;
   created_at: string;
 }
+
+export interface MGroupDataMemo {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: MGroupMemoDataResult[];
+}
+
+export interface MGroupMemoDataResult {
+  pk: number;
+  user: number;
+  username: string;
+  nickname: string;
+  parent: number | null;
+  text: string;
+  uid: string;
+  is_show: boolean;
+  is_like: boolean;
+  like_count: number;
+  refer_count: number;
+  file_count: number;
+  refer_user: [];
+  memo_file: [
+    {
+      file: string;
+    },
+  ];
+  created_at: string;
+}

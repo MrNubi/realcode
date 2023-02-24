@@ -9,13 +9,17 @@ import plus from '../../img/add_group.png';
 import FolderOPen from '../../img/folder_open.png';
 import FolderClose from '../../img/folder_close.png';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 interface innerProps {
   nickname: string;
-  index: number;
+
+  parentIndex: number;
+  clickInnerFolder: number;
+  setInnerFolderOpen: (e: any, i: number) => void;
 }
 
-function GroupSidebarInnerData({ nickname, index }: innerProps) {
+function GroupSidebarInnerData({ nickname, parentIndex, clickInnerFolder, setInnerFolderOpen }: innerProps) {
   const GroupName = useParams<{ groupname?: string }>();
 
   const memoUrl = 'https://memolucky.run.goorm.io';
@@ -28,12 +32,6 @@ function GroupSidebarInnerData({ nickname, index }: innerProps) {
   });
 
   const {
-    data: GroupData,
-    error: GroupErr,
-    mutate: GroupMutate,
-  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${LoginData?.access_token}`), {});
-
-  const {
     data: InnerGroupData,
     error: InnerGroupErr,
     mutate: InnerGroupMutate,
@@ -43,7 +41,7 @@ function GroupSidebarInnerData({ nickname, index }: innerProps) {
     {},
   );
   console.log('이너그룹데이터 :', decodeURI(nickname.trim()));
-  if (GroupData && !InnerGroupData) {
+  if (!InnerGroupData) {
     axios
       .get(
         memoUrl + `/group/group-data/${decodeURI(nickname.trim())}/`,
@@ -66,20 +64,44 @@ function GroupSidebarInnerData({ nickname, index }: innerProps) {
   {
     return (
       <div>
-        {InnerGroupData &&
-          InnerGroupData.results.map((r, i = index) => {
-            <GroupSidebarTitle key={r.pk} style={{ marginLeft: 48, cursor: 'pointer' }}>
+        {InnerGroupData?.results.map((r, i) => {
+          <Link key={r.pk} to={`/Memoworkspace/${r.name}`}>
+            <GroupSidebarTitle style={{ cursor: 'pointer' }}>
+              <img
+                style={{ marginRight: 5 }}
+                onClick={(e) => {
+                  setInnerFolderOpen(e, i);
+                  console.log(i);
+                }}
+                src={clickInnerFolder === i ? FolderOPen : FolderClose}
+                alt="group_boxImg"
+              />
+              <span
+                onClick={(e) => {
+                  setInnerFolderOpen(e, i);
+                }}
+                style={{ color: 'red' }}
+              >
+                {r.name}
+              </span>
+              <DashedLine
+                onClick={(e) => {
+                  setInnerFolderOpen(e, i);
+                }}
+              />
+
               <img
                 src={plus}
                 alt="create_group_plusImg"
                 onClick={(e) => {
                   e.preventDefault();
-                  console.log('innerclick');
-                  // createNewGroupData();
+                  console.log('addinnerfolderclick');
+                  // onCreateNewGrop()
                 }}
               />
-            </GroupSidebarTitle>;
-          })}
+            </GroupSidebarTitle>
+          </Link>;
+        })}
       </div>
     );
   }

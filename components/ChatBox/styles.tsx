@@ -4,6 +4,7 @@ import { MentionsInput } from 'react-mentions';
 export const ChatArea = styled.div`
   display: flex;
   width: 100%;
+  height: 100%;
   padding: 20px;
   padding-top: 0;
 `;
@@ -12,6 +13,7 @@ export const Form = styled.form`
   color: rgb(29, 28, 29);
   font-size: 15px;
   width: 100%;
+  height: 100%;
   border-radius: 4px;
   border: 1px solid rgb(29, 28, 29);
 `;
@@ -21,7 +23,7 @@ export const MentionsTextarea = styled.textarea`
   font-size: 15px;
   padding: 8px 9px;
   width: 100%;
-
+  height: 80%;
   & strong {
     background: skyblue;
   }
@@ -60,6 +62,27 @@ export const SendButton = styled.button`
   position: absolute;
   right: 5px;
   top: 5px;
+`;
+export const FileButton = styled.input`
+color:white;
+::file-selector-button {
+  width: 150px;
+  height: 30px;
+  background: #fff;
+  border: 1px solid rgb(77,77,77);
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgb(77,77,77);
+    color: #fff;
+  }
+ 
+
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  
 `;
 
 export const EachMention = styled.button<{ focus: boolean }>`

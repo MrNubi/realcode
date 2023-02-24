@@ -1,5 +1,5 @@
 import Menu from '@components/Menu';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState, VFC } from 'react';
 
 import leaf from '../../img/leaf.png';
 import ChannelList from '@components/ChannalList';
@@ -28,28 +28,49 @@ import Setting from '../../img/Setting.png';
 import memo from '../../img/memo.png';
 import fetcherLocals from '../../utills/fetcherLocals';
 import useSWR from 'swr';
-import { MGroup, MLogin, MUSer } from '@typings/memot';
+import { MGroup, MInnerGroup, MLogin, MUSer } from '@typings/memot';
 import { Link } from 'react-router-dom';
 import MemoContent from '@components/MemoContent';
 import fetchMemoGet from '../../utills/fetchMemoGet';
 import axios from 'axios';
 import GroupSidebarA from '@components/GroupSideBarA';
 import Halmet from 'react-helmet';
+import ChannelListMeMo from '@components/ChannelListMemo';
+import userProfile from '../../img/user.png';
+import { channel } from 'diagnostics_channel';
+import ChatBox from '@components/ChatBox';
 
-const MemoWorkspace = () => {
+const MemoWorkspace: VFC = () => {
   const [searchText, onChangeSearchText, setSearchText] = useInput('');
   const memoUrl = 'https://memolucky.run.goorm.io';
   const MemoLoginUrl = `/users/dj-rest-auth/login/`;
   const { data: LoginData, error, mutate } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {});
-  const GroupName = useParams<{ groupname?: string }>();
+  const { groupname, groupinnerdata } = useParams<{ groupname?: string; groupinnerdata?: string }>();
+  const paramsChange = () => {
+    console.log('paramChange: ', groupname);
+    if (!groupname) {
+      return 'DEFAULTT';
+    }
+    return groupname!!;
+  };
   const {
     data: GroupData,
     error: GroupErr,
     mutate: GroupMutate,
   } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${LoginData?.access_token}`), {});
 
-  const [folderOpen, setFolderOpen] = useState(false);
-  const [onclick, setOnClick] = useState(false);
+  const {
+    data: InnerGroupData,
+    error: InnerGroupErr,
+    mutate: InnerGroupMutate,
+  } = useSWR<MInnerGroup>(
+    memoUrl + `/group/group-data/${decodeURI(paramsChange())}/`,
+    fetchMemoGet(memoUrl + `/group/group-data/${decodeURI(paramsChange())}/`, `${LoginData?.access_token}`),
+    {},
+  );
+
+  const [folderOpen, setFolderOpen] = useState(-1);
+  const [innerFolderOpen, setInnerFolderOpen] = useState(-1);
   const [clickUserName, setClickUserName] = useState(true);
 
   const onClickUserName = () => {
@@ -65,9 +86,26 @@ const MemoWorkspace = () => {
     [searchText],
   );
   const onClickFolder = useCallback(
-    (e) => {
+    (e, i: number) => {
       e.preventDefault();
-      setFolderOpen((prev) => !prev);
+      setFolderOpen((prev) => {
+        console.log('i : ', prev, i);
+        if (prev === i) {
+          return -1;
+        } else return i;
+      });
+    },
+    [setFolderOpen],
+  );
+  const onClickInnerFolder = useCallback(
+    (e, i: number) => {
+      e.preventDefault();
+      setInnerFolderOpen((p) => {
+        console.log('i : ', p, i);
+        if (p === i) {
+          return -1;
+        } else return i;
+      });
     },
     [setFolderOpen],
   );
@@ -97,6 +135,30 @@ const MemoWorkspace = () => {
   if (!GroupData) {
     Groupcall();
   }
+  useEffect(() => {
+    console.log(groupname);
+    if (groupname) {
+      axios
+        .get(
+          memoUrl + `/group/group-data/${decodeURI(groupname.trim())}/`,
+
+          {
+            headers: {
+              Authorization: `Bearer ${LoginData?.access_token}`,
+            },
+
+            withCredentials: true,
+          },
+        )
+        .then((r) => {
+          InnerGroupMutate(r.data);
+          console.log('get: InnerData성공', r.data);
+        })
+        .catch((e) => console.log('get: Inner실패', e));
+    }
+  }, [groupname]);
+  {
+  }
 
   return (
     <div
@@ -123,7 +185,7 @@ const MemoWorkspace = () => {
         <div
           style={{
             backgroundColor: 'gray',
-            height: '80%',
+            height: '81%',
             flexDirection: 'column',
             margin: '1px',
             alignContent: 'center',
@@ -140,17 +202,68 @@ const MemoWorkspace = () => {
               console.log('sdsdsdS');
             }}
           >
-            <img src={Box} alt="group_boxImg" />
-            <span style={{ color: 'blue' }}>{LoginData ? LoginData.user.nickname : 'Loading...'}</span>
+            <img src={userProfile} width={20} height={20} alt="group_boxImg" />
+            <span style={{ color: 'blue', marginLeft: 5 }}>{LoginData ? LoginData.user.nickname : 'Loading...'}</span>
             <DashedLine />
 
             <img src={plus} alt="create_group_plusImg" />
           </GroupSidebarTitle>
-          ;
-          {GroupData &&
-            GroupData.results.map((r) => {
-              return <GroupSidebarA key={r.id} resultName={r.name}></GroupSidebarA>;
-            })}
+          <div style={{ display: 'flex', width: '100%', height: '94%', backgroundColor: 'yellow' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '50%',
+                height: '100%',
+                border: 2,
+                borderStyle: 'dashed',
+                borderColor: 'transparent',
+                borderRightColor: 'black',
+              }}
+            >
+              {GroupData &&
+                GroupData.results.map((r, i) => {
+                  return (
+                    <div
+                      key={r.id}
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-start',
+
+                        borderColor: 'transparent',
+                      }}
+                    >
+                      <GroupSidebarA
+                        i={i}
+                        clickFolder={folderOpen}
+                        resultName={r.name}
+                        clickInnerFolder={innerFolderOpen}
+                      ></GroupSidebarA>
+                    </div>
+                  );
+                })}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '50%', height: '100%' }}>
+              <ChannelListMeMo />
+            </div>
+          </div>
+
+          {/* {GroupData &&
+            GroupData.results.map((r, i) => {
+              return (
+                <div key={r.id} style={{ display: 'flex', flexDirection: 'column' }}>
+                  <GroupSidebarA
+                    i={i}
+                    clickFolder={folderOpen}
+                    setFolderOpen={onClickFolder}
+                    resultName={r.name}
+                    clickInnerFolder={innerFolderOpen}
+                    setInnerFolderOpen={onClickInnerFolder}
+                  ></GroupSidebarA>
+                </div>
+              );
+            })} */}
         </div>
 
         <DashedLine />
@@ -187,100 +300,11 @@ const MemoWorkspace = () => {
         {/*워크스페이스 : 상세 / 내용 / dmbar*/}
 
         <ContextLayout>
-          <WorkDescriptionBar>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: 5,
-                paddingLeft: 27,
-                width: '100%',
-                height: '10%',
-              }}
-            >
-              <img width={38} height={37} src={memo} alt="file-color-reverse" />
-              <span
-                style={{
-                  marginLeft: '10',
-                  fontFamily: 'Inter',
-                  fontStyle: 'normal',
-                  fontWeight: '400px',
-                  fontSize: '24px',
-                  color: 'white',
-                }}
-              >
-                작업명
-              </span>
-            </div>
-            <div style={{ width: '100%', height: '60%', display: 'flex' }}>
-              <div
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                }}
-              >
-                <span
-                  style={{
-                    marginLeft: '29px',
-
-                    fontFamily: 'Inter',
-                    fontStyle: 'normal',
-
-                    fontSize: 12,
-
-                    color: ' #ffffff',
-                  }}
-                >
-                  참여자 : {`유저수`}
-                </span>
-                <span
-                  style={{
-                    marginLeft: '29px',
-
-                    fontFamily: 'Inter',
-                    fontStyle: 'normal',
-
-                    fontSize: 12,
-                    color: ' #ffffff',
-                  }}
-                >
-                  파일 수 : {`파일 수`}
-                </span>
-                <span
-                  style={{
-                    marginLeft: '29px',
-
-                    fontFamily: 'Inter',
-                    fontStyle: 'normal',
-
-                    fontSize: 12,
-                    color: ' #ffffff',
-                  }}
-                >
-                  작업 수 : {`작업 수`}
-                </span>
-                <span
-                  style={{
-                    marginLeft: '29px',
-
-                    fontFamily: 'Inter',
-                    fontStyle: 'normal',
-
-                    fontSize: 12,
-                    color: ' #ffffff',
-                  }}
-                >
-                  파일 설명 : {`설명`}
-                </span>
-              </div>
-            </div>
-          </WorkDescriptionBar>
-          <WorkspaceZone>
-            <MemoContent />
-          </WorkspaceZone>
-          <DireecMessageBar></DireecMessageBar>
+          <Switch>
+            <Route path="/MemoWorkspace/:groupname/:groupinnerdata" component={MemoContent} />
+            <Route path="/MemoWorkspace/:groupname" component={MemoContent} />
+            <Route path="/MemoWorkspace" component={MemoContent} />
+          </Switch>
         </ContextLayout>
       </div>
     </div>

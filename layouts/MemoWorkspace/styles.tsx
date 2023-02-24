@@ -28,7 +28,7 @@ export const WorkspaceZone = styled.div`
   width: 59%;
   height: 100%;
   display: flex;
-  background: #ffffff;
+  flex-direction: column;
   border-radius: 0px 15px 15px 0px;
 `;
 export const DireecMessageBar = styled.div`
@@ -36,7 +36,7 @@ export const DireecMessageBar = styled.div`
   width: 16%;
   height: 100%;
   display: flex;
-  background: #ffffff;
+  background: red;
   border-radius: 15px;
 `;
 
@@ -92,6 +92,11 @@ export const SearchTextArea = styled.input`
   }
 `;
 
+export const FolderImage = styled.image`
+  s
+
+`;
+
 export const GroupSidebarTitle = styled.div`
   background-color: white;
 
@@ -102,6 +107,7 @@ export const GroupSidebarTitle = styled.div`
   fontsize: 14px;
   margin-left: 8px;
   margin-right: 8px;
+  margin-bottom: 8px;
   cursor: pointer;
 `;
 export const DashedLine = styled.div`
