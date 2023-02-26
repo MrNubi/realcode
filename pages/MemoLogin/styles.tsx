@@ -41,6 +41,29 @@ export const WhiteBox = styled.div`
   }
 `;
 
+export const WhiteBox2 = styled.div`
+  display: felx;
+  overflow: hidden
+  align-items: center;
+  justify-contents: center;
+  min-height: 250px;
+  min-width:300px;
+  width: 100%;
+  height: 60%;
+  background-color: white;
+  padding: 12px;
+  padding-left: 50px;
+  padding-right: 50px;
+  border-radius: 0.75rem;
+  margin-left: auto;
+  margin-right: auto;
+  @media all and (min-width: 768px) {
+    .md\:w-96 {
+      width: 384px;
+    }
+  }
+`;
+
 export const LoginBtn = styled.button`
   text-align: center;
   width: 100%;

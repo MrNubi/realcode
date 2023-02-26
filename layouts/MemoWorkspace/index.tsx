@@ -39,6 +39,7 @@ import ChannelListMeMo from '@components/ChannelListMemo';
 import userProfile from '../../img/user.png';
 import { channel } from 'diagnostics_channel';
 import ChatBox from '@components/ChatBox';
+import InviteChannelModal from '@components/InviteChannelModal';
 
 const MemoWorkspace: VFC = () => {
   const [searchText, onChangeSearchText, setSearchText] = useInput('');
@@ -72,6 +73,11 @@ const MemoWorkspace: VFC = () => {
   const [folderOpen, setFolderOpen] = useState(-1);
   const [innerFolderOpen, setInnerFolderOpen] = useState(-1);
   const [clickUserName, setClickUserName] = useState(true);
+  const [showCreateInviteChannel, setShowInviteChannel] = useState(false);
+
+  const onCloseModal = useCallback(() => {
+    setShowInviteChannel(false);
+  }, []);
 
   const onClickUserName = () => {
     setClickUserName((prev) => !prev);
@@ -206,7 +212,14 @@ const MemoWorkspace: VFC = () => {
             <span style={{ color: 'blue', marginLeft: 5 }}>{LoginData ? LoginData.user.nickname : 'Loading...'}</span>
             <DashedLine />
 
-            <img src={plus} alt="create_group_plusImg" />
+            <img
+              src={plus}
+              alt="create_group_plusImg"
+              onClick={(e) => {
+                e.preventDefault();
+                setShowInviteChannel((prev) => !prev);
+              }}
+            />
           </GroupSidebarTitle>
           <div style={{ display: 'flex', width: '100%', height: '94%', backgroundColor: 'yellow' }}>
             <div
@@ -245,25 +258,9 @@ const MemoWorkspace: VFC = () => {
                 })}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', width: '50%', height: '100%' }}>
-              <ChannelListMeMo />
+              <Route path="/MemoWorkspace/:groupname" component={ChannelListMeMo} />
             </div>
           </div>
-
-          {/* {GroupData &&
-            GroupData.results.map((r, i) => {
-              return (
-                <div key={r.id} style={{ display: 'flex', flexDirection: 'column' }}>
-                  <GroupSidebarA
-                    i={i}
-                    clickFolder={folderOpen}
-                    setFolderOpen={onClickFolder}
-                    resultName={r.name}
-                    clickInnerFolder={innerFolderOpen}
-                    setInnerFolderOpen={onClickInnerFolder}
-                  ></GroupSidebarA>
-                </div>
-              );
-            })} */}
         </div>
 
         <DashedLine />
@@ -278,8 +275,20 @@ const MemoWorkspace: VFC = () => {
             margin: 8,
           }}
         >
-          <button style={{ width: '100%', margin: 9, height: '45px' }}>그룹가입모달</button>
-          <button style={{ width: '100%', margin: 9, height: '45px' }}>그룹가입모달</button>
+          <button
+            style={{
+              width: '100%',
+              margin: 9,
+              height: '45px',
+              borderColor: 'transparent',
+              borderRadius: '15px',
+              backgroundColor: '#B8B5B5',
+              color: 'white',
+            }}
+          >
+            그룹 가입하기
+          </button>
+          <button style={{ width: '100%', margin: 9, height: '45px' }}>새 그룹 만들기</button>
         </div>
       </GroupSidebar>
       <div
@@ -301,11 +310,17 @@ const MemoWorkspace: VFC = () => {
 
         <ContextLayout>
           <Switch>
+            <Route path="/MemoWorkspace/:groupname/:groupinnerdata/:groupmemo" component={MemoContent} />
             <Route path="/MemoWorkspace/:groupname/:groupinnerdata" component={MemoContent} />
             <Route path="/MemoWorkspace/:groupname" component={MemoContent} />
             <Route path="/MemoWorkspace" component={MemoContent} />
           </Switch>
         </ContextLayout>
+        <InviteChannelModal
+          show={showCreateInviteChannel}
+          onCloseModal={onCloseModal}
+          setShowInviteChannelModal={setShowInviteChannel}
+        />
       </div>
     </div>
   );

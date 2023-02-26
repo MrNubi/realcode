@@ -5,6 +5,7 @@ import loadable from '@loadable/component';
 
 const LogIn = loadable(() => import('../../pages/Login'));
 const MemoLogin = loadable(() => import('../../pages/MemoLogin'));
+const MeMoSiginIn = loadable(() => import('../../pages/MemoRegistration'));
 const SignUp = loadable(() => import('../../pages/SignUp'));
 const workspace = loadable(() => import('../../layouts/Workspace'));
 const MemoWorkspace = loadable(() => import('../../layouts/MemoWorkspace'));
@@ -17,11 +18,12 @@ const App = () => {
     <Switch>
       <Redirect exact path="/" to="/MemoLogin" />
       <Route path="/MemoLogin" component={MemoLogin} />
+      <Route path="/MemoRegistration" component={MeMoSiginIn} />
       <Route path="/login" component={LogIn} />
       <Route path="/signup" component={SignUp} />
       <Route path="/signup" component={SignUp} />
       <Route path="/workspace/:workspace" component={workspace} />
-      <Route path="/MemoWorkspace/:groupname/:groupinnerdata" component={MemoWorkspace} />
+
       <Route path="/MemoWorkspace/:groupname" component={MemoWorkspace} />
 
       <Route path="/MemoWorkspace" component={MemoWorkspace} />

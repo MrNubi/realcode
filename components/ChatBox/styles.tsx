@@ -24,6 +24,7 @@ export const MentionsTextarea = styled.textarea`
   padding: 8px 9px;
   width: 100%;
   height: 80%;
+
   & strong {
     background: skyblue;
   }
@@ -35,6 +36,7 @@ export const MentionsTextarea = styled.textarea`
     resize: none !important;
     line-height: 22px;
     border: none;
+    overflow: scroll;
   }
   & ul {
     border: 1px solid lightgray;

@@ -2,6 +2,9 @@ import styled from '@emotion/styled';
 import autosize from 'autosize';
 import React, { useCallback, useEffect, useRef, VFC } from 'react';
 import { ChatArea, FileButton, Form, MentionsTextarea, SendButton, Toolbox } from './styles';
+import { MGroupDataMemo, MLogin } from '@typings/memot';
+import fetcherLocals from '../../utills/fetcherLocals';
+import useSWR from 'swr';
 
 interface Props {
   chat: string;
@@ -11,13 +14,11 @@ interface Props {
 }
 
 const ChatBox: VFC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholder }) => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const memoUrl = 'https://memolucky.run.goorm.io';
 
-  useEffect(() => {
-    if (textareaRef.current) {
-      autosize(textareaRef.current);
-    }
-  }, [textareaRef]);
+  const { data: LoginData, error, mutate } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {});
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const onKeydownChat = useCallback(
     (e) => {

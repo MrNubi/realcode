@@ -15,7 +15,9 @@ const ChannelListMeMoInner: VFC = () => {
   const { groupname, groupinnerdata } = useParams<{ groupname?: string; groupinnerdata?: string }>();
   const memoUrl = 'https://memolucky.run.goorm.io';
 
-  const { data: LoginData } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {});
+  const { data: LoginData } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
+    dedupingInterval: 10000,
+  });
   const paramsChange = () => {
     console.log('paramI: ', groupinnerdata);
     if (!groupinnerdata) {
@@ -65,7 +67,14 @@ const ChannelListMeMoInner: VFC = () => {
             aria-hidden="true"
           />
         </CollapseButton>
-        <span>Data</span>
+        <span
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            GroupMemoMutate();
+          }}
+        >
+          Data
+        </span>
       </span>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {!channelCollapse &&
@@ -74,7 +83,7 @@ const ChannelListMeMoInner: VFC = () => {
               <NavLink
                 key={r.pk}
                 activeClassName="selected"
-                to={`/MemoWorkspace/${groupname}/${groupinnerdata}/${r.uid}`}
+                to={`/MemoWorkspace/${groupname}/${groupinnerdata}/${r.pk}`}
               >
                 <span>
                   {r.text} [{r.file_count}]
