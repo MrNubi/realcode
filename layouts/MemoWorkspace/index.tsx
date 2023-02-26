@@ -45,7 +45,14 @@ const MemoWorkspace: VFC = () => {
   const [searchText, onChangeSearchText, setSearchText] = useInput('');
   const memoUrl = 'https://memolucky.run.goorm.io';
   const MemoLoginUrl = `/users/dj-rest-auth/login/`;
-  const { data: LoginData, error, mutate } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {});
+  const {
+    data: LoginData,
+    error,
+    mutate,
+  } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
+    dedupingInterval: 1000,
+    errorRetryCount: 10,
+  });
   const { groupname, groupinnerdata } = useParams<{ groupname?: string; groupinnerdata?: string }>();
   const paramsChange = () => {
     console.log('paramChange: ', groupname);
@@ -58,7 +65,10 @@ const MemoWorkspace: VFC = () => {
     data: GroupData,
     error: GroupErr,
     mutate: GroupMutate,
-  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${LoginData?.access_token}`), {});
+  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${LoginData?.access_token}`), {
+    dedupingInterval: 1000,
+    errorRetryCount: 10,
+  });
 
   const {
     data: InnerGroupData,
@@ -67,7 +77,7 @@ const MemoWorkspace: VFC = () => {
   } = useSWR<MInnerGroup>(
     memoUrl + `/group/group-data/${decodeURI(paramsChange())}/`,
     fetchMemoGet(memoUrl + `/group/group-data/${decodeURI(paramsChange())}/`, `${LoginData?.access_token}`),
-    {},
+    { dedupingInterval: 1000, errorRetryCount: 10 },
   );
 
   const [folderOpen, setFolderOpen] = useState(-1);

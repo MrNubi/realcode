@@ -29,11 +29,15 @@ const MemoContent = () => {
     mutate,
   } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
     dedupingInterval: 1000,
+    errorRetryCount: 10,
   });
   const { data: GroupDataMemo, mutate: GroupMemoMutate } = useSWR<MGroupDataMemo>(
     memoUrl + `/group/group-memo/${groupinnerdata}`,
     fetchMemoGet(memoUrl + `/group/group-memo/${decodeURI(`${groupinnerdata}`)}`, `${LoginData?.access_token}`),
-    {},
+    {
+      dedupingInterval: 1000,
+      errorRetryCount: 10,
+    },
   );
 
   console.log('mc Login :', LoginData?.access_token);
@@ -62,6 +66,7 @@ const MemoContent = () => {
             GroupMemoMutate();
             console.log(GroupDataMemo?.results.length);
             setText('');
+            location.reload();
           })
           .catch((e) => console.log('err : ', `${onText.trim()}`, LoginData?.access_token));
       } else {
