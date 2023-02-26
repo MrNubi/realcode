@@ -119,27 +119,6 @@ const MemoLogin = () => {
           </div>
         </WhiteBox>
       </Inlinediv>
-      {/* <Header>MEMOP</Header>
-      <Form onSubmit={onSubmit}>
-        <Label id="username-label">
-          <span>ID</span>
-          <div>
-            <Input type="username" id="username" name="username" value={username} onChange={onChangeUsername} />
-          </div>
-        </Label>
-        <Label id="password-label">
-          <span>PW</span>
-          <div>
-            <Input type="password" id="password" name="password" value={password} onChange={onChangePassword} />
-          </div>
-          {logInError && <Error>이메일과 비밀번호 조합이 일치하지 않습니다.</Error>}
-        </Label>
-        <Button type="submit">로그인</Button>
-      </Form>
-      <LinkContainer>
-        아직 회원이 아니신가요?&nbsp;
-        <Link to="/signup">회원가입 하러가기</Link>
-      </LinkContainer> */}
     </div>
   );
 };

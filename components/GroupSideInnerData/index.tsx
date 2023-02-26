@@ -29,6 +29,7 @@ function GroupSidebarInnerData({ nickname, parentIndex, clickInnerFolder, setInn
     mutate,
   } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
     dedupingInterval: 1000,
+    errorRetryCount: 10,
   });
 
   const {
@@ -38,7 +39,7 @@ function GroupSidebarInnerData({ nickname, parentIndex, clickInnerFolder, setInn
   } = useSWR<MInnerGroup>(
     memoUrl + `/group/group-data/${nickname}/`,
     fetchMemoGet(memoUrl + `/group/group-data/${decodeURI(nickname.trim())}/`, `${LoginData?.access_token}`),
-    {},
+    { dedupingInterval: 1000, errorRetryCount: 10 },
   );
   console.log('이너그룹데이터 :', decodeURI(nickname.trim()));
   if (!InnerGroupData) {

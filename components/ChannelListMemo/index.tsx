@@ -13,7 +13,14 @@ import fetcherLocals from '../../utills/fetcherLocals';
 const ChannelListMeMo: FC = () => {
   const memoUrl = 'https://memolucky.run.goorm.io';
   const MemoLoginUrl = `/users/dj-rest-auth/login/`;
-  const { data: LoginData, error, mutate } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {});
+  const {
+    data: LoginData,
+    error,
+    mutate,
+  } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
+    dedupingInterval: 1000,
+    errorRetryCount: 10,
+  });
   const { groupname, groupinnerdata } = useParams<{ groupname?: string; groupinnerdata?: string }>();
   const paramsChange = () => {
     console.log('paramChange: ', groupname);
