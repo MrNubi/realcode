@@ -11,13 +11,14 @@ import fetchMemoGet from '../../utills/fetchMemoGet';
 import fetcherLocals from '../../utills/fetcherLocals';
 import axios from 'axios';
 
-const ChannelListMeMoInner: VFC = () => {
+interface CLProps {
+  tocken: string | undefined;
+}
+
+const ChannelListMeMoInner: VFC<CLProps> = ({ tocken }: CLProps) => {
   const { groupname, groupinnerdata } = useParams<{ groupname?: string; groupinnerdata?: string }>();
   const memoUrl = 'https://memolucky.run.goorm.io';
 
-  const { data: LoginData } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
-    dedupingInterval: 10000,
-  });
   const paramsChange = () => {
     console.log('paramI: ', groupinnerdata);
     if (!groupinnerdata) {
@@ -28,8 +29,8 @@ const ChannelListMeMoInner: VFC = () => {
 
   const { data: GroupDataMemo, mutate: GroupMemoMutate } = useSWR<MGroupDataMemo>(
     memoUrl + `/group/group-memo/${groupinnerdata}`,
-    fetchMemoGet(memoUrl + `/group/group-memo/${decodeURI(`${groupinnerdata}`)}`, `${LoginData?.access_token}`),
-    {},
+    fetchMemoGet(memoUrl + `/group/group-memo/${decodeURI(`${groupinnerdata}`)}`, `${tocken}`),
+    { dedupingInterval: 1000 },
   );
 
   const [channelCollapse, setChannelCollapse] = useState(false);
@@ -41,18 +42,18 @@ const ChannelListMeMoInner: VFC = () => {
     axios
       .get(memoUrl + `/group/group-memo/${groupinnerdata}`, {
         headers: {
-          Authorization: `Bearer ${LoginData?.access_token}`,
+          Authorization: `Bearer ${tocken}`,
         },
 
         withCredentials: true,
       })
       .then((r) => {
         GroupMemoMutate(r.data);
-        console.log('get: 2차 성공', LoginData?.access_token);
+        console.log('get: 2차 성공', tocken);
         console.log('get 2: ', r.data);
         return r.data;
       })
-      .catch(() => console.log('get: 2차실패', LoginData?.access_token));
+      .catch(() => console.log('get: 2차실패', tocken));
   }
   console.log('groupInnername :::', decodeURI(groupinnerdata ? groupinnerdata : `1+${groupinnerdata}`));
   console.log('groupInnerd :::', GroupDataMemo);
