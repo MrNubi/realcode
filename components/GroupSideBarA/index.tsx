@@ -13,6 +13,7 @@ import axios from 'axios';
 import GroupSidebarInnerData from '@components/GroupSideInnerData';
 
 interface Props {
+  tocken: string;
   resultName: string;
   i: number;
   clickFolder?: number;
@@ -20,40 +21,41 @@ interface Props {
   clickInnerFolder?: number;
   onCreateNewGroup?: (e: any, i: number) => void;
 }
-function GroupSidebarA({ resultName, i, clickFolder, clickInnerFolder }: Props) {
+function GroupSidebarA({ tocken, resultName, i, clickFolder, clickInnerFolder }: Props) {
   const memoUrl = 'https://memolucky.run.goorm.io';
-  const GroupName = useParams<{ groupname?: string }>();
+  const { groupname, groupmemo, groupinnerdata } = useParams<{
+    groupname?: string;
+    groupmemo?: string;
+    groupinnerdata?: string;
+  }>();
   const GroupInnerData = useParams<{ groupinnerdata?: string }>();
-  const {
-    data: LoginData,
-    error,
-    mutate,
-  } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
-    dedupingInterval: 10000,
-  });
 
   const {
     data: GroupData,
     error: GroupErr,
     mutate: GroupMutate,
-  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${LoginData?.access_token}`), {});
+  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', tocken), {
+    dedupingInterval: 10000,
+  });
   const {
     data: InnerGroupData,
     error: InnerGroupErr,
     mutate: InnerGroupMutate,
   } = useSWR<MInnerGroup>(
-    memoUrl + `/group/group-data/${decodeURI(GroupData!.results[i].name)}/`,
-    fetchMemoGet(memoUrl + `/group/group-data/${decodeURI(GroupData!.results[i].name)}/`, `${LoginData?.access_token}`),
-    {},
+    `${groupname ? memoUrl + `/group/group-data/${decodeURI(groupname)}/` : null}`,
+    fetchMemoGet(`${groupname ? memoUrl + `/group/group-data/${decodeURI(groupname)}/` : null}`, tocken),
+    {
+      dedupingInterval: 10000,
+    },
   );
   if (!InnerGroupData) {
     axios
       .get(
-        memoUrl + `/group/group-data/${decodeURI(GroupData!.results[i].name)}/`,
+        memoUrl + `/group/group-data/${decodeURI(`${groupname}`)}/`,
 
         {
           headers: {
-            Authorization: `Bearer ${LoginData?.access_token}`,
+            Authorization: `Bearer ${tocken}`,
           },
 
           withCredentials: true,
@@ -70,12 +72,12 @@ function GroupSidebarA({ resultName, i, clickFolder, clickInnerFolder }: Props) 
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 10 }}>
       <Link
         style={{ cursor: 'pointer' }}
-        to={GroupName.groupname === GroupData?.results[i].name ? `/Memoworkspace` : `/Memoworkspace/${resultName}`}
+        to={groupname === GroupData?.results[i].name ? `/Memoworkspace` : `/Memoworkspace/${resultName}`}
       >
         <GroupSidebarTitle>
           <img
             style={{ marginRight: 5 }}
-            src={GroupName.groupname === GroupData?.results[i].name ? FolderOPen : FolderClose}
+            src={groupname === GroupData?.results[i].name ? FolderOPen : FolderClose}
             alt="group_boxImg"
           />
           <span style={{ color: 'red' }}>{resultName}</span>
@@ -85,7 +87,7 @@ function GroupSidebarA({ resultName, i, clickFolder, clickInnerFolder }: Props) 
             src={plus}
             alt="create_group_plusImg"
             onClick={(e) => {
-              console.log(GroupData?.results[i].name, GroupName);
+              console.log(GroupData?.results[i].name, groupname);
               e.preventDefault();
               console.log('addfolderclick');
               // onCreateNewGrop()

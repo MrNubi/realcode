@@ -1,7 +1,7 @@
 import ChatBox from '@components/ChatBox';
 import MemoPostcardComponent from '@components/MemoPostcardComponent';
 import useInput from '@hooks/useInput';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState, VFC } from 'react';
 import { useParams } from 'react-router';
 import profile from '../../img/user.png';
 import { MGroupDataMemo, MGroupMemoDataResult, MLogin } from '@typings/memot';
@@ -9,8 +9,10 @@ import fetcherLocals from '../../utills/fetcherLocals';
 import useSWR from 'swr';
 import fetchMemoGet from '../../utills/fetchMemoGet';
 import axios from 'axios';
-
-const MemoPostZone = () => {
+interface pzProps {
+  tocken: string;
+}
+const MemoPostZone: VFC<pzProps> = ({ tocken }: pzProps) => {
   const memoUrl = 'https://memolucky.run.goorm.io';
 
   const [replyData, onChangeReplyData, setReplyData] = useInput('');
@@ -18,14 +20,10 @@ const MemoPostZone = () => {
 
   const { groupmemo, groupinnerdata } = useParams<{ groupmemo?: string; groupinnerdata?: string }>();
 
-  const { data: LoginData } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
-    dedupingInterval: 10000,
-  });
-
   const { data: postData, mutate: Postmutate } = useSWR<MGroupMemoDataResult>(
-    memoUrl + `/group/group-memo/${groupinnerdata}/${groupmemo}`,
-    fetchMemoGet(memoUrl + `/group/group-memo/${groupinnerdata}/${groupmemo}`, `${LoginData?.access_token}`),
-    {},
+    `${groupmemo ? memoUrl + `/group/group-memo/${groupinnerdata}/${groupmemo}` : null}`,
+    fetchMemoGet(`${groupmemo ? memoUrl + `/group/group-memo/${groupinnerdata}/${groupmemo}` : null}`, `${tocken}`),
+    { dedupingInterval: 10000, errorRetryCount: 5 },
   );
 
   const onPostPatch = useCallback((e: any) => {
@@ -45,7 +43,7 @@ const MemoPostZone = () => {
 
           {
             headers: {
-              Authorization: `Bearer ${LoginData?.access_token}`,
+              Authorization: `Bearer ${tocken}`,
             },
 
             withCredentials: true,
@@ -74,7 +72,7 @@ const MemoPostZone = () => {
               hostname={postData.nickname}
               message={postData.text}
               file={postData.memo_file.length > 0 ? postData.memo_file[0].file : '파일이 없습니다'}
-              is_host={LoginData?.user.nickname === postData.nickname ? true : false}
+              is_host={true}
               likeCount={`${postData.like_count}`}
               settingClick={settingClick}
               onClickPostPatch={onPostPatch}

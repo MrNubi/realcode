@@ -50,7 +50,7 @@ const MemoWorkspace: VFC = () => {
     error,
     mutate,
   } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
-    dedupingInterval: 1000,
+    dedupingInterval: 1000000,
     errorRetryCount: 10,
   });
   const { groupname, groupinnerdata } = useParams<{ groupname?: string; groupinnerdata?: string }>();
@@ -70,16 +70,6 @@ const MemoWorkspace: VFC = () => {
     errorRetryCount: 10,
   });
 
-  const {
-    data: InnerGroupData,
-    error: InnerGroupErr,
-    mutate: InnerGroupMutate,
-  } = useSWR<MInnerGroup>(
-    memoUrl + `/group/group-data/${decodeURI(paramsChange())}/`,
-    fetchMemoGet(memoUrl + `/group/group-data/${decodeURI(paramsChange())}/`, `${LoginData?.access_token}`),
-    { dedupingInterval: 1000, errorRetryCount: 10 },
-  );
-
   const [folderOpen, setFolderOpen] = useState(-1);
   const [innerFolderOpen, setInnerFolderOpen] = useState(-1);
   const [clickUserName, setClickUserName] = useState(true);
@@ -87,13 +77,13 @@ const MemoWorkspace: VFC = () => {
 
   const onCloseModal = useCallback(() => {
     setShowInviteChannel(false);
-  }, []);
+  }, [setShowInviteChannel]);
 
-  const onClickUserName = () => {
+  const onClickUserName = useCallback(() => {
     setClickUserName((prev) => !prev);
     console.log(clickUserName);
     console.log(GroupData);
-  };
+  }, []);
   const onSearch = useCallback(
     (e: any) => {
       e.preventDefault();
@@ -101,33 +91,9 @@ const MemoWorkspace: VFC = () => {
     },
     [searchText],
   );
-  const onClickFolder = useCallback(
-    (e, i: number) => {
-      e.preventDefault();
-      setFolderOpen((prev) => {
-        console.log('i : ', prev, i);
-        if (prev === i) {
-          return -1;
-        } else return i;
-      });
-    },
-    [setFolderOpen],
-  );
-  const onClickInnerFolder = useCallback(
-    (e, i: number) => {
-      e.preventDefault();
-      setInnerFolderOpen((p) => {
-        console.log('i : ', p, i);
-        if (p === i) {
-          return -1;
-        } else return i;
-      });
-    },
-    [setFolderOpen],
-  );
 
-  const Groupcall = () => {
-    const A = axios
+  const Groupcall = useCallback(() => {
+    axios
       .get(
         memoUrl + '/group',
 
@@ -144,36 +110,12 @@ const MemoWorkspace: VFC = () => {
         console.log('get: 3차 성공', r.data);
       })
       .catch(() => console.log('get: 3차실패', LoginData?.access_token));
-  };
+  }, [LoginData?.access_token]);
 
   console.log('mwLogin:  ', LoginData);
   console.log('mwGroup:  ', GroupData);
-  if (!GroupData) {
+  if (LoginData && !GroupData) {
     Groupcall();
-  }
-  useEffect(() => {
-    console.log(groupname);
-    if (groupname) {
-      axios
-        .get(
-          memoUrl + `/group/group-data/${decodeURI(groupname.trim())}/`,
-
-          {
-            headers: {
-              Authorization: `Bearer ${LoginData?.access_token}`,
-            },
-
-            withCredentials: true,
-          },
-        )
-        .then((r) => {
-          InnerGroupMutate(r.data);
-          console.log('get: InnerData성공', r.data);
-        })
-        .catch((e) => console.log('get: Inner실패', e));
-    }
-  }, [groupname]);
-  {
   }
 
   return (
@@ -221,7 +163,6 @@ const MemoWorkspace: VFC = () => {
             <img src={userProfile} width={20} height={20} alt="group_boxImg" />
             <span style={{ color: 'blue', marginLeft: 5 }}>{LoginData ? LoginData.user.nickname : 'Loading...'}</span>
             <DashedLine />
-
             <img
               src={plus}
               alt="create_group_plusImg"
@@ -258,6 +199,7 @@ const MemoWorkspace: VFC = () => {
                       }}
                     >
                       <GroupSidebarA
+                        tocken={`${LoginData?.access_token}`}
                         i={i}
                         clickFolder={folderOpen}
                         resultName={r.name}

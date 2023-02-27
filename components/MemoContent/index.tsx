@@ -22,23 +22,10 @@ const MemoContent = () => {
 
   const [onText, changeOnText, setText] = useInput('');
 
-  const [onFile, setOnFile] = useState();
-  const {
-    data: LoginData,
-    error,
-    mutate,
-  } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
+  const { data: LoginData } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
     dedupingInterval: 1000,
     errorRetryCount: 10,
   });
-  const { data: GroupDataMemo, mutate: GroupMemoMutate } = useSWR<MGroupDataMemo>(
-    memoUrl + `/group/group-memo/${groupinnerdata}`,
-    fetchMemoGet(memoUrl + `/group/group-memo/${decodeURI(`${groupinnerdata}`)}`, `${LoginData?.access_token}`),
-    {
-      dedupingInterval: 1000,
-      errorRetryCount: 10,
-    },
-  );
 
   console.log('mc Login :', LoginData?.access_token);
 
@@ -63,8 +50,7 @@ const MemoContent = () => {
           )
           .then((r) => {
             console.log('post전송성공', r);
-            GroupMemoMutate();
-            console.log(GroupDataMemo?.results.length);
+
             setText('');
             location.reload();
           })
@@ -167,8 +153,14 @@ const MemoContent = () => {
               파일 설명 : {`설명`}
             </span>
             <Switch>
-              <Route path="/MemoWorkspace/:groupname/:groupinnerdata/:groupmemo" component={ChannelListMeMoInner} />
-              <Route path="/MemoWorkspace/:groupname/:groupinnerdata" component={ChannelListMeMoInner} />
+              <Route
+                path="/MemoWorkspace/:groupname/:groupinnerdata/:groupmemo"
+                render={() => <ChannelListMeMoInner tocken={`${LoginData?.access_token}`} />}
+              />
+              <Route
+                path="/MemoWorkspace/:groupname/:groupinnerdata"
+                render={() => <ChannelListMeMoInner tocken={`${LoginData?.access_token}`} />}
+              />
             </Switch>
           </div>
         </div>
@@ -181,7 +173,10 @@ const MemoContent = () => {
           <EditColumnDiv2></EditColumnDiv2>
         </EditPost>
         <ShowPostZone>
-          <Route path={`/MemoWorkspace/:groupname/:groupinnerdata/:groupmemo`} component={MemoPostZone} />
+          <Route
+            path={`/MemoWorkspace/:groupname/:groupinnerdata/:groupmemo`}
+            render={() => <MemoPostZone tocken={`${LoginData?.access_token}`} />}
+          />
         </ShowPostZone>
       </WorkspaceZone>
       <DireecMessageBar />
