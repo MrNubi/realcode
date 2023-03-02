@@ -1,6 +1,6 @@
 import Modal from '@components/Modal';
 import useInput from '@hooks/useInput';
-import { Button, Input, Label } from '@pages/Login/styles';
+import { Button, Input, Label } from '@pages/MemoLogin/styles';
 import { IChannel, IUser } from '@typings/db';
 import axios from 'axios';
 import React, { useCallback, VFC } from 'react';

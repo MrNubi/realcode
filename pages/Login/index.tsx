@@ -6,7 +6,6 @@ import { Success, Form, Error, Label, Input, LinkContainer, Button, Header } fro
 import useSWR from 'swr';
 import fetcher from '../../utills/fetcher';
 import { IUser } from '../../typings/db';
-import fetcherLocals from '../../utills/fetcherLocals';
 import { MLogin } from '@typings/memot';
 import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 
@@ -16,7 +15,7 @@ const Login = () => {
     data: LoginData,
     error,
     mutate,
-  } = useSWR<MLogin[]>('https://memolucky.run.goorm.io/users/dj-rest-auth/login/', fetcherLocals, {
+  } = useSWR<MLogin[]>('https://memolucky.run.goorm.io/users/dj-rest-auth/login/', {
     dedupingInterval: 10000, // 100초 안에는 호출 보내도 캐시값안에서 처리
     //focusThrottleInterval  : 이 시간 범위 동안 단 한 번만 갱신,즉 중복 갱신요청 씹음
     //errorRetryInterval : 에러시 재시도 기간, 입력값 이후 다시 보냄,

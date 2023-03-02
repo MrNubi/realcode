@@ -10,7 +10,6 @@ import { Route, Switch, useParams } from 'react-router';
 import ChatList from '@components/ChatList';
 import MemoPostZone from '@components/MemoPostZone';
 import { MGroupDataMemo, MLogin } from '@typings/memot';
-import fetcherLocals from '../../utills/fetcherLocals';
 import useSWR from 'swr';
 import fetchMemoGet from '../../utills/fetchMemoGet';
 import axios from 'axios';

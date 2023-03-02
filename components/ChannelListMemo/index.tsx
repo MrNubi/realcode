@@ -2,16 +2,15 @@
 import { CollapseButton } from '../DMList/styles';
 import { IChannel, IUser } from '@typings/db';
 import fetcher from '../../utills/fetcher';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, useCallback, useState, VFC } from 'react';
 import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
 import { MGroup, MInnerGroup, MLogin } from '@typings/memot';
 import fetchMemoGet from '../../utills/fetchMemoGet';
-import fetcherLocals from '../../utills/fetcherLocals';
 import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 
-const ChannelListMeMo: FC = () => {
+const ChannelListMeMo: VFC = () => {
   const memoUrl = 'https://memolucky.run.goorm.io';
   const MemoLoginUrl = `/users/dj-rest-auth/login/`;
   const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);

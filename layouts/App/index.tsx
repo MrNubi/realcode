@@ -3,7 +3,6 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import loadable from '@loadable/component';
 
-const LogIn = loadable(() => import('../../pages/Login'));
 const MemoLogin = loadable(() => import('../../pages/MemoLogin'));
 const MeMoSiginIn = loadable(() => import('../../pages/MemoRegistration'));
 const SignUp = loadable(() => import('../../pages/SignUp'));

@@ -9,6 +9,7 @@ interface InputGroupProps {
   placeholder?: string;
   value: string;
   setValue: (str: string) => void;
+  autofocus?: boolean;
 }
 
 const MeMoInput = (T: InputGroupProps) => {
@@ -17,6 +18,7 @@ const MeMoInput = (T: InputGroupProps) => {
       <input
         //input 요소들 주입시 넣어야할것 명시
         type={T.type}
+        autoFocus={T.autofocus ? true : false}
         style={{
           width: '100%',
           height: '13.6%',

@@ -5,7 +5,6 @@ import React, { useCallback, useMemo, useState, VFC } from 'react';
 import { useParams } from 'react-router';
 import profile from '../../img/user.png';
 import { MGroupDataMemo, MGroupMemoDataResult, MLogin } from '@typings/memot';
-import fetcherLocals from '../../utills/fetcherLocals';
 import useSWR from 'swr';
 import fetchMemoGet from '../../utills/fetchMemoGet';
 import axios from 'axios';

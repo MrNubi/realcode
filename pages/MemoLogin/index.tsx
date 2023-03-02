@@ -9,13 +9,13 @@ import { IUser } from '../../typings/db';
 import { MLogin } from '@typings/memot';
 import MeMoInput from '../../components/MemoInput';
 import fetcher2 from '../../utills/fetcher2';
-import fetcherLocals from '../../utills/fetcherLocals';
 import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 const MemoLogin = () => {
   const memoUrl = 'https://memolucky.run.goorm.io';
   const MemoLoginUrl = `/users/dj-rest-auth/login/`;
 
   const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
+  const { data: xdata, error } = useSWR<IUser[]>('/api/users', fetcher);
   const [logInError, setLogInError] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -30,12 +30,17 @@ const MemoLogin = () => {
     e.preventDefault();
     axios
       .post(
-        memoUrl + '/users/dj-rest-auth/login/',
+        '/users/dj-rest-auth/login/',
         {
-          username: 'test1234',
-          password: 'clone1234',
+          username,
+          password,
+          // username: 'test1234',
+          // password: 'clone1234',
         },
         {
+          headers: {
+            Accept: '*/*',
+          },
           withCredentials: true,
         },
       )
@@ -73,7 +78,7 @@ const MemoLogin = () => {
         <WhiteBox>
           <Header>MEMOP</Header>
           <form onSubmit={onSubmit}>
-            <MeMoInput className=" mb-3" placeholder="ID" value={username} setValue={setUsername} />
+            <MeMoInput className=" mb-3" placeholder="ID" autofocus={true} value={username} setValue={setUsername} />
             <MeMoInput
               className=" mb-3
             "
