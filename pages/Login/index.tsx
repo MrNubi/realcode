@@ -8,7 +8,10 @@ import fetcher from '../../utills/fetcher';
 import { IUser } from '../../typings/db';
 import fetcherLocals from '../../utills/fetcherLocals';
 import { MLogin } from '@typings/memot';
+import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
+
 const Login = () => {
+  const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
   const {
     data: LoginData,
     error,
@@ -39,6 +42,8 @@ const Login = () => {
           },
         )
         .then((response) => {
+          mutate(response.data, false);
+          tockenMutate(response.data.access_token, false);
           console.log('로그인 성공', response.data);
         })
         .catch((error) => {

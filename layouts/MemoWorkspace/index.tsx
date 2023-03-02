@@ -40,19 +40,15 @@ import userProfile from '../../img/user.png';
 import { channel } from 'diagnostics_channel';
 import ChatBox from '@components/ChatBox';
 import InviteChannelModal from '@components/InviteChannelModal';
+import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 
 const MemoWorkspace: VFC = () => {
   const [searchText, onChangeSearchText, setSearchText] = useInput('');
   const memoUrl = 'https://memolucky.run.goorm.io';
   const MemoLoginUrl = `/users/dj-rest-auth/login/`;
-  const {
-    data: LoginData,
-    error,
-    mutate,
-  } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
-    dedupingInterval: 1000000,
-    errorRetryCount: 10,
-  });
+
+  const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
+
   const { groupname, groupinnerdata } = useParams<{ groupname?: string; groupinnerdata?: string }>();
   const paramsChange = () => {
     console.log('paramChange: ', groupname);
@@ -65,7 +61,7 @@ const MemoWorkspace: VFC = () => {
     data: GroupData,
     error: GroupErr,
     mutate: GroupMutate,
-  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${LoginData?.access_token}`), {
+  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${tockenData}`), {
     dedupingInterval: 1000,
     errorRetryCount: 10,
   });
@@ -99,7 +95,7 @@ const MemoWorkspace: VFC = () => {
 
         {
           headers: {
-            Authorization: `Bearer ${LoginData?.access_token}`,
+            Authorization: `Bearer ${tockenData}`,
           },
 
           withCredentials: true,
@@ -109,12 +105,12 @@ const MemoWorkspace: VFC = () => {
         GroupMutate(r.data, false);
         console.log('get: 3차 성공', r.data);
       })
-      .catch(() => console.log('get: 3차실패', LoginData?.access_token));
-  }, [LoginData?.access_token]);
+      .catch(() => console.log('get: 3차실패', tockenData));
+  }, [tockenData]);
 
-  console.log('mwLogin:  ', LoginData);
+  console.log('mwLogin:  ', tockenData);
   console.log('mwGroup:  ', GroupData);
-  if (LoginData && !GroupData) {
+  if (tockenData && !GroupData) {
     Groupcall();
   }
 
@@ -161,7 +157,9 @@ const MemoWorkspace: VFC = () => {
             }}
           >
             <img src={userProfile} width={20} height={20} alt="group_boxImg" />
-            <span style={{ color: 'blue', marginLeft: 5 }}>{LoginData ? LoginData.user.nickname : 'Loading...'}</span>
+            <span style={{ color: 'blue', marginLeft: 5 }}>
+              {tockenData ? localStorage.getItem('nickname') : 'Loading...'}
+            </span>
             <DashedLine />
             <img
               src={plus}
@@ -188,24 +186,14 @@ const MemoWorkspace: VFC = () => {
               {GroupData &&
                 GroupData.results.map((r, i) => {
                   return (
-                    <div
+                    <GroupSidebarA
                       key={r.id}
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'flex-start',
-
-                        borderColor: 'transparent',
-                      }}
-                    >
-                      <GroupSidebarA
-                        tocken={`${LoginData?.access_token}`}
-                        i={i}
-                        clickFolder={folderOpen}
-                        resultName={r.name}
-                        clickInnerFolder={innerFolderOpen}
-                      ></GroupSidebarA>
-                    </div>
+                      tocken={`${tockenData}`}
+                      i={i}
+                      clickFolder={folderOpen}
+                      resultName={r.name}
+                      clickInnerFolder={innerFolderOpen}
+                    ></GroupSidebarA>
                   );
                 })}
             </div>
