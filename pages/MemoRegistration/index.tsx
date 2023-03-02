@@ -10,24 +10,11 @@ import { MLogin } from '@typings/memot';
 import MeMoInput from '../../components/MemoInput';
 import fetcher2 from '../../utills/fetcher2';
 import fetcherLocals from '../../utills/fetcherLocals';
+import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 const MemoRegistration = () => {
   const memoUrl = 'https://memolucky.run.goorm.io';
   const MemoLoginUrl = `/users/dj-rest-auth/login/`;
-  const {
-    data: LoginData,
-    error,
-    mutate,
-  } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
-    // revalidateOnFocus: false,
-    // revalidateOnMount: false,
 
-    // revalidateIfStale: false,
-    dedupingInterval: 10000, // 100초 안에는 호출 보내도 캐시값안에서 처리
-    //focusThrottleInterval  : 이 시간 범위 동안 단 한 번만 갱신,즉 중복 갱신요청 씹음
-    //errorRetryInterval : 에러시 재시도 기간, 입력값 이후 다시 보냄,
-    //loadingTimeout : 특정 시간 지나면 onLoadingSlow 이벤트를 트리거, 화면에 로딩이 지연되니 이따 오라는 식의 메세지 띄울 수 있음
-    //errorRetryCount: errorRetryInterval이 시되하는 횟수의 최대값, 무한하면 서버에 디도스 넣을 수도 있기 때문(ex. 수강신청 서버폭파)
-  });
   //swr을 써서 쿠키 저장해주려고, post요청후에 get요청 한번 더보내 줄 예정
   //revalidate: mutate()로 대체
 
@@ -37,6 +24,7 @@ const MemoRegistration = () => {
   const [username, setUsername] = useState('');
   const [nickname, setUNickname] = useState('');
   const [email, setEmail] = useState('');
+  const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
 
   const onSubmit = useCallback((e) => {
     e.preventDefault();
@@ -70,9 +58,9 @@ const MemoRegistration = () => {
   // if (data === undefined) {
   //   return <div>로딩중...</div>;
   // }
-  console.log('datacheck login out: ', LoginData);
-  // if (LoginData) {
-  //   console.log('datacheck login in: ', LoginData);
+  console.log('datacheck login out: ');
+  // if (tockenData) {
+  //   console.log('datacheck login in: ', tockenData);
   //   return <Redirect to="/Memoworkspace/ " />;
   // }
 
@@ -85,13 +73,7 @@ const MemoRegistration = () => {
         <WhiteBox2>
           <Header>MEMOP</Header>
           <form onSubmit={onSubmit}>
-            <MeMoInput
-              className=" mb-3"
-              placeholder="User name"
-              value={username}
-              setValue={setUsername}
-              error={error}
-            />
+            <MeMoInput className=" mb-3" placeholder="User name" value={username} setValue={setUsername} />
 
             <MeMoInput
               className=" mb-3
@@ -100,7 +82,6 @@ const MemoRegistration = () => {
               placeholder="Passworld"
               value={password}
               setValue={setPassword}
-              error={error}
             />
             <MeMoInput
               className=" mb-3
@@ -109,17 +90,10 @@ const MemoRegistration = () => {
               placeholder="PW check"
               value={password2}
               setValue={setPassword2}
-              error={error}
             />
 
-            <MeMoInput className=" mb-3" placeholder="email" value={email} setValue={setEmail} error={error} />
-            <MeMoInput
-              className=" mb-3"
-              placeholder="Nick Name"
-              value={nickname}
-              setValue={setUNickname}
-              error={error}
-            />
+            <MeMoInput className=" mb-3" placeholder="email" value={email} setValue={setEmail} />
+            <MeMoInput className=" mb-3" placeholder="Nick Name" value={nickname} setValue={setUNickname} />
 
             <LoginBtn type="submit">Sign In</LoginBtn>
           </form>

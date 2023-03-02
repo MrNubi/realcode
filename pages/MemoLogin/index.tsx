@@ -10,38 +10,12 @@ import { MLogin } from '@typings/memot';
 import MeMoInput from '../../components/MemoInput';
 import fetcher2 from '../../utills/fetcher2';
 import fetcherLocals from '../../utills/fetcherLocals';
+import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 const MemoLogin = () => {
   const memoUrl = 'https://memolucky.run.goorm.io';
   const MemoLoginUrl = `/users/dj-rest-auth/login/`;
-  const {
-    data: LoginData,
-    error,
-    mutate,
-  } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
-    // revalidateOnFocus: false,
-    // revalidateOnMount: false,
 
-    // revalidateIfStale: false,
-    dedupingInterval: 10000, // 100초 안에는 호출 보내도 캐시값안에서 처리
-    //focusThrottleInterval  : 이 시간 범위 동안 단 한 번만 갱신,즉 중복 갱신요청 씹음
-    //errorRetryInterval : 에러시 재시도 기간, 입력값 이후 다시 보냄,
-    //loadingTimeout : 특정 시간 지나면 onLoadingSlow 이벤트를 트리거, 화면에 로딩이 지연되니 이따 오라는 식의 메세지 띄울 수 있음
-    //errorRetryCount: errorRetryInterval이 시되하는 횟수의 최대값, 무한하면 서버에 디도스 넣을 수도 있기 때문(ex. 수강신청 서버폭파)
-  });
-  //swr을 써서 쿠키 저장해주려고, post요청후에 get요청 한번 더보내 줄 예정
-  //revalidate: mutate()로 대체
-  function zerofetcher(): any {
-    return 'data';
-  }
-  const {
-    data: testData,
-
-    mutate: testMutate,
-  } = useSWR<MLogin>('accessTocken', zerofetcher(), {
-    // revalidateIfStale: false,
-    // revalidateOnFocus: false,
-    // revalidateOnReconnect: false,
-  });
+  const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
   const [logInError, setLogInError] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -66,21 +40,28 @@ const MemoLogin = () => {
         },
       )
       .then((r) => {
-        mutate(r.data, false);
-        testMutate(r.data, false);
+        sessionStorage.setItem('tocken', r.data.access_token);
+        sessionStorage.setItem('username', r.data.user.username);
+        sessionStorage.setItem('pk', r.data.user.pk);
+        sessionStorage.setItem('nickname', r.data.user.nickname);
+
+        tockenMutate(r.data.access_token, false);
+
         console.log('clear : ', r);
-        console.log('clear2 : ', testData);
+        console.log('clear2 : ', tockenData);
+        return <Redirect to="/Memoworkspace" />;
       })
-      .catch(console.error);
+      .catch((e) => {
+        console.log('testAxios:  ', e);
+      });
   };
 
   // if (data === undefined) {
   //   return <div>로딩중...</div>;
   // }
-  console.log('datacheck login out: ', LoginData);
-  if (LoginData) {
-    console.log('datacheck login in: ', LoginData);
-    return <Redirect to="/Memoworkspace/ " />;
+  if (`${tockenData}` != 'non-tocken' && tockenData != undefined) {
+    console.log('datacheck login in: ', tockenData);
+    return <Redirect to="/Memoworkspace" />;
   }
 
   return (
@@ -92,7 +73,7 @@ const MemoLogin = () => {
         <WhiteBox>
           <Header>MEMOP</Header>
           <form onSubmit={onSubmit}>
-            <MeMoInput className=" mb-3" placeholder="ID" value={username} setValue={setUsername} error={error} />
+            <MeMoInput className=" mb-3" placeholder="ID" value={username} setValue={setUsername} />
             <MeMoInput
               className=" mb-3
             "
@@ -100,7 +81,6 @@ const MemoLogin = () => {
               placeholder="PW"
               value={password}
               setValue={setPassword}
-              error={error}
             />
             <LoginBtn type="submit">LogIn</LoginBtn>
           </form>

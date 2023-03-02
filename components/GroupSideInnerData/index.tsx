@@ -10,6 +10,7 @@ import FolderOPen from '../../img/folder_open.png';
 import FolderClose from '../../img/folder_close.png';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 
 interface innerProps {
   nickname: string;
@@ -23,14 +24,7 @@ function GroupSidebarInnerData({ nickname, parentIndex, clickInnerFolder, setInn
   const GroupName = useParams<{ groupname?: string }>();
 
   const memoUrl = 'https://memolucky.run.goorm.io';
-  const {
-    data: LoginData,
-    error,
-    mutate,
-  } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
-    dedupingInterval: 1000,
-    errorRetryCount: 10,
-  });
+  const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
 
   const {
     data: InnerGroupData,
@@ -38,7 +32,7 @@ function GroupSidebarInnerData({ nickname, parentIndex, clickInnerFolder, setInn
     mutate: InnerGroupMutate,
   } = useSWR<MInnerGroup>(
     memoUrl + `/group/group-data/${nickname}/`,
-    fetchMemoGet(memoUrl + `/group/group-data/${decodeURI(nickname.trim())}/`, `${LoginData?.access_token}`),
+    fetchMemoGet(memoUrl + `/group/group-data/${decodeURI(nickname.trim())}/`, `${tockenData}`),
     { dedupingInterval: 1000, errorRetryCount: 10 },
   );
   console.log('이너그룹데이터 :', decodeURI(nickname.trim()));
@@ -49,7 +43,7 @@ function GroupSidebarInnerData({ nickname, parentIndex, clickInnerFolder, setInn
 
         {
           headers: {
-            Authorization: `Bearer ${LoginData?.access_token}`,
+            Authorization: `Bearer ${tockenData}`,
           },
 
           withCredentials: true,

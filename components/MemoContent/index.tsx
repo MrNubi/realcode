@@ -15,6 +15,7 @@ import useSWR from 'swr';
 import fetchMemoGet from '../../utills/fetchMemoGet';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 
 const MemoContent = () => {
   const memoUrl = 'https://memolucky.run.goorm.io';
@@ -22,12 +23,9 @@ const MemoContent = () => {
 
   const [onText, changeOnText, setText] = useInput('');
 
-  const { data: LoginData } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
-    dedupingInterval: 1000,
-    errorRetryCount: 10,
-  });
+  const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
 
-  console.log('mc Login :', LoginData?.access_token);
+  console.log('mc Login :', tockenData);
 
   const onSubmmit = useCallback(
     (e) => {
@@ -43,7 +41,7 @@ const MemoContent = () => {
             },
             {
               headers: {
-                Authorization: `Bearer ${LoginData?.access_token}`,
+                Authorization: `Bearer ${tockenData}`,
               },
               withCredentials: true,
             },
@@ -54,12 +52,12 @@ const MemoContent = () => {
             setText('');
             location.reload();
           })
-          .catch((e) => console.log('err : ', `${onText.trim()}`, LoginData?.access_token));
+          .catch((e) => console.log('err : ', `${onText.trim()}`, tockenData));
       } else {
         console.log('textless');
       }
     },
-    [LoginData?.access_token, groupinnerdata, onText],
+    [tockenData, groupinnerdata, onText],
   );
 
   console.log('memoparam :::', groupinnerdata);
@@ -155,11 +153,11 @@ const MemoContent = () => {
             <Switch>
               <Route
                 path="/MemoWorkspace/:groupname/:groupinnerdata/:groupmemo"
-                render={() => <ChannelListMeMoInner tocken={`${LoginData?.access_token}`} />}
+                render={() => <ChannelListMeMoInner tocken={`${tockenData}`} />}
               />
               <Route
                 path="/MemoWorkspace/:groupname/:groupinnerdata"
-                render={() => <ChannelListMeMoInner tocken={`${LoginData?.access_token}`} />}
+                render={() => <ChannelListMeMoInner tocken={`${tockenData}`} />}
               />
             </Switch>
           </div>
@@ -175,7 +173,7 @@ const MemoContent = () => {
         <ShowPostZone>
           <Route
             path={`/MemoWorkspace/:groupname/:groupinnerdata/:groupmemo`}
-            render={() => <MemoPostZone tocken={`${LoginData?.access_token}`} />}
+            render={() => <MemoPostZone tocken={`${tockenData}`} />}
           />
         </ShowPostZone>
       </WorkspaceZone>

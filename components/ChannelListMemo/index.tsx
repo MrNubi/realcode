@@ -9,18 +9,13 @@ import useSWR from 'swr';
 import { MGroup, MInnerGroup, MLogin } from '@typings/memot';
 import fetchMemoGet from '../../utills/fetchMemoGet';
 import fetcherLocals from '../../utills/fetcherLocals';
+import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 
 const ChannelListMeMo: FC = () => {
   const memoUrl = 'https://memolucky.run.goorm.io';
   const MemoLoginUrl = `/users/dj-rest-auth/login/`;
-  const {
-    data: LoginData,
-    error,
-    mutate,
-  } = useSWR<MLogin>(memoUrl + '/users/dj-rest-auth/login/', fetcherLocals, {
-    dedupingInterval: 1000,
-    errorRetryCount: 10,
-  });
+  const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
+
   const { groupname, groupinnerdata } = useParams<{ groupname?: string; groupinnerdata?: string }>();
   const paramsChange = () => {
     console.log('paramChange: ', groupname);
@@ -33,7 +28,7 @@ const ChannelListMeMo: FC = () => {
     data: GroupData,
     error: GroupErr,
     mutate: GroupMutate,
-  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${LoginData?.access_token}`), {});
+  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${tockenData}`), {});
 
   const {
     data: InnerGroupData,
@@ -41,7 +36,7 @@ const ChannelListMeMo: FC = () => {
     mutate: InnerGroupMutate,
   } = useSWR<MInnerGroup>(
     memoUrl + `/group/group-data/${decodeURI(`${groupname}`)}/`,
-    fetchMemoGet(memoUrl + `/group/group-data/${decodeURI(paramsChange())}/`, `${LoginData?.access_token}`),
+    fetchMemoGet(memoUrl + `/group/group-data/${decodeURI(paramsChange())}/`, `${tockenData}`),
     {},
   );
 

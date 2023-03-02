@@ -19,10 +19,6 @@ const App = () => {
       <Redirect exact path="/" to="/MemoLogin" />
       <Route path="/MemoLogin" component={MemoLogin} />
       <Route path="/MemoRegistration" component={MeMoSiginIn} />
-      <Route path="/login" component={LogIn} />
-      <Route path="/signup" component={SignUp} />
-      <Route path="/signup" component={SignUp} />
-      <Route path="/workspace/:workspace" component={workspace} />
 
       <Route path="/MemoWorkspace/:groupname" component={MemoWorkspace} />
 
