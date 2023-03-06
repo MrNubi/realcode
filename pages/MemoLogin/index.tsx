@@ -11,17 +11,28 @@ import MeMoInput from '../../components/MemoInput';
 import fetcher2 from '../../utills/fetcher2';
 import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 const MemoLogin = () => {
-  const memoUrl = 'https://memolucky.run.goorm.io';
-  const MemoLoginUrl = `/users/dj-rest-auth/login/`;
-
   const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
-  const { data: xdata, error } = useSWR<IUser[]>('/api/users', fetcher);
+
   const [logInError, setLogInError] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const onSubmit = useCallback((e) => {
     e.preventDefault();
     setLogInError(false);
+    axios
+      .post(
+        'http://localhost:3095' + '/api/users/login',
+        { email: 'test1234@naver.com', password: 'test1234' },
+        {
+          withCredentials: true,
+        },
+      )
+      .then(() => {
+        console.log('test-로그인 성공');
+      })
+      .catch((error) => {
+        console.log('test-로실, ', error);
+      });
 
     testAxios(e);
   }, []);
