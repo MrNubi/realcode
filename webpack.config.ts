@@ -2,6 +2,7 @@ import path from 'path';
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import webpack, { Configuration as WebpackConfiguration } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 interface Configuration extends WebpackConfiguration {
   devServer?: WebpackDevServerConfiguration;
@@ -86,6 +87,10 @@ const config: Configuration = {
         target: 'http://localhost:3095',
         changeOrigin: true,
       },
+      '/users/': {
+        target: 'https://memolucky.run.goorm.io',
+        changeOrigin: true,
+      },
     },
     devMiddleware: { publicPath: '/dist/' },
     static: { directory: path.resolve(__dirname) },
@@ -95,8 +100,10 @@ const config: Configuration = {
 if (isDevelopment && config.plugins) {
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
   config.plugins.push(new ReactRefreshWebpackPlugin());
+  config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'server', openAnalyzer: true }));
 }
 if (!isDevelopment && config.plugins) {
+  config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' }));
 }
 
 export default config;

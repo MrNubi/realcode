@@ -6,12 +6,16 @@ import { Success, Form, Error, Label, Input, LinkContainer, Button, Header } fro
 import useSWR from 'swr';
 import fetcher from '../../utills/fetcher';
 import { IUser } from '../../typings/db';
+import { MLogin } from '@typings/memot';
+import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
+
 const Login = () => {
+  const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
   const {
     data: LoginData,
     error,
     mutate,
-  } = useSWR<IUser[]>('/api/users', fetcher, {
+  } = useSWR<MLogin[]>('https://memolucky.run.goorm.io/users/dj-rest-auth/login/', {
     dedupingInterval: 10000, // 100초 안에는 호출 보내도 캐시값안에서 처리
     //focusThrottleInterval  : 이 시간 범위 동안 단 한 번만 갱신,즉 중복 갱신요청 씹음
     //errorRetryInterval : 에러시 재시도 기간, 입력값 이후 다시 보냄,
@@ -37,9 +41,9 @@ const Login = () => {
           },
         )
         .then((response) => {
-          mutate(response.data);
+          mutate(response.data, false);
+          tockenMutate(response.data.access_token, false);
           console.log('로그인 성공', response.data);
-          console.log('로그인 성공data', LoginData);
         })
         .catch((error) => {
           setLogInError(error.response?.data?.statusCode === 401);
@@ -54,14 +58,20 @@ const Login = () => {
       .post(
         'https://memolucky.run.goorm.io/users/dj-rest-auth/login/',
         {
+<<<<<<< HEAD
           username: 'han1113', 
           password: 'goddns1234',
+=======
+          username: 'test1234',
+          password: 'clone1234',
+>>>>>>> f97404bad228c96137aea3e4373b13a34ec36d64
         },
         {
           withCredentials: true,
         },
       )
       .then((r) => {
+        mutate(r.data, false);
         console.log('clear : ', r);
       })
       .catch(console.error);
@@ -78,7 +88,7 @@ const Login = () => {
 
   return (
     <div id="container">
-      <Header>Sleact</Header>
+      <Header>test</Header>
       <Form onSubmit={onSubmit}>
         <Label id="email-label">
           <span>이메일 주소</span>

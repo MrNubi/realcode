@@ -3,9 +3,11 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import loadable from '@loadable/component';
 
-const LogIn = loadable(() => import('../../pages/Login'));
+const MemoLogin = loadable(() => import('../../pages/MemoLogin'));
+const MeMoSiginIn = loadable(() => import('../../pages/MemoRegistration'));
 const SignUp = loadable(() => import('../../pages/SignUp'));
 const workspace = loadable(() => import('../../layouts/Workspace'));
+const MemoWorkspace = loadable(() => import('../../layouts/MemoWorkspace'));
 
 // 이러면 알아서 코드 스플리팅 하고 알아서 불러옴
 // 동적으로 import 된다는 뜻, 해당 코드에 접근하는 순간은 느려질 수도 있지만, 초기속도는 굉장히 개선됨
@@ -13,11 +15,13 @@ const workspace = loadable(() => import('../../layouts/Workspace'));
 const App = () => {
   return (
     <Switch>
-      <Redirect exact path="/" to="/Login" />
-      <Route path="/login" component={LogIn} />
-      <Route path="/signup" component={SignUp} />
-      <Route path="/signup" component={SignUp} />
-      <Route path="/workspace/:workspace" component={workspace} />
+      <Redirect exact path="/" to="/MemoLogin" />
+      <Route path="/MemoLogin" component={MemoLogin} />
+      <Route path="/MemoRegistration" component={MeMoSiginIn} />
+
+      <Route path="/MemoWorkspace/:groupname" component={MemoWorkspace} />
+
+      <Route path="/MemoWorkspace" component={MemoWorkspace} />
     </Switch>
   );
 

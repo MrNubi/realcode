@@ -24,7 +24,7 @@ import {
 import { IChannel, IUser } from '../../typings/db';
 import { Link } from 'react-router-dom';
 import Modal from '@components/Modal';
-import { Button, Input, Label } from '@pages/Login/styles';
+import { Button, Input, Label } from '@pages/MemoLogin/styles';
 import useInput from '@hooks/useInput';
 import { toast } from 'react-toastify';
 import CreateChannelModal from '../../components/CreateChannelModal';

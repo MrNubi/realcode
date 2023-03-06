@@ -10,7 +10,8 @@ import { SWRConfig } from 'swr';
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL =
-  process.env.NODE_ENV === 'production' ? 'https://sleact.nodebird.com' : 'http://localhost:3090';
+  process.env.NODE_ENV === 'production' ? 'https://memolucky.run.goorm.io' : 'https://memolucky.run.goorm.io';
+const memoUrl = 'https://memolucky.run.goorm.io';
 
 render(
   <BrowserRouter>

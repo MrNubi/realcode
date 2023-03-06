@@ -1,7 +1,10 @@
 import styled from '@emotion/styled';
 import autosize from 'autosize';
 import React, { useCallback, useEffect, useRef, VFC } from 'react';
-import { ChatArea, Form, MentionsTextarea, SendButton, Toolbox } from './styles';
+import { ChatArea, FileButton, Form, MentionsTextarea, SendButton, Toolbox } from './styles';
+import { MGroupDataMemo, MLogin } from '@typings/memot';
+import useSWR from 'swr';
+import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 
 interface Props {
   chat: string;
@@ -11,13 +14,10 @@ interface Props {
 }
 
 const ChatBox: VFC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholder }) => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const memoUrl = 'https://memolucky.run.goorm.io';
+  const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
 
-  useEffect(() => {
-    if (textareaRef.current) {
-      autosize(textareaRef.current);
-    }
-  }, [textareaRef]);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const onKeydownChat = useCallback(
     (e) => {
@@ -43,6 +43,7 @@ const ChatBox: VFC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholder }) 
         />
 
         <Toolbox>
+          <FileButton type="file"></FileButton>
           <SendButton
             className={
               'c-button-unstyled c-icon_button c-icon_button--light c-icon_button--size_medium c-texty_input__button c-texty_input__button--send' +
