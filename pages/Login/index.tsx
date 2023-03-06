@@ -54,7 +54,7 @@ const Login = () => {
       .post(
         'https://memolucky.run.goorm.io/users/dj-rest-auth/login/',
         {
-          username: 'han1113',
+          username: 'han1113', 
           password: 'goddns1234',
         },
         {
