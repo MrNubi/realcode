@@ -9,6 +9,7 @@ import useSWR from 'swr';
 import { MGroup, MInnerGroup, MLogin } from '@typings/memot';
 import fetchMemoGet from '../../utills/fetchMemoGet';
 import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
+import fetcherMemoGIData from '../../utills/fetcherMemoGIData';
 
 const ChannelListMeMo: FC = () => {
   const memoUrl = 'https://memolucky.run.goorm.io';
@@ -27,7 +28,9 @@ const ChannelListMeMo: FC = () => {
     data: GroupData,
     error: GroupErr,
     mutate: GroupMutate,
-  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${tockenData}`), {});
+  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${tockenData}`), {
+    dedupingInterval: 60 * 1000,
+  });
 
   const {
     data: InnerGroupData,
@@ -35,8 +38,10 @@ const ChannelListMeMo: FC = () => {
     mutate: InnerGroupMutate,
   } = useSWR<MInnerGroup>(
     memoUrl + `/group/group-data/${decodeURI(`${groupname}`)}/`,
-    fetchMemoGet(memoUrl + `/group/group-data/${decodeURI(paramsChange())}/`, `${tockenData}`),
-    {},
+    fetcherMemoGIData(memoUrl + `/group/group-data/${decodeURI(paramsChange())}/`, `${tockenData}`),
+    {
+      dedupingInterval: 60 * 1000,
+    },
   );
 
   const [channelCollapse, setChannelCollapse] = useState(false);

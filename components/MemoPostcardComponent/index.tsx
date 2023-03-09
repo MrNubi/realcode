@@ -126,10 +126,12 @@ const MemoPostcardComponent: VFC<PostProps> = ({
           </div>
         )}
 
-        <div style={{ display: 'flex', margin: '5px', marginTop: 'auto', marginLeft: 'auto', alignItems: 'center' }}>
-          <img src={heart} alt="setting 아이콘" width={22} height={22} style={{ marginRight: '5px' }} />
-          <span>={likeCount}</span>
-        </div>
+        {likeCount && (
+          <div style={{ display: 'flex', margin: '5px', marginTop: 'auto', marginLeft: 'auto', alignItems: 'center' }}>
+            <img src={heart} alt="setting 아이콘" width={22} height={22} style={{ marginRight: '5px' }} />
+            <span>={likeCount}</span>
+          </div>
+        )}
       </div>
     </div>
   );

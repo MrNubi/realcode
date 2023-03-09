@@ -149,16 +149,6 @@ const MemoContent = () => {
             >
               파일 설명 : {`설명`}
             </span>
-            <Switch>
-              <Route
-                path="/MemoWorkspace/:groupname/:groupinnerdata/:groupmemo"
-                render={() => <ChannelListMeMoInner tocken={`${tockenData}`} />}
-              />
-              <Route
-                path="/MemoWorkspace/:groupname/:groupinnerdata"
-                render={() => <ChannelListMeMoInner tocken={`${tockenData}`} />}
-              />
-            </Switch>
           </div>
         </div>
       </WorkDescriptionBar>
@@ -171,7 +161,7 @@ const MemoContent = () => {
         </EditPost>
         <ShowPostZone>
           <Route
-            path={`/MemoWorkspace/:groupname/:groupinnerdata/:groupmemo`}
+            path={`/MemoWorkspace/:groupname/:groupinnerdata`}
             render={() => <MemoPostZone tocken={`${tockenData}`} />}
           />
         </ShowPostZone>

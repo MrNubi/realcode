@@ -18,7 +18,6 @@ import {
   GroupSidebarTitle,
 } from './styles';
 import searchIcon from './SearchIcon.png';
-import Workspace from '@layouts/Workspace';
 import useInput from '@hooks/useInput';
 import Box from '../../img/Box.png';
 import FolderOPen from '../../img/folder_open.png';
@@ -158,7 +157,7 @@ const MemoWorkspace: VFC = () => {
           >
             <img src={userProfile} width={20} height={20} alt="group_boxImg" />
             <span style={{ color: 'blue', marginLeft: 5 }}>
-              {tockenData ? localStorage.getItem('nickname') : 'Loading...'}
+              {tockenData ? sessionStorage.getItem('nickname') : 'Loading...'}
             </span>
             <DashedLine />
             <img
