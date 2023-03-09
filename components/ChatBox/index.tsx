@@ -22,8 +22,11 @@ const ChatBox: VFC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholder }) 
 
   const onKeydownChat = useCallback(
     (e) => {
+      console.log('onKeydownChat', '1차통과');
       if (e.key === 'Enter') {
+        console.log('onKeydownChat', '2차 통과');
         if (!e.shiftKey) {
+          console.log('onKeydownChat', '3차 통과');
           e.preventDefault();
           onSubmitForm(e);
         }
