@@ -3,7 +3,6 @@ import { MGroup, MInnerGroup, MLogin } from '@typings/memot';
 import React, { useCallback, useState } from 'react';
 import { useParams } from 'react-router';
 import useSWR from 'swr';
-import fetcherLocals from '../../utills/fetcherLocals';
 import fetchMemoGet from '../../utills/fetchMemoGet';
 import plus from '../../img/add_group.png';
 import FolderOPen from '../../img/folder_open.png';

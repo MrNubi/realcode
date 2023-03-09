@@ -8,7 +8,6 @@ import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
 import { MGroup, MGroupDataMemo, MInnerGroup, MLogin } from '@typings/memot';
 import fetchMemoGet from '../../utills/fetchMemoGet';
-import fetcherLocals from '../../utills/fetcherLocals';
 import axios from 'axios';
 
 interface CLProps {

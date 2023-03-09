@@ -9,33 +9,14 @@ const fetcherLocals = <Data,>(url: string): any => {
     .then((r) => {
       console.log('1차: 통과');
 
-      testAxios;
-      console.log('return :', testAxios);
-      return testAxios;
+      console.log('return :');
+      return;
     })
     .catch(() => {
       console.log('1차: 실패');
-      testAxios;
-      console.log('return :', testAxios);
-      return testAxios;
+      console.log('return :');
+      return;
     });
-
-  const testAxios = axios
-    .post<Data>(
-      url,
-      {
-        username: 'test1234',
-        password: 'clone1234',
-      },
-      {
-        withCredentials: true,
-      },
-    )
-    .then((r) => {
-      console.log('2차 성공');
-      return r.data;
-    })
-    .catch(() => console.log('2차실패'));
 
   return A;
 };

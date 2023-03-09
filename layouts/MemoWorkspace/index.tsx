@@ -26,7 +26,7 @@ import FolderClose from '../../img/folder_close.png';
 import plus from '../../img/add_group.png';
 import Setting from '../../img/Setting.png';
 import memo from '../../img/memo.png';
-import fetcherLocals from '../../utills/fetcherLocals';
+
 import useSWR from 'swr';
 import { MGroup, MInnerGroup, MLogin, MUSer } from '@typings/memot';
 import { Link } from 'react-router-dom';

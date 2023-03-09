@@ -38,7 +38,10 @@ const MeMoInput = (T: InputGroupProps) => {
         // )}
         placeholder={T.placeholder}
         value={T.value}
-        onChange={(e) => T.setValue(e.target.value)}
+        onChange={(e) => {
+          console.log('글자입력', e.target.value);
+          T.setValue(e.target.value);
+        }}
         // onChange로 위의 value번경, (e), 즉 이벤트 발생시 타겟 벨류로 밸류를 바꿔씀
       />
 

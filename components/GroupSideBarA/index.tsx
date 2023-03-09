@@ -5,7 +5,6 @@ import FolderClose from '../../img/folder_close.png';
 import Box from '../../img/Box.png';
 import plus from '../../img/add_group.png';
 import { MGroup, MInnerGroup, MLogin } from '@typings/memot';
-import fetcherLocals from '../../utills/fetcherLocals';
 import useSWR from 'swr';
 import fetchMemoGet from '../../utills/fetchMemoGet';
 import { Link, useParams } from 'react-router-dom';

@@ -8,8 +8,6 @@ import fetcher from '../../utills/fetcher';
 import { IUser } from '../../typings/db';
 import { MLogin } from '@typings/memot';
 import MeMoInput from '../../components/MemoInput';
-import fetcher2 from '../../utills/fetcher2';
-import fetcherLocals from '../../utills/fetcherLocals';
 import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 const MemoLogin = () => {
   const memoUrl = 'https://memolucky.run.goorm.io';
@@ -21,8 +19,6 @@ const MemoLogin = () => {
   const [password, setPassword] = useState('');
   const onSubmit = useCallback((e) => {
     e.preventDefault();
-    setLogInError(false);
-
     testAxios(e);
   }, []);
 
