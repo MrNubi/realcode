@@ -94,7 +94,14 @@ function GroupSidebarA({ tocken, resultName, i, clickFolder, clickInnerFolder }:
           />
         </GroupSidebarTitle>
       </Link>
-      {/* <div style={{ height: '70%' }}>
+    </div>
+  );
+}
+
+export default GroupSidebarA;
+
+{
+  /* <div style={{ height: '70%' }}>
         {InnerGroupData?.results.map((r, i2) => {
           <Link key={r.pk} to={`/Memoworkspace/${r.name}`}>
             <GroupSidebarTitle style={{ cursor: 'pointer' }}>
@@ -133,9 +140,5 @@ function GroupSidebarA({ tocken, resultName, i, clickFolder, clickInnerFolder }:
             </GroupSidebarTitle>
           </Link>;
         })}
-      </div> */}
-    </div>
-  );
+      </div> */
 }
-
-export default GroupSidebarA;
