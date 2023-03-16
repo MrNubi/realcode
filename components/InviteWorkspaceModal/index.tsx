@@ -8,6 +8,8 @@ import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import fetcher from '../../utills/fetcher';
 import useSWR from 'swr';
+import { EditColumnDiv, EditColumnDiv2, EditPost } from '@components/MemoContent/styles';
+import ChatBox from '@components/ChatBox';
 
 interface Props {
   show: boolean;
@@ -54,12 +56,12 @@ const InviteWorkspaceModal: VFC<Props> = ({ show, onCloseModal, setShowInviteWor
   return (
     <Modal show={show} onCloseModal={onCloseModal}>
       <form onSubmit={onInviteMember}>
-        <Label id="member-label">
-          <span>이메일</span>
-          <Input id="member" type="email" value={newMember} onChange={onChangeNewMember}></Input>
-        </Label>
-
-        <Button type="submit">초대하기</Button>
+        <EditPost style={{ display: 'flex', width: '100%', height: '22%' }}>
+          <EditColumnDiv>
+            <ChatBox chat={newMember} onChangeChat={onChangeNewMember} onSubmitForm={onInviteMember} />
+          </EditColumnDiv>
+          <EditColumnDiv2></EditColumnDiv2>
+        </EditPost>
       </form>
     </Modal>
   );

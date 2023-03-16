@@ -25,6 +25,7 @@ const MemoContent = () => {
   const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
 
   console.log('mc Login :', tockenData);
+  const postData = JSON.parse(`${sessionStorage.getItem(`inner${groupinnerdata}`)}`);
 
   const onSubmmit = useCallback(
     (e) => {
@@ -84,7 +85,7 @@ const MemoContent = () => {
               color: 'white',
             }}
           >
-            작업명
+            {postData ? `${postData.name}` : ''}
           </span>
         </div>
         <div style={{ width: '100%', height: '60%', display: 'flex' }}>
@@ -108,7 +109,7 @@ const MemoContent = () => {
                 color: ' #ffffff',
               }}
             >
-              참여자 : {`유저수`}
+              참여자 : {postData ? `${postData.user}` : ''}
             </span>
             <span
               style={{
@@ -121,7 +122,7 @@ const MemoContent = () => {
                 color: ' #ffffff',
               }}
             >
-              파일 수 : {`파일 수`}
+              파일 수 : {`0`}
             </span>
             <span
               style={{
@@ -134,7 +135,7 @@ const MemoContent = () => {
                 color: ' #ffffff',
               }}
             >
-              작업 수 : {`작업 수`}
+              created_at : {postData ? `${postData.created_at}` : ''}
             </span>
             <span
               style={{
@@ -147,18 +148,12 @@ const MemoContent = () => {
                 color: ' #ffffff',
               }}
             >
-              파일 설명 : {`설명`}
+              group : {postData ? `${postData.group}` : ''}
             </span>
           </div>
         </div>
       </WorkDescriptionBar>
       <WorkspaceZone>
-        <EditPost style={{ display: 'flex', width: '100%', height: '22%' }}>
-          <EditColumnDiv>
-            <ChatBox chat={onText} onChangeChat={changeOnText} onSubmitForm={onSubmmit} />
-          </EditColumnDiv>
-          <EditColumnDiv2></EditColumnDiv2>
-        </EditPost>
         <ShowPostZone>
           <Route
             path={`/MemoWorkspace/:groupname/:groupinnerdata`}

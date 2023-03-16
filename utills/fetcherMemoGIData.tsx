@@ -17,8 +17,8 @@ const fetcherMemoGIData = <Data,>(url: string | null, tocken: string): any => {
         },
       )
       .then((r) => {
-        console.log('get: 2차 성공', tocken);
-        console.log('get 2: ', r.data);
+        console.log('getInner: 2차 성공', tocken);
+        console.log('getInner 2: ', r.data);
         if (r.data.count > 0) {
           r.data.results.map((result, i) => {
             console.log(i, result);
@@ -29,7 +29,7 @@ const fetcherMemoGIData = <Data,>(url: string | null, tocken: string): any => {
 
         return r.data;
       })
-      .catch(() => console.log('get: 2차실패', tocken));
+      .catch(() => console.log('getInner: 2차실패', tocken));
 
     return A;
   } else return;

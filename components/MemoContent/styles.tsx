@@ -38,7 +38,7 @@ export const ShowPostZone = styled.div`
   flex-direction: column;
   background-color: white;
   width: 100%;
-  height: 78%;
-  margin-top: 18;
+  height: 100%;
+
   border: 0.5px solid #6c6c6c;
 `;

@@ -28,9 +28,7 @@ const ChannelListMeMo: FC = () => {
     data: GroupData,
     error: GroupErr,
     mutate: GroupMutate,
-  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${tockenData}`), {
-    dedupingInterval: 60 * 1000,
-  });
+  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${tockenData}`), {});
 
   const {
     data: InnerGroupData,
@@ -39,9 +37,7 @@ const ChannelListMeMo: FC = () => {
   } = useSWR<MInnerGroup>(
     memoUrl + `/group/group-data/${decodeURI(`${groupname}`)}/`,
     fetcherMemoGIData(memoUrl + `/group/group-data/${decodeURI(paramsChange())}/`, `${tockenData}`),
-    {
-      dedupingInterval: 60 * 1000,
-    },
+    {},
   );
 
   const [channelCollapse, setChannelCollapse] = useState(false);

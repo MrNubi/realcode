@@ -57,7 +57,7 @@ const MemoPostZone: VFC<pzProps> = ({ tocken }: pzProps) => {
               created={postData.created_at}
               profile={postData ? null : null}
               hostname={postData.nickname}
-              message={postData.text}
+              message={postData.name}
               is_host={sessionStorage.getItem('nickname') === postData.nickname ? true : false}
               settingClick={settingClick}
               onClickPostPatch={onPostPatch}
@@ -68,7 +68,7 @@ const MemoPostZone: VFC<pzProps> = ({ tocken }: pzProps) => {
         </div>
         <div style={{ display: 'flex', backgroundColor: 'yellow', height: '50%' }}>
           <Route
-            path="/MemoWorkspace/:groupname/:groupinnerdata/:groupmemo"
+            path="/MemoWorkspace/:groupname/:groupinnerdata/"
             render={() => <ChannelListMeMoInner tocken={`${tocken}`} />}
           />
         </div>
