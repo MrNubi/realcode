@@ -31,11 +31,13 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
     groupmemo?: string;
     groupinnerdata?: string;
   }>();
-
-  const onInviteMember = useCallback(
+  const group = sessionStorage.getItem(`inner${groupinnerdata}`);
+  const groupNum = group ? JSON.parse(`${group}`).group : '';
+  const onCreateGroup = useCallback(
     (e) => {
       e.preventDefault();
       console.log('text :', Text);
+      console.log('text :', groupNum);
       if (!Text || !Text.trim()) {
         console.log('text :', Text);
         return;
@@ -44,7 +46,7 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
         .post(
           `https://memolucky.run.goorm.io/group/group-data/${decodeURI(`${groupname}`)}/`,
           {
-            group: '4',
+            group: `${groupNum}`,
             parent: null,
             name: Text,
             file_type: 'folder',
@@ -75,7 +77,7 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
 
   return (
     <Modal show={show} onCloseModal={onCloseModal}>
-      <form onSubmit={onInviteMember}>
+      <form onSubmit={onCreateGroup}>
         <Label id="member-label">
           <span>이메일</span>
           <Input id="member" type="text" value={Text} onChange={onChangeText}></Input>
@@ -119,9 +121,9 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
 
   return (
     <Modal show={show} onCloseModal={onCloseModal}>
-      <form onSubmit={onInviteMember}>
+      <form onSubmit={onCreateGroup}>
         <EditPost style={{ display: 'flex', width: '100%', height: '32%', backgroundColor: 'black' }}>
-          <ChatBox chat={Text} onChangeChat={onChangeText} onSubmitForm={onInviteMember} />
+          <ChatBox chat={Text} onChangeChat={onChangeText} onSubmitForm={onCreateGroup} />
         </EditPost>
       </form>
     </Modal>

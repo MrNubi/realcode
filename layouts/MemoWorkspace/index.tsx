@@ -40,6 +40,7 @@ import { channel } from 'diagnostics_channel';
 import ChatBox from '@components/ChatBox';
 import InviteChannelModal from '@components/InviteChannelModal';
 import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
+import InviteGroupModal from '@components/inviteGroupModal';
 
 const MemoWorkspace: VFC = () => {
   const [searchText, onChangeSearchText, setSearchText] = useInput('');
@@ -69,10 +70,31 @@ const MemoWorkspace: VFC = () => {
   const [innerFolderOpen, setInnerFolderOpen] = useState(-1);
   const [clickUserName, setClickUserName] = useState(true);
   const [showCreateInviteChannel, setShowInviteChannel] = useState(false);
+  const [showCreateGroup, setShowCreateGroup] = useState(false);
 
   const onCloseModal = useCallback(() => {
     setShowInviteChannel(false);
+    setShowCreateGroup(false);
   }, [setShowInviteChannel]);
+
+  const oCn = useCallback(
+    (e: any) => {
+      e.preventDefault();
+
+      setShowInviteChannel((prev) => !prev);
+      console.log(showCreateInviteChannel);
+    },
+    [setShowInviteChannel],
+  );
+  const openCreateNewGroup = useCallback(
+    (e: any) => {
+      e.preventDefault();
+
+      setShowCreateGroup((prev) => !prev);
+      console.log(showCreateInviteChannel);
+    },
+    [setShowCreateGroup],
+  );
 
   const onClickUserName = useCallback(() => {
     setClickUserName((prev) => !prev);
@@ -180,6 +202,7 @@ const MemoWorkspace: VFC = () => {
                 borderStyle: 'dashed',
                 borderColor: 'transparent',
                 borderRightColor: 'black',
+                overflowY: 'auto',
               }}
             >
               {GroupData &&
@@ -197,7 +220,13 @@ const MemoWorkspace: VFC = () => {
                 })}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', width: '50%', height: '100%' }}>
-              <Route path="/MemoWorkspace/:groupname" component={ChannelListMeMo} />
+              <Switch>
+                <Route
+                  path="/MemoWorkspace/:groupname/:groupinnerdata"
+                  render={() => <ChannelListMeMo onCreateNewGrop={oCn} />}
+                />
+                <Route path="/MemoWorkspace/:groupname" component={ChannelListMeMo} />
+              </Switch>
             </div>
           </div>
         </div>
@@ -227,7 +256,9 @@ const MemoWorkspace: VFC = () => {
           >
             그룹 가입하기
           </button>
-          <button style={{ width: '100%', margin: 9, height: '45px' }}>새 그룹 만들기</button>
+          <button style={{ width: '100%', margin: 9, height: '45px' }} onClick={openCreateNewGroup}>
+            새 그룹 만들기
+          </button>
         </div>
       </GroupSidebar>
       <div
@@ -259,6 +290,11 @@ const MemoWorkspace: VFC = () => {
           show={showCreateInviteChannel}
           onCloseModal={onCloseModal}
           setShowInviteChannelModal={setShowInviteChannel}
+        />
+        <InviteGroupModal
+          show={showCreateGroup}
+          onCloseModal={onCloseModal}
+          setShowInviteGroupModal={setShowCreateGroup}
         />
       </div>
     </div>

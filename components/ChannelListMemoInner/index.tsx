@@ -59,39 +59,16 @@ const ChannelListMeMoInner: VFC<CLProps> = ({ tocken }: CLProps) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <span style={{ backgroundColor: 'green' }}>
-        <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
-          <i
-            className="c-icon p-channel_sidebar__section_heading_expand p-channel_sidebar__section_heading_expand--show_more_feature c-icon--caret-right c-icon--inherit c-icon--inline"
-            data-qa="channel-section-collapse"
-            aria-hidden="true"
-          />
-        </CollapseButton>
-        <span
-          style={{ cursor: 'pointer' }}
-          onClick={() => {
-            GroupMemoMutate();
-          }}
-        >
-          Data
-        </span>
-      </span>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {!channelCollapse &&
-          GroupDataMemo?.results.map((r) => {
-            return (
-              <NavLink
-                key={r.pk}
-                activeClassName="selected"
-                to={`/MemoWorkspace/${groupname}/${groupinnerdata}/${r.pk}`}
-              >
-                <span>
-                  {r.text} [{r.file_count}]
-                </span>
-              </NavLink>
-            );
-          })}
-      </div>
+      {!channelCollapse &&
+        GroupDataMemo?.results.map((r) => {
+          return (
+            <NavLink key={r.pk} activeClassName="selected" to={`/MemoWorkspace/${groupname}/${groupinnerdata}/${r.pk}`}>
+              <span>
+                {r.text} [{r.file_count}]
+              </span>
+            </NavLink>
+          );
+        })}
     </div>
   );
 };
