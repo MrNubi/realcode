@@ -69,7 +69,7 @@ const MemoWorkspace: VFC = () => {
   const [folderOpen, setFolderOpen] = useState(-1);
   const [innerFolderOpen, setInnerFolderOpen] = useState(-1);
   const [clickUserName, setClickUserName] = useState(true);
-  const [showCreateInviteChannel, setShowInviteChannel] = useState(false);
+  const [showCreateInviteChannel, onChangeShowInviteChannel, setShowInviteChannel] = useInput(false);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
 
   const onCloseModal = useCallback(() => {
@@ -77,21 +77,17 @@ const MemoWorkspace: VFC = () => {
     setShowCreateGroup(false);
   }, [setShowInviteChannel]);
 
-  const oCn = useCallback(
-    (e: any) => {
-      e.preventDefault();
+  const onCreateNewChannel = (e: any) => {
+    e.preventDefault();
 
-      setShowInviteChannel((prev) => !prev);
-      console.log(showCreateInviteChannel);
-    },
-    [setShowInviteChannel],
-  );
+    setShowInviteChannel((prev) => !prev);
+    console.log('showCreateInviteChannel', showCreateInviteChannel);
+  };
   const openCreateNewGroup = useCallback(
     (e: any) => {
       e.preventDefault();
-
       setShowCreateGroup((prev) => !prev);
-      console.log(showCreateInviteChannel);
+      console.log('showCreateGroup :', showCreateGroup);
     },
     [setShowCreateGroup],
   );
@@ -205,6 +201,16 @@ const MemoWorkspace: VFC = () => {
                 overflowY: 'auto',
               }}
             >
+              <div style={{ display: 'flex', height: 40 }}>
+                <GroupSidebarTitle
+                  style={{ marginLeft: 0, marginRight: 0, borderStyle: 'dashed', borderColor: 'gray' }}
+                >
+                  <img style={{ marginLeft: 0, marginRight: 5 }} src={Box} alt="group_boxImg" />
+                  <span style={{ color: 'black' }}>{'Group'}</span>
+                  <DashedLine />
+                  <img src={plus} alt="" onClick={openCreateNewGroup} />
+                </GroupSidebarTitle>
+              </div>
               {GroupData &&
                 GroupData.results.map((r, i) => {
                   return (
@@ -220,10 +226,34 @@ const MemoWorkspace: VFC = () => {
                 })}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', width: '50%', height: '100%' }}>
+              <div style={{ display: 'flex', height: 40 }}>
+                <GroupSidebarTitle
+                  style={{ marginLeft: 0, marginRight: 0, borderStyle: 'dashed', borderColor: 'gray' }}
+                >
+                  <img style={{ marginLeft: 0, marginRight: 5 }} src={Box} alt="group_boxImg" />
+                  <span style={{ color: 'black' }}>{'File'}</span>
+                  <DashedLine />
+                  <img
+                    src={plus}
+                    alt=""
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowInviteChannel((prev) => !prev);
+                    }}
+                  />
+                </GroupSidebarTitle>
+              </div>
               <Switch>
                 <Route
                   path="/MemoWorkspace/:groupname/:groupinnerdata"
-                  render={() => <ChannelListMeMo onCreateNewGrop={oCn} />}
+                  render={() => (
+                    <ChannelListMeMo
+                      onCreateNewGrop={(e) => {
+                        e.preventDefault();
+                        setShowInviteChannel((prev) => !prev);
+                      }}
+                    />
+                  )}
                 />
                 <Route path="/MemoWorkspace/:groupname" component={ChannelListMeMo} />
               </Switch>
@@ -253,6 +283,10 @@ const MemoWorkspace: VFC = () => {
               backgroundColor: '#B8B5B5',
               color: 'white',
             }}
+            onClick={(e) => {
+              e.preventDefault();
+              setShowInviteChannel((prev) => !prev);
+            }}
           >
             그룹 가입하기
           </button>
@@ -273,7 +307,13 @@ const MemoWorkspace: VFC = () => {
         }}
       >
         <GroupTopBar>
-          <div style={{ height: '100%' }}>dsdsdsdsd</div>
+          <div style={{ height: '100%', padding: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', height: '50%' }}>
+              <img src={Box} alt="" style={{ margin: '0px 8px' }} />
+              <span style={{ margin: '0px 8px' }}> 그룹명 : {}</span>
+            </div>
+            <div style={{ height: '50%' }}></div>
+          </div>
         </GroupTopBar>
 
         {/*워크스페이스 : 상세 / 내용 / dmbar*/}

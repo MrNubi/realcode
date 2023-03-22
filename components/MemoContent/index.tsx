@@ -155,13 +155,10 @@ const MemoContent = () => {
       </WorkDescriptionBar>
       <WorkspaceZone>
         <ShowPostZone>
-          <Route
-            path={`/MemoWorkspace/:groupname/:groupinnerdata`}
-            render={() => <MemoPostZone tocken={`${tockenData}`} />}
-          />
+          <Route path={`/MemoWorkspace/:groupname/:groupinnerdata`} component={MemoPostZone} />
         </ShowPostZone>
       </WorkspaceZone>
-      <DireecMessageBar />
+      <DireecMessageBar></DireecMessageBar>
     </MainDiv>
   );
 };
