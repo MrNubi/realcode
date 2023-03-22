@@ -79,11 +79,11 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
     <Modal show={show} onCloseModal={onCloseModal}>
       <form onSubmit={onCreateGroup}>
         <Label id="member-label">
-          <span>이메일</span>
+          <span>파일 이름</span>
           <Input id="member" type="text" value={Text} onChange={onChangeText}></Input>
         </Label>
 
-        <Button type="submit">초대하기</Button>
+        <Button type="submit">생성하기</Button>
       </form>
     </Modal>
   );

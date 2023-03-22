@@ -9,6 +9,7 @@ import useSWR from 'swr';
 import { MGroup, MGroupDataMemo, MInnerGroup, MLogin } from '@typings/memot';
 import fetchMemoGet from '../../utills/fetchMemoGet';
 import axios from 'axios';
+import MemoPostcardComponent from '@components/MemoPostcardComponent';
 
 interface CLProps {
   tocken: string | undefined;
@@ -58,15 +59,24 @@ const ChannelListMeMoInner: VFC<CLProps> = ({ tocken }: CLProps) => {
   console.log('groupInnerd :::', GroupDataMemo);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', overflowY: 'auto' }}>
       {!channelCollapse &&
         GroupDataMemo?.results.map((r) => {
           return (
-            <NavLink key={r.pk} activeClassName="selected" to={`/MemoWorkspace/${groupname}/${groupinnerdata}/${r.pk}`}>
-              <span>
-                {r.text} [{r.file_count}]
-              </span>
-            </NavLink>
+            // <NavLink key={r.pk} activeClassName="selected" to={`/MemoWorkspace/${groupname}/${groupinnerdata}/${r.pk}`}>
+            //   <span>
+            //     {r.text} [{r.file_count}]
+            //   </span>
+            // </NavLink>
+            <MemoPostcardComponent
+              postType="comment"
+              postId={`${r.pk}`}
+              created={r.created_at}
+              profile={r ? null : null}
+              hostname={r.nickname}
+              message={r.text}
+              is_host={sessionStorage.getItem('nickname') === r.nickname ? true : false}
+            />
           );
         })}
     </div>

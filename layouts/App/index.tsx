@@ -3,10 +3,8 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 import loadable from '@loadable/component';
 
-const LogIn = loadable(() => import('../../pages/Login'));
 const MemoLogin = loadable(() => import('../../pages/MemoLogin'));
 const MeMoSiginIn = loadable(() => import('../../pages/MemoRegistration'));
-const SignUp = loadable(() => import('../../pages/SignUp'));
 const MemoWorkspace = loadable(() => import('../../layouts/MemoWorkspace'));
 
 // 이러면 알아서 코드 스플리팅 하고 알아서 불러옴

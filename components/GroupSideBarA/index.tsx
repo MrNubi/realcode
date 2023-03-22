@@ -72,6 +72,12 @@ function GroupSidebarA({ tocken, resultName, i, clickFolder, clickInnerFolder }:
       <Link
         style={{ cursor: 'pointer' }}
         to={groupname === GroupData?.results[i].name ? `/Memoworkspace` : `/Memoworkspace/${resultName}`}
+        onClick={() => {
+          sessionStorage.setItem(
+            'group',
+            `${groupname === GroupData?.results[i].name ? 'null' : GroupData?.results[i].id}`,
+          );
+        }}
       >
         <GroupSidebarTitle>
           <img
@@ -80,18 +86,6 @@ function GroupSidebarA({ tocken, resultName, i, clickFolder, clickInnerFolder }:
             alt="group_boxImg"
           />
           <span style={{ color: 'red' }}>{resultName}</span>
-          <DashedLine />
-
-          <img
-            src={plus}
-            alt="create_group_plusImg"
-            onClick={(e) => {
-              console.log(GroupData?.results[i].name, groupname);
-              e.preventDefault();
-              console.log('addfolderclick');
-              // onCreateNewGrop()
-            }}
-          />
         </GroupSidebarTitle>
       </Link>
     </div>

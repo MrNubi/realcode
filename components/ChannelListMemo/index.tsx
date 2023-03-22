@@ -56,7 +56,7 @@ const ChannelListMeMo: FC<componentChannelList> = ({ onCreateNewGrop }: componen
   console.log('groupname :::', decodeURI(groupinnerdata ? groupinnerdata : `1+${groupinnerdata}`));
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <span style={{ backgroundColor: 'gray' }}>
+      {/* <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'gray' }}>
         <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
           <i
             className="c-icon p-channel_sidebar__section_heading_expand p-channel_sidebar__section_heading_expand--show_more_feature c-icon--caret-right c-icon--inherit c-icon--inline"
@@ -64,8 +64,20 @@ const ChannelListMeMo: FC<componentChannelList> = ({ onCreateNewGrop }: componen
             aria-hidden="true"
           />
         </CollapseButton>
-        <span>Data</span>
-      </span>
+        <span>File</span>
+        <DashedLine />
+        <img
+          src={plus}
+          style={{ marginRight: 5, backgroundColor: 'white' }}
+          alt="create_group_plusImg"
+          onClick={(e) => {
+            console.log('File plus_clicked : ', groupname, groupinnerdata);
+            e.preventDefault();
+            onCreateNewGrop;
+            console.log('addfolderclick');
+          }}
+        />
+      </div> */}
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {!channelCollapse &&
           InnerGroupData?.results.map((r, i) => {
@@ -88,7 +100,7 @@ const ChannelListMeMo: FC<componentChannelList> = ({ onCreateNewGrop }: componen
                 >
                   <GroupSidebarTitle>
                     <img
-                      style={{ marginRight: 5 }}
+                      style={{ marginRight: 5, backgroundColor: 'white' }}
                       src={groupinnerdata === `${r.pk}` ? FolderOPen : FolderClose}
                       alt="group_boxImg"
                     />
@@ -103,18 +115,6 @@ const ChannelListMeMo: FC<componentChannelList> = ({ onCreateNewGrop }: componen
                     >
                       {r.name}
                     </span>
-                    <DashedLine />
-
-                    <img
-                      src={plus}
-                      alt="create_group_plusImg"
-                      onClick={(e) => {
-                        console.log(r.name, r.pk, groupinnerdata);
-                        e.preventDefault();
-                        onCreateNewGrop(e);
-                        console.log('addfolderclick');
-                      }}
-                    />
                   </GroupSidebarTitle>
                 </Link>
               </div>

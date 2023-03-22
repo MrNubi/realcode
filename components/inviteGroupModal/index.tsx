@@ -86,7 +86,7 @@ const InviteGroupModal: VFC<Props> = ({ show, onCloseModal, setShowInviteGroupMo
             <InputGroupName
               id="Group"
               type="GroupName"
-              value={GroupName}
+              defaultValue={GroupName}
               onChange={onChangeGroupName}
               placeholder={'그룹 명을 입력하세요'}
             ></InputGroupName>
@@ -94,7 +94,7 @@ const InviteGroupModal: VFC<Props> = ({ show, onCloseModal, setShowInviteGroupMo
 
           <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center' }}>
             <span style={{ marginLeft: '10px' }}>공개</span>
-            <input type="radio" name="chk_open" value="1" checked />
+            <input type="radio" name="chk_open" value="1" />
             <span style={{ marginLeft: '5px' }}>비공개</span>
             <input type="radio" name="chk_open" value="0" />
             <Label id="Password-label">
