@@ -36,7 +36,7 @@ export const CreateModal2 = styled.div`
   & > div {
     margin-top: 200px;
     display: inline-block;
-    width: 1540px;
+    width: 1000px;
     background: white;
     --saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.13);
     box-shadow: 0 0 0 1px var(--saf-0), 0 4px 12px 0 rgba(0, 0, 0, 0.12);

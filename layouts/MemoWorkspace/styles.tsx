@@ -10,6 +10,17 @@ export const GroupTopBar = styled.div`
   background: #ffffff;
   border-radius: 15px;
 `;
+export const GroupTopBarHidden = styled.div`
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 0px;
+  margin: 5px;
+
+  background: #ffffff;
+  border-radius: 15px;
+`;
 export const ContextLayout = styled.div`
   width: 100%;
   height: 80%;

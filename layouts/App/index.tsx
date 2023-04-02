@@ -17,10 +17,10 @@ const App = () => {
       <Route path="/MemoLogin" component={MemoLogin} />
       <Route path="/MemoRegistration" component={MeMoSiginIn} />
       <Route path="/MemoWorkspace/:groupname/:groupinnerdata" component={MemoWorkspace} />
-
       <Route path="/MemoWorkspace/:groupname" component={MemoWorkspace} />
 
       <Route path="/MemoWorkspace" component={MemoWorkspace} />
+      <Route path="/MemoWorkspaceJoin" component={MemoWorkspace} />
     </Switch>
   );
 

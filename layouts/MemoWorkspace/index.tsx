@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useState, VFC } from 'react';
 
 import leaf from '../../img/leaf.png';
 import ChannelList from '@components/ChannalList';
-import DMList from '@components/DMList/inex';
 import { Redirect, Route, Switch, useParams } from 'react-router';
 import {
   SearchTextDiv,
@@ -16,6 +15,7 @@ import {
   WorkspaceZone,
   DashedLine,
   GroupSidebarTitle,
+  GroupTopBarHidden,
 } from './styles';
 import searchIcon from './SearchIcon.png';
 import useInput from '@hooks/useInput';
@@ -28,12 +28,11 @@ import memo from '../../img/memo.png';
 
 import useSWR from 'swr';
 import { MGroup, MInnerGroup, MLogin, MUSer } from '@typings/memot';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import MemoContent from '@components/MemoContent';
 import fetchMemoGet from '../../utills/fetchMemoGet';
 import axios from 'axios';
 import GroupSidebarA from '@components/GroupSideBarA';
-import Halmet from 'react-helmet';
 import ChannelListMeMo from '@components/ChannelListMemo';
 import userProfile from '../../img/user.png';
 import { channel } from 'diagnostics_channel';
@@ -41,6 +40,8 @@ import ChatBox from '@components/ChatBox';
 import InviteChannelModal from '@components/InviteChannelModal';
 import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 import InviteGroupModal from '@components/inviteGroupModal';
+import GroupTitleBar from '@components/GroupTitleBar';
+import MemoInvestigtionZone from '@components/MemoInvestigationZone';
 
 const MemoWorkspace: VFC = () => {
   const [searchText, onChangeSearchText, setSearchText] = useInput('');
@@ -273,8 +274,11 @@ const MemoWorkspace: VFC = () => {
             margin: 8,
           }}
         >
-          <button
+          <NavLink
+            to={'/MemoWorkspaceJoin'}
             style={{
+              textDecoration: 'none',
+              textAlign: 'center',
               width: '100%',
               margin: 9,
               height: '45px',
@@ -283,13 +287,9 @@ const MemoWorkspace: VFC = () => {
               backgroundColor: '#B8B5B5',
               color: 'white',
             }}
-            onClick={(e) => {
-              e.preventDefault();
-              setShowInviteChannel((prev) => !prev);
-            }}
           >
             그룹 가입하기
-          </button>
+          </NavLink>
           <button style={{ width: '100%', margin: 9, height: '45px' }} onClick={openCreateNewGroup}>
             새 그룹 만들기
           </button>
@@ -306,14 +306,12 @@ const MemoWorkspace: VFC = () => {
           backgroundColor: 'transparent',
         }}
       >
-        <GroupTopBar>
-          <div style={{ height: '100%', padding: '10px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', height: '50%' }}>
-              <img src={Box} alt="" style={{ margin: '0px 8px' }} />
-              <span style={{ margin: '0px 8px' }}> 그룹명 : {}</span>
-            </div>
-            <div style={{ height: '50%' }}></div>
-          </div>
+        <GroupTopBar style={!groupname ? { display: 'none' } : { visibility: 'visible' }}>
+          <Switch>
+            <Route path="/MemoWorkspaceJoin" component={GroupTopBarHidden} />
+            <Route path="/MemoWorkspace/:groupname" component={GroupTitleBar} />
+            <Route path="/MemoWorkspace" component={GroupTopBar} />
+          </Switch>
         </GroupTopBar>
 
         {/*워크스페이스 : 상세 / 내용 / dmbar*/}
@@ -322,7 +320,9 @@ const MemoWorkspace: VFC = () => {
           <Switch>
             <Route path="/MemoWorkspace/:groupname/:groupinnerdata/:groupmemo" component={MemoContent} />
             <Route path="/MemoWorkspace/:groupname/:groupinnerdata" component={MemoContent} />
+            <Route path="/MemoWorkspaceJoin" render={() => <MemoInvestigtionZone tocken={`${tockenData}`} />} />
             <Route path="/MemoWorkspace/:groupname" component={MemoContent} />
+
             <Route path="/MemoWorkspace" component={MemoContent} />
           </Switch>
         </ContextLayout>

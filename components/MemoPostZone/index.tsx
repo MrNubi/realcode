@@ -113,7 +113,18 @@ const MemoPostZone: VFC = () => {
         </div>
       </div>
       {/* 여기는 세로 창 */}
-      <div style={{ display: 'flex', flexDirection: 'column', width: '21%', height: '100%', backgroundColor: 'white' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '21%',
+          height: '100%',
+          padding: '5 0 0 5',
+          backgroundColor: 'white',
+          borderTopRightRadius: '25px',
+          borderBottomRightRadius: '25px',
+        }}
+      >
         참조 : {postData.parent ? postData.parent : '없음'}
       </div>
     </div>

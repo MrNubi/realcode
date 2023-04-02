@@ -54,6 +54,18 @@ export interface MGroupDataMemo {
   previous: string | null;
   results: MGroupMemoDataResult[];
 }
+export interface MJoinData {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: MJoinDataResult[];
+}
+
+export interface MJoinDataResult {
+  id: number;
+  name: string;
+  created_at: string;
+}
 
 export interface MGroupMemoDataResult {
   pk: number;

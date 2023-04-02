@@ -62,6 +62,7 @@ function GroupSidebarA({ tocken, resultName, i, clickFolder, clickInnerFolder }:
       )
       .then((r) => {
         InnerGroupMutate(r.data);
+
         console.log('get: InnerData성공', r.data);
       })
       .catch((e) => console.log('get: Inner실패', e));
@@ -70,12 +71,12 @@ function GroupSidebarA({ tocken, resultName, i, clickFolder, clickInnerFolder }:
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%', marginBottom: 10 }}>
       <Link
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', textDecoration: 'none' }}
         to={groupname === GroupData?.results[i].name ? `/Memoworkspace` : `/Memoworkspace/${resultName}`}
         onClick={() => {
           sessionStorage.setItem(
             'group',
-            `${groupname === GroupData?.results[i].name ? 'null' : GroupData?.results[i].id}`,
+            `${groupname === GroupData?.results[i].name ? 'null' : JSON.stringify(GroupData?.results[i])}`,
           );
         }}
       >

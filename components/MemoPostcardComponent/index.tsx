@@ -74,7 +74,13 @@ const MemoPostcardComponent: VFC<PostProps> = ({
           </div>
         )}
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', width: '15%', height: '100%' }}>
+      <div
+        style={
+          is_host
+            ? { display: 'flex', flexDirection: 'column', width: '15%', height: '100%' }
+            : { visibility: 'hidden' }
+        }
+      >
         <img
           src={is_host ? setting : null}
           alt="setting 아이콘"
