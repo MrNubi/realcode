@@ -17,6 +17,7 @@ interface Props {
 
 const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChannelModal }) => {
   const [Text, onChangeText, setText] = useInput('');
+  const [Parent, onChangeParent, setParent] = useInput('');
   const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
 
   const { data: UserData } = useSWR<IUser>('/api/users', fetcher, {});
@@ -47,7 +48,7 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
           `https://memolucky.run.goorm.io/group/group-data/${decodeURI(`${groupname}`)}/`,
           {
             group: `${groupNum}`,
-            parent: null,
+            parent: `${Parent ? Parent : null}`,
             name: Text,
             file_type: 'folder',
           },
@@ -64,6 +65,8 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
           sessionStorage.setItem(`inner${r.data.pk}`, result);
           setShowInviteChannelModal(false);
           setText('');
+          setParent('');
+          location.reload();
         })
         .catch((error) => {
           console.log('이게 안되?');
@@ -72,7 +75,7 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
           toast.error(error.response?.data, { position: 'bottom-center' });
         });
     },
-    [Text],
+    [Text, Parent],
   );
 
   return (
@@ -82,7 +85,10 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
           <span>파일 이름</span>
           <Input id="member" type="text" value={Text} onChange={onChangeText}></Input>
         </Label>
-
+        <Label id="parent-label">
+          <span>참조 </span>
+          <Input id="parent" type="text" value={Parent} onChange={onChangeParent}></Input>
+        </Label>
         <Button type="submit">생성하기</Button>
       </form>
     </Modal>

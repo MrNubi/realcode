@@ -51,7 +51,6 @@ const DirectMessage = () => {
         {`${memberData?.nickname}님 과의 대화`}
       </Header>
       <ChatList />
-      <ChatBox chat={chat} onChangeChat={onChangeChat} onSubmitForm={onSubmitForm} />
     </Container>
   );
 };

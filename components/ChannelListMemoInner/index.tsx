@@ -69,12 +69,14 @@ const ChannelListMeMoInner: VFC<CLProps> = ({ tocken }: CLProps) => {
             //   </span>
             // </NavLink>
             <MemoPostcardComponent
+              key={r.pk}
               postType="comment"
               postId={`${r.pk}`}
               created={r.created_at}
               profile={r ? null : null}
               hostname={r.nickname}
               message={r.text}
+              file={r.memo_file.length > 0 ? r.memo_file[0].file : ''}
               is_host={sessionStorage.getItem('nickname') === r.nickname ? true : false}
             />
           );

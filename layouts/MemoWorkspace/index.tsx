@@ -42,6 +42,7 @@ import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 import InviteGroupModal from '@components/inviteGroupModal';
 import GroupTitleBar from '@components/GroupTitleBar';
 import MemoInvestigtionZone from '@components/MemoInvestigationZone';
+import FetchGroupModal from '@components/FetchGroupModal';
 
 const MemoWorkspace: VFC = () => {
   const [searchText, onChangeSearchText, setSearchText] = useInput('');
@@ -72,17 +73,17 @@ const MemoWorkspace: VFC = () => {
   const [clickUserName, setClickUserName] = useState(true);
   const [showCreateInviteChannel, onChangeShowInviteChannel, setShowInviteChannel] = useInput(false);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
+  const [showUpdateGroupModal, setShowUpdateGroupModal] = useState(false);
 
   const onCloseModal = useCallback(() => {
     setShowInviteChannel(false);
     setShowCreateGroup(false);
+    setShowUpdateGroupModal(false);
   }, [setShowInviteChannel]);
 
-  const onCreateNewChannel = (e: any) => {
-    e.preventDefault();
-
-    setShowInviteChannel((prev) => !prev);
-    console.log('showCreateInviteChannel', showCreateInviteChannel);
+  const openFetchModal = () => {
+    setShowUpdateGroupModal((prev) => !prev);
+    console.log('setShowUpdateGroupModal', showUpdateGroupModal);
   };
   const openCreateNewGroup = useCallback(
     (e: any) => {
@@ -267,7 +268,6 @@ const MemoWorkspace: VFC = () => {
           style={{
             display: 'flex',
             flexDirection: 'column',
-            backgroundColor: 'wheat',
             justifyContent: 'center',
             alignItems: 'center',
             height: '10%',
@@ -282,15 +282,31 @@ const MemoWorkspace: VFC = () => {
               width: '100%',
               margin: 9,
               height: '45px',
-              borderColor: 'transparent',
+              border: '1px solid white',
               borderRadius: '15px',
+              cursor: 'pointer',
               backgroundColor: '#B8B5B5',
               color: 'white',
             }}
           >
             그룹 가입하기
           </NavLink>
-          <button style={{ width: '100%', margin: 9, height: '45px' }} onClick={openCreateNewGroup}>
+          <button
+            style={{
+              textDecoration: 'none',
+              textAlign: 'center',
+              width: '100%',
+              margin: 9,
+              height: '45px',
+              border: '1px solid white',
+              borderRadius: '15px',
+              cursor: 'pointer',
+
+              backgroundColor: '#B8B5B5',
+              color: 'white',
+            }}
+            onClick={openCreateNewGroup}
+          >
             새 그룹 만들기
           </button>
         </div>
@@ -309,7 +325,7 @@ const MemoWorkspace: VFC = () => {
         <GroupTopBar style={!groupname ? { display: 'none' } : { visibility: 'visible' }}>
           <Switch>
             <Route path="/MemoWorkspaceJoin" component={GroupTopBarHidden} />
-            <Route path="/MemoWorkspace/:groupname" component={GroupTitleBar} />
+            <Route path="/MemoWorkspace/:groupname" render={() => <GroupTitleBar />} />
             <Route path="/MemoWorkspace" component={GroupTopBar} />
           </Switch>
         </GroupTopBar>
@@ -335,6 +351,11 @@ const MemoWorkspace: VFC = () => {
           show={showCreateGroup}
           onCloseModal={onCloseModal}
           setShowInviteGroupModal={setShowCreateGroup}
+        />
+        <FetchGroupModal
+          show={showUpdateGroupModal}
+          onCloseModal={onCloseModal}
+          setShowFetchGroupModal={setShowUpdateGroupModal}
         />
       </div>
     </div>

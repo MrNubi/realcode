@@ -45,33 +45,60 @@ const MemoPostZone: VFC = () => {
   }
 
   const onSubmitReply = useCallback(
-    (e) => {
+    (e, file?: FormData | null) => {
       e.preventDefault();
-      if (replyData.trim()) {
-        axios
-          .post(
-            memoUrl + `/group/group-memo/${groupinnerdata}/`,
-            {
-              text: `${replyData.trim()}`,
+      if (!file) {
+        console.log('file 없음 :', file);
+        if (replyData.trim()) {
+          axios
+            .post(
+              memoUrl + `/group/group-memo/${groupinnerdata}/`,
+              {
+                text: `${replyData.trim()}`,
 
-              is_show: 1,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${tockenData}`,
+                is_show: 1,
               },
-              withCredentials: true,
-            },
-          )
-          .then((r) => {
-            console.log('post전송성공', r);
+              {
+                headers: {
+                  Authorization: `Bearer ${tockenData}`,
+                },
+                withCredentials: true,
+              },
+            )
+            .then((r) => {
+              console.log('post전송성공', r);
 
-            setReplyData('');
-            location.reload();
-          })
-          .catch((e) => console.log('err : ', `${replyData.trim()}`, tockenData));
-      } else {
-        console.log('textless');
+              setReplyData('');
+            })
+            .catch((e) => console.log('err : ', `${replyData.trim()}`, tockenData));
+        } else {
+          console.log('textless');
+        }
+      } else if (file) {
+        console.log('file있음 :', file);
+        if (replyData.trim()) {
+          axios
+            .post(
+              memoUrl + `/group/group-memo/${groupinnerdata}/`,
+              {
+                text: `${replyData.trim()}`,
+                files: file,
+                is_show: 1,
+              },
+              {
+                headers: { 'content-type': 'multipart/form-data', Authorization: `Bearer ${tockenData}` },
+                withCredentials: true,
+              },
+            )
+            .then((r) => {
+              console.log('post전송성공', r);
+
+              setReplyData('');
+            })
+            .catch((e) => console.log('err : ', `${replyData.trim()}`, tockenData));
+        } else {
+          console.log('textless');
+        }
       }
     },
     [tockenData, groupinnerdata, replyData],
@@ -106,9 +133,9 @@ const MemoPostZone: VFC = () => {
         <div style={{ display: 'flex', backgroundColor: 'green', height: '25%', padding: 10 }}>
           <ChatBox
             chat={replyData}
-            onChangeChat={onChangeReplyData}
-            onSubmitForm={onSubmitReply}
             placeholder="댓글을 입력하세요"
+            tockenData={`${tockenData}`}
+            groupinnerdata={`${groupinnerdata}`}
           />
         </div>
       </div>
@@ -125,7 +152,7 @@ const MemoPostZone: VFC = () => {
           borderBottomRightRadius: '25px',
         }}
       >
-        참조 : {postData.parent ? postData.parent : '없음'}
+        참조 : {postData?.parent ? postData.parent : '없음'}
       </div>
     </div>
   );
