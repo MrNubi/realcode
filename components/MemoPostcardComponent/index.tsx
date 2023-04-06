@@ -70,7 +70,7 @@ const MemoPostcardComponent: VFC<PostProps> = ({
         </div>
         {postType != 'reply' && (
           <div>
-            <small>{file ? 'file 1' : null}</small>
+            <span onClick={() => {}}>{file !== '' ? 'file 1' : null}</span>
           </div>
         )}
       </div>

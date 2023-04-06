@@ -36,10 +36,12 @@ const MemoLogin = () => {
         },
       )
       .then((r) => {
+        let myData = JSON.stringify(r);
         sessionStorage.setItem('tocken', r.data.access_token);
         sessionStorage.setItem('username', r.data.user.username);
         sessionStorage.setItem('pk', r.data.user.pk);
         sessionStorage.setItem('nickname', r.data.user.nickname);
+        sessionStorage.setItem('MyData', myData);
 
         tockenMutate(r.data.access_token, false);
 
