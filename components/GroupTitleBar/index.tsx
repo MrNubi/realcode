@@ -13,6 +13,7 @@ import axios from 'axios';
 import GroupSidebarInnerData from '@components/GroupSideInnerData';
 import { Session } from 'inspector';
 import FetchGroupModal from '@components/FetchGroupModal';
+import GroupInviteModal from '@components/GroupInviteModal';
 
 interface Props {
   tocken?: string;
@@ -32,8 +33,10 @@ function GroupTitleBar({}: Props) {
   }>();
   const GroupInnerData = useParams<{ groupinnerdata?: string }>();
   const [showUpdateGroupModal, setShowUpdateGroupModal] = useState(false);
+  const [showInviteModal, setShowInviteModal] = useState(false);
   const onCloseModal = () => {
     setShowUpdateGroupModal(false);
+    setShowInviteModal(false);
   };
 
   let groupData = JSON.parse(`${sessionStorage.getItem('group')}`);
@@ -53,12 +56,12 @@ function GroupTitleBar({}: Props) {
         />
       </div>
       <div style={{ display: 'flex', height: '50%' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', width: '70%' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '65%' }}>
           <div>
             <span>{'설명 :' + '' + `${groupData.desc}`}</span>{' '}
           </div>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', width: '30%' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '25%' }}>
           <div>
             <span>{'참여자 :' + '' + `${groupData.user}`}</span>{' '}
           </div>
@@ -66,11 +69,24 @@ function GroupTitleBar({}: Props) {
             <span>{'id :' + '' + `${groupData.id}`}</span>{' '}
           </div>
         </div>
+        <input
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            setShowInviteModal((prev) => !prev);
+          }}
+          value="그룹 초대"
+        ></input>
       </div>
       <FetchGroupModal
         show={showUpdateGroupModal}
         onCloseModal={onCloseModal}
         setShowFetchGroupModal={setShowUpdateGroupModal}
+      />
+      <GroupInviteModal
+        show={showInviteModal}
+        onCloseModal={onCloseModal}
+        setShowGroupInviteModal={setShowInviteModal}
       />
     </div>
   );

@@ -81,16 +81,16 @@ const config: Configuration = {
   devServer: {
     historyApiFallback: true, // react router
     port: 3090,
-    proxy: {
-      '/api/': {
-        target: 'http://localhost:3095',
-        changeOrigin: true,
-      },
-      '/users/': {
-        target: 'https://memolucky.run.goorm.io',
-        changeOrigin: true,
-      },
-    },
+    // proxy: {
+    //   '/api/': {
+    //     target: 'http://localhost:3095',
+    //     changeOrigin: true,
+    //   },
+    //   '/users/': {
+    //     target: 'https://memolucky.run.goorm.io',
+    //     changeOrigin: true,
+    //   },
+    // },
     devMiddleware: { publicPath: '/dist/' },
     static: { directory: path.resolve(__dirname) },
   },

@@ -8,7 +8,7 @@ interface InputGroupProps {
   type?: string;
   placeholder?: string;
   value: string;
-  setValue: (str: string) => void;
+  setValue: (e: any) => void;
 }
 
 const MeMoInput = (T: InputGroupProps) => {
@@ -40,6 +40,7 @@ const MeMoInput = (T: InputGroupProps) => {
         value={T.value}
         onChange={(e) => {
           console.log('글자입력', e.target.value);
+          console.log('글자입력', T.value);
           T.setValue(e.target.value);
         }}
         // onChange로 위의 value번경, (e), 즉 이벤트 발생시 타겟 벨류로 밸류를 바꿔씀

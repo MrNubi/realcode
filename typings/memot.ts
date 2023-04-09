@@ -88,3 +88,18 @@ export interface MGroupMemoDataResult {
   ];
   created_at: string;
 }
+export interface MNotification {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: MNotificationResult[];
+}
+export interface MNotificationResult {
+  pk: 2;
+  to_user: number;
+  from_user: number;
+  to_group: number;
+  is_read: Boolean;
+  noti_type: string;
+  object_pk: number;
+}

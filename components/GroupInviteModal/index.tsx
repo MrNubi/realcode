@@ -14,14 +14,14 @@ import Modal2 from '@components/Modal2';
 interface Props {
   show: boolean;
   onCloseModal: () => void;
-  setShowFetchGroupModal: (flag: boolean) => void;
+  setShowGroupInviteModal: (flag: boolean) => void;
 }
 
-const FetchGroupModal: VFC<Props> = ({ show, onCloseModal, setShowFetchGroupModal }) => {
-  const [GroupName, onChangeGroupName, setGroupName] = useInput('');
-  const [Password, onChangePassword, setPassword] = useInput('');
-  const [GroupDesc, onChangeGroupDesc, setGroupDesc] = useInput('');
-  const [x, setX] = useState('is_Active');
+const GroupInviteModal: VFC<Props> = ({ show, onCloseModal, setShowGroupInviteModal }) => {
+  const [InvitePk, onChangeInvitePk, setInvitePk] = useInput('');
+  // const [Password, onChangePassword, setPassword] = useInput('');
+  // const [GroupDesc, onChangeGroupDesc, setGroupDesc] = useInput('');
+  // const [x, setX] = useState('is_Active');
 
   const tockenData = sessionStorage.getItem('tocken');
   const { groupname, groupmemo, groupinnerdata } = useParams<{
@@ -35,25 +35,17 @@ const FetchGroupModal: VFC<Props> = ({ show, onCloseModal, setShowFetchGroupModa
   const onInviteGroup = useCallback(
     (e) => {
       e.preventDefault();
-      console.log('GroupName :', GroupName);
-      console.log('GroupName :', GroupDesc);
 
-      if (!GroupName || !GroupName.trim()) {
-        console.log('GroupNameNull :', GroupName);
-        return;
-      } else if (!GroupDesc || !GroupDesc.trim()) {
-        console.log('GroupDescNull :', GroupDesc);
+      if (!InvitePk || !InvitePk.trim()) {
+        console.log('InvitePkNull :', InvitePk);
         return;
       }
       axios
-        .patch(
-          `https://memolucky.run.goorm.io/group/${parsedData.id}/`,
+        .post(
+          `https://memolucky.run.goorm.io/invitation/group/${groupname}/`,
           {
-            name: `${GroupName}`,
-            desc: `${GroupDesc}`,
-            is_active: `${x === 'is_Active' ? 1 : 0}`,
-            is_private: `${x === 'is_Private' ? 1 : 0}`,
-            // Password: `${x === 'is_Private' ? Password : null}`,
+            to_user: `${InvitePk}`,
+            to_group: `${parsedData.id}`,
           },
           {
             headers: {
@@ -64,12 +56,8 @@ const FetchGroupModal: VFC<Props> = ({ show, onCloseModal, setShowFetchGroupModa
         )
         .then((r) => {
           console.log('이게 되?');
-          let result = JSON.stringify(r.data);
-          sessionStorage.setItem(`inner${r.data.pk}`, result);
-          setShowFetchGroupModal(false);
-          setGroupName('');
-          setGroupDesc('');
-          setPassword('');
+          setShowGroupInviteModal(false);
+          setInvitePk('');
         })
         .catch((error) => {
           console.log('이게 안되?');
@@ -78,25 +66,25 @@ const FetchGroupModal: VFC<Props> = ({ show, onCloseModal, setShowFetchGroupModa
           toast.error(error.response?.data, { position: 'bottom-center' });
         });
     },
-    [GroupName, GroupDesc, x, Password],
+    [InvitePk],
   );
 
   return (
-    <Modal2 show={show} onCloseModal2={onCloseModal}>
+    <Modal show={show} onCloseModal={onCloseModal}>
       <form onSubmit={onInviteGroup}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <img width={45} height={44} style={{ backgroundColor: 'white' }} src={Box} alt="create_group_plusImg" />
           <Label id="Group-label">
             <InputGroupName
               id="Group"
               type="text"
-              defaultValue={GroupName}
-              onChange={onChangeGroupName}
-              placeholder={'그룹 명을 입력하세요'}
+              defaultValue={InvitePk}
+              onChange={onChangeInvitePk}
+              placeholder={'초대할 유저의 pk를 입력하세요'}
             ></InputGroupName>
           </Label>
 
-          <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center' }}>
+          {/* <div style={{ display: 'flex', marginLeft: 'auto', alignItems: 'center' }}>
             <label>
               <span style={{ marginLeft: '10px' }}>공개</span>
               <input
@@ -119,31 +107,32 @@ const FetchGroupModal: VFC<Props> = ({ show, onCloseModal, setShowFetchGroupModa
             </label>
 
             {/* <Label id="Password-label">
-              <InputGroupName
+              <InputInvitePk
                 id="Password"
                 type="Password"
                 value={Password}
                 onChange={onChangePassword}
                 placeholder={'비밀번호를 입력하세요'}
                 readOnly={x === 'is_Active' ? true : false}
-              ></InputGroupName>
-            </Label> */}
-          </div>
+              ></InputInvitePk>
+            </Label>
+          </div> 
+          */}
+          <input style={{ marginLeft: 15 }} type="submit" value={'저장'}></input>
         </div>
 
-        <Label id="GroupDesc-label">
-          <InputGroupName
+        {/* <Label id="GroupDesc-label">
+          <InputInvitePk
             id="GroupDesc"
             type="text"
             value={GroupDesc}
             onChange={onChangeGroupDesc}
             placeholder={'그룹 설명'}
-          ></InputGroupName>
-        </Label>
-        <input style={{ marginLeft: 15 }} type="submit" value={'저장'}></input>
+          ></InputInvitePk>
+        </Label> */}
       </form>
-    </Modal2>
+    </Modal>
   );
 };
 
-export default FetchGroupModal;
+export default GroupInviteModal;

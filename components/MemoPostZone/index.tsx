@@ -10,6 +10,7 @@ import fetchMemoGet from '../../utills/fetchMemoGet';
 import axios from 'axios';
 import ChannelListMeMoInner from '@components/ChannelListMemoInner';
 import fetcherMemoLocal from '../../utills//fetcherMemoLocal';
+import ChatBox2 from '@components/ChatBox2';
 
 const MemoPostZone: VFC = () => {
   const memoUrl = 'https://memolucky.run.goorm.io';
@@ -104,12 +105,7 @@ const MemoPostZone: VFC = () => {
           />
         </div>
         <div style={{ display: 'flex', backgroundColor: 'green', height: '25%', padding: 10 }}>
-          <ChatBox
-            chat={replyData}
-            onChangeChat={onChangeReplyData}
-            onSubmitForm={onSubmitReply}
-            placeholder="댓글을 입력하세요"
-          />
+          <ChatBox2 placeholder="댓글을 입력하세요" groupinnerdata={`${groupinnerdata}`} />
         </div>
       </div>
       {/* 여기는 세로 창 */}
@@ -125,7 +121,7 @@ const MemoPostZone: VFC = () => {
           borderBottomRightRadius: '25px',
         }}
       >
-        참조 : {postData.parent ? postData.parent : '없음'}
+        참조 : {'없음'}
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ import fetchMemoGet from '../../utills/fetchMemoGet';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
+import NotificatinList from '@components/NotificationList';
 
 const MemoContent = () => {
   const memoUrl = 'https://memolucky.run.goorm.io';
@@ -158,7 +159,9 @@ const MemoContent = () => {
           <Route path={`/MemoWorkspace/:groupname/:groupinnerdata`} component={MemoPostZone} />
         </ShowPostZone>
       </WorkspaceZone>
-      <DireecMessageBar></DireecMessageBar>
+      <DireecMessageBar>
+        <NotificatinList></NotificatinList>
+      </DireecMessageBar>
     </MainDiv>
   );
 };

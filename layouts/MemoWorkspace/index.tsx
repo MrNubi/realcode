@@ -81,10 +81,10 @@ const MemoWorkspace: VFC = () => {
     setShowUpdateGroupModal(false);
   }, [setShowInviteChannel]);
 
-  const openFetchModal = () => {
-    setShowUpdateGroupModal((prev) => !prev);
-    console.log('setShowUpdateGroupModal', showUpdateGroupModal);
-  };
+  // const openFetchModal = () => {
+  //   setShowUpdateGroupModal((prev) => !prev);
+  //   console.log('setShowUpdateGroupModal', showUpdateGroupModal);
+  // };
   const openCreateNewGroup = useCallback(
     (e: any) => {
       e.preventDefault();
@@ -326,9 +326,32 @@ const MemoWorkspace: VFC = () => {
           <Switch>
             <Route path="/MemoWorkspaceJoin" component={GroupTopBarHidden} />
             <Route path="/MemoWorkspace/:groupname" render={() => <GroupTitleBar />} />
-            <Route path="/MemoWorkspace" component={GroupTopBar} />
+            <Route
+              path="/Memoworkspace"
+              render={() => (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%',
+                    height: '20%',
+                    margin: 5,
+                    background: '#ffffff',
+                    borderRadius: '15px',
+                  }}
+                ></div>
+              )}
+            />
           </Switch>
         </GroupTopBar>
+        {/*  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 20%;
+  margin: 5px;
+
+  background: #ffffff;
+  border-radius: 15px; */}
 
         {/*워크스페이스 : 상세 / 내용 / dmbar*/}
 

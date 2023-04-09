@@ -17,19 +17,25 @@ const MemoLogin = () => {
   const [logInError, setLogInError] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const onSubmit = useCallback((e) => {
-    e.preventDefault();
-    testAxios(e);
-  }, []);
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      testAxios(e);
+    },
+    [username, password],
+  );
 
   const testAxios = (e: any) => {
     e.preventDefault();
+    console.log('로그인 체크', username + ' @@' + ' ' + password);
     axios
       .post(
         memoUrl + '/users/dj-rest-auth/login/',
         {
-          username: 'test1234',
-          password: 'clone1234',
+          // username: 'test1234',
+          // password: 'clone1234',
+          username,
+          password,
         },
         {
           withCredentials: true,
