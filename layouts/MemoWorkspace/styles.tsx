@@ -47,7 +47,7 @@ export const DireecMessageBar = styled.div`
   width: 16%;
   height: 100%;
   display: flex;
-  background: red;
+  background: white;
   border-radius: 15px;
 `;
 

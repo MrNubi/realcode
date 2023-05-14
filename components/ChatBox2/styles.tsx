@@ -52,7 +52,7 @@ export const MentionsTextarea = styled.textarea`
 export const Toolbox = styled.div`
   position: relative;
   background: rgb(248, 248, 248);
-  height: 41px;
+  height: 35px;
   display: flex;
   border-top: 1px solid rgb(221, 221, 221);
   align-items: center;

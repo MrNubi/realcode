@@ -24,13 +24,11 @@ export const EditColumnDiv = styled.div`
   margin-top: 10;
   width: 70%;
   height: 95%;
-  background-color: salmon;
 `;
 export const EditColumnDiv2 = styled.div`
   margin-top: 10;
   width: 30%;
   height: 95%;
-  background-color: orange;
 `;
 
 export const ShowPostZone = styled.div`

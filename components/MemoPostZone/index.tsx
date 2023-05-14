@@ -79,8 +79,17 @@ const MemoPostZone: VFC = () => {
   );
 
   return (
-    <div style={{ display: 'flex', backgroundColor: 'pink', width: '100%', height: '100%' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', width: '79%', height: '100%', backgroundColor: 'white' }}>
+    <div style={{ display: 'flex', width: '100%', height: '100%' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '79%',
+          height: '100%',
+          backgroundColor: 'white',
+          borderTopRightRadius: '25',
+        }}
+      >
         <div style={{ display: 'flex', height: '25%' }}>
           {postData && (
             <MemoPostcardComponent
@@ -98,13 +107,23 @@ const MemoPostZone: VFC = () => {
             />
           )}
         </div>
-        <div style={{ display: 'flex', backgroundColor: 'yellow', overflowY: 'auto', height: '50%' }}>
+        <div
+          style={{
+            display: 'flex',
+            overflowY: 'auto',
+            height: '50%',
+            borderTopColor: 'transparent',
+            borderLeftColor: 'transparent',
+            borderRight: '0.1px solid black',
+            borderBottom: '0.1px solid black',
+          }}
+        >
           <Route
             path="/MemoWorkspace/:groupname/:groupinnerdata/"
             render={() => <ChannelListMeMoInner tocken={`${tockenData}`} />}
           />
         </div>
-        <div style={{ display: 'flex', backgroundColor: 'green', height: '25%', padding: 10 }}>
+        <div style={{ display: 'flex', height: '25%', padding: 10 }}>
           <ChatBox2 placeholder="댓글을 입력하세요" groupinnerdata={`${groupinnerdata}`} />
         </div>
       </div>
@@ -117,8 +136,9 @@ const MemoPostZone: VFC = () => {
           height: '100%',
           padding: '5 0 0 5',
           backgroundColor: 'white',
-          borderTopRightRadius: '25px',
-          borderBottomRightRadius: '25px',
+
+          borderTopRightRadius: 25,
+          borderBottomRightRadius: 25,
         }}
       >
         참조 : {'없음'}

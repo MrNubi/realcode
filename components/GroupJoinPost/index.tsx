@@ -13,7 +13,7 @@ interface Props {
   id: string;
 }
 function GroupJoinPost({ name, id }: Props) {
-  const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
+  const { data: tockenData } = useSWR<MLogin>('tocken', fetcherMemoLocal);
 
   const Join = (e: any) => {
     e.preventDefault();
@@ -36,7 +36,7 @@ function GroupJoinPost({ name, id }: Props) {
         return <Redirect to={'/MemoWorkspace'} />;
       })
       .catch((e) => {
-        console.log('JoinPostErr=>Post 실패', e, tockenData);
+        console.log(id, ': JoinPostErr=>Post 실패', e, tockenData);
       });
   };
   return (

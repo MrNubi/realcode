@@ -48,7 +48,6 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
           `https://memolucky.run.goorm.io/group/group-data/${decodeURI(`${groupname}`)}/`,
           {
             group: `${groupNum}`,
-            parent: `${Parent ? Parent : null}`,
             name: Text,
             file_type: 'folder',
           },
@@ -69,7 +68,7 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
           location.reload();
         })
         .catch((error) => {
-          console.log('이게 안되?');
+          console.log('이게 안되?', error);
 
           console.dir(error);
           toast.error(error.response?.data, { position: 'bottom-center' });
@@ -85,10 +84,7 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
           <span>파일 이름</span>
           <Input id="member" type="text" value={Text} onChange={onChangeText}></Input>
         </Label>
-        <Label id="parent-label">
-          <span>참조 </span>
-          <Input id="parent" type="text" value={Parent} onChange={onChangeParent}></Input>
-        </Label>
+
         <Button type="submit">생성하기</Button>
       </form>
     </Modal>

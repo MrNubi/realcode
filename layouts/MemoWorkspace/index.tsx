@@ -157,7 +157,6 @@ const MemoWorkspace: VFC = () => {
         </SearchTextDiv>
         <div
           style={{
-            backgroundColor: 'gray',
             height: '81%',
             flexDirection: 'column',
             margin: '1px',
@@ -189,7 +188,7 @@ const MemoWorkspace: VFC = () => {
               }}
             />
           </GroupSidebarTitle>
-          <div style={{ display: 'flex', width: '100%', height: '94%', backgroundColor: 'yellow' }}>
+          <div style={{ display: 'flex', width: '100%', height: '94%' }}>
             <div
               style={{
                 display: 'flex',
@@ -205,7 +204,13 @@ const MemoWorkspace: VFC = () => {
             >
               <div style={{ display: 'flex', height: 40 }}>
                 <GroupSidebarTitle
-                  style={{ marginLeft: 0, marginRight: 0, borderStyle: 'dashed', borderColor: 'gray' }}
+                  style={{
+                    marginLeft: 0,
+                    marginRight: 0,
+                    borderStyle: 'dashed',
+                    borderColor: 'gray',
+                    borderRightColor: 'transparent',
+                  }}
                 >
                   <img style={{ marginLeft: 0, marginRight: 5 }} src={Box} alt="group_boxImg" />
                   <span style={{ color: 'black' }}>{'Group'}</span>
@@ -230,7 +235,13 @@ const MemoWorkspace: VFC = () => {
             <div style={{ display: 'flex', flexDirection: 'column', width: '50%', height: '100%' }}>
               <div style={{ display: 'flex', height: 40 }}>
                 <GroupSidebarTitle
-                  style={{ marginLeft: 0, marginRight: 0, borderStyle: 'dashed', borderColor: 'gray' }}
+                  style={{
+                    marginLeft: 0,
+                    marginRight: 0,
+                    borderStyle: 'dashed',
+                    borderColor: 'gray',
+                    borderLeftColor: 'transparent',
+                  }}
                 >
                   <img style={{ marginLeft: 0, marginRight: 5 }} src={Box} alt="group_boxImg" />
                   <span style={{ color: 'black' }}>{'File'}</span>
@@ -344,14 +355,24 @@ const MemoWorkspace: VFC = () => {
             />
           </Switch>
         </GroupTopBar>
-        {/*  display: flex;
+
+        {/* 
+
+  display: flex;
+
   flex-direction: column;
+
   width: 100%;
+
   height: 20%;
+  
   margin: 5px;
 
   background: #ffffff;
-  border-radius: 15px; */}
+
+  border-radius: 15px;
+  
+  */}
 
         {/*워크스페이스 : 상세 / 내용 / dmbar*/}
 
