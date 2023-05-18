@@ -18,14 +18,7 @@ interface Props {
 const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChannelModal }) => {
   const [Text, onChangeText, setText] = useInput('');
   const [Parent, onChangeParent, setParent] = useInput('');
-  const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
 
-  const { data: UserData } = useSWR<IUser>('/api/users', fetcher, {});
-
-  const { data: memberData, mutate: memberMutate } = useSWR<IUser[]>(
-    UserData && channel ? `/api/workspaces/${workspace}/channels/${channel}/members` : null,
-    fetcher,
-  );
   const tockenData = sessionStorage.getItem('tocken');
   const { groupname, groupmemo, groupinnerdata } = useParams<{
     groupname: string;
@@ -48,14 +41,15 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
           `https://memolucky.run.goorm.io/group/group-data/${decodeURI(`${groupname}`)}/`,
           {
             group: `${groupNum}`,
-            name: Text,
+
+            name: `${Text}`,
             file_type: 'folder',
           },
           {
+            withCredentials: true,
             headers: {
               Authorization: `Bearer ${tockenData}`,
             },
-            withCredentials: true,
           },
         )
         .then((r) => {
@@ -68,13 +62,14 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
           location.reload();
         })
         .catch((error) => {
-          console.log('이게 안되?', error);
+          console.log('이게 안되?', `${groupNum}`, error);
+          console.log('이게 안되?', `${groupNum}`, tockenData);
 
           console.dir(error);
           toast.error(error.response?.data, { position: 'bottom-center' });
         });
     },
-    [Text, Parent],
+    [Text, Parent, tockenData, groupNum],
   );
 
   return (

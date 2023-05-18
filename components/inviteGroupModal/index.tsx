@@ -77,7 +77,7 @@ const InviteGroupModal: VFC<Props> = ({ show, onCloseModal, setShowInviteGroupMo
           toast.error(error.response?.data, { position: 'bottom-center' });
         });
     },
-    [GroupName, GroupDesc, x, Password],
+    [GroupName, GroupDesc, x, Password, tockenData],
   );
 
   return (

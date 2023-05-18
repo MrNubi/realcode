@@ -10,6 +10,8 @@ import fetcher from '../../utills/fetcher';
 import useSWR from 'swr';
 import { EditColumnDiv, EditColumnDiv2, EditPost } from '@components/MemoContent/styles';
 import ChatBox from '@components/ChatBox';
+import { MLogin } from '@typings/memot';
+import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 
 interface Props {
   show: boolean;
@@ -21,6 +23,7 @@ const InviteWorkspaceModal: VFC<Props> = ({ show, onCloseModal, setShowInviteWor
   const [newMember, onChangeNewMember, setNewMember] = useInput('');
   const [newUrl, onChangeNewUrl] = useInput('');
   const { workspace, channel } = useParams<{ workspace: string; channel: string }>();
+  const { data: tockenData } = useSWR<MLogin>('tocken', fetcherMemoLocal);
 
   const { data: UserData } = useSWR<IUser>('/api/users', fetcher, {});
 
@@ -37,9 +40,19 @@ const InviteWorkspaceModal: VFC<Props> = ({ show, onCloseModal, setShowInviteWor
         return;
       }
       axios
-        .post(`/api/workspaces/${workspace}/members`, {
-          email: newMember,
-        })
+        .post(
+          `/api/workspaces/${workspace}/members`,
+          {
+            email: newMember,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${tockenData}`,
+            },
+
+            withCredentials: true,
+          },
+        )
         .then((response) => {
           memberMutate(response.data, false);
           setShowInviteWorkspaceModal(false);
@@ -50,7 +63,7 @@ const InviteWorkspaceModal: VFC<Props> = ({ show, onCloseModal, setShowInviteWor
           toast.error(error.response?.data, { position: 'bottom-center' });
         });
     },
-    [workspace, newMember],
+    [workspace, newMember, tockenData],
   );
 
   return (

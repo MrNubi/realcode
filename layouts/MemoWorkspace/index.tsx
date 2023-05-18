@@ -292,6 +292,7 @@ const MemoWorkspace: VFC = () => {
               textAlign: 'center',
               width: '100%',
               margin: 9,
+              fontSize: 10,
               height: '45px',
               border: '1px solid white',
               borderRadius: '15px',
@@ -307,6 +308,8 @@ const MemoWorkspace: VFC = () => {
               textDecoration: 'none',
               textAlign: 'center',
               width: '100%',
+              fontSize: 10,
+
               margin: 9,
               height: '45px',
               border: '1px solid white',
