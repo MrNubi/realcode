@@ -178,15 +178,6 @@ const MemoWorkspace: VFC = () => {
             <span style={{ color: 'blue', marginLeft: 5 }}>
               {tockenData ? sessionStorage.getItem('nickname') : 'Loading...'}
             </span>
-            <DashedLine />
-            <img
-              src={plus}
-              alt="create_group_plusImg"
-              onClick={(e) => {
-                e.preventDefault();
-                setShowInviteChannel((prev) => !prev);
-              }}
-            />
           </GroupSidebarTitle>
           <div style={{ display: 'flex', width: '100%', height: '94%' }}>
             <div
@@ -205,8 +196,7 @@ const MemoWorkspace: VFC = () => {
               <div style={{ display: 'flex', height: 40 }}>
                 <GroupSidebarTitle
                   style={{
-                    marginLeft: 0,
-                    marginRight: 0,
+                    marginRight: 5,
                     borderStyle: 'dashed',
                     borderColor: 'gray',
                     borderRightColor: 'transparent',
@@ -236,8 +226,7 @@ const MemoWorkspace: VFC = () => {
               <div style={{ display: 'flex', height: 40 }}>
                 <GroupSidebarTitle
                   style={{
-                    marginLeft: 0,
-                    marginRight: 0,
+                    marginLeft: 5,
                     borderStyle: 'dashed',
                     borderColor: 'gray',
                     borderLeftColor: 'transparent',

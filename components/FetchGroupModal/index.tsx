@@ -78,7 +78,7 @@ const FetchGroupModal: VFC<Props> = ({ show, onCloseModal, setShowFetchGroupModa
           toast.error(error.response?.data, { position: 'bottom-center' });
         });
     },
-    [GroupName, GroupDesc, x, Password],
+    [GroupName, GroupDesc, x, Password, tockenData],
   );
 
   return (
