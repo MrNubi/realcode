@@ -21,6 +21,7 @@ export const Inlinediv = styled.div`
 export const WhiteBox = styled.div`
   display: felx;
   overflow: hidden
+  
   align-items: center;
   justify-contents: center;
   min-height: 250px;
@@ -32,8 +33,8 @@ export const WhiteBox = styled.div`
   padding-left: 50px;
   padding-right: 50px;
   border-radius: 0.75rem;
-  margin-left: auto;
-  margin-right: auto;
+
+  margin: auto;
   @media all and (min-width: 768px) {
     .md\:w-96 {
       width: 384px;

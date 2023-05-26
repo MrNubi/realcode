@@ -49,7 +49,14 @@ const ChatBox: VFC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholder }) 
 
         <Toolbox>
           <FileButton type="file"></FileButton>
-          <SendButton style={{ backgroundImage: sendBtn, backgroundSize: 'cover' }}></SendButton>
+          <SendButton
+            data-qa="texty_send_button"
+            aria-label="Send message"
+            data-sk="tooltip_parent"
+            type="submit"
+            disabled={!chat?.trim()}
+            style={{ backgroundImage: sendBtn, width: 20, height: 20, backgroundSize: 'cover' }}
+          ></SendButton>
         </Toolbox>
       </Form>
     </ChatArea>

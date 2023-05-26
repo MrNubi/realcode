@@ -58,9 +58,6 @@ export const LeftSideBar = styled.div`
   min-height: 780;
   min-width: 780;
   background: #bebebe;
-  @media (max-width: 880px) {
-    visibility: hidden;
-  }
 `;
 
 export const GroupSidebar = styled.div`
@@ -72,7 +69,7 @@ export const GroupSidebar = styled.div`
   margin-right: 10px;
   background: #ffffff;
   border-radius: 15px;
-  @media (max-width: 800px) {
+  @media all and (max-width: 800px) {
     display: none;
   }
 `;

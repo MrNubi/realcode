@@ -71,7 +71,13 @@ const MemoLogin = () => {
   return (
     <div
       id="container"
-      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#BEBEBE' }}
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        background: 'pink',
+        position: 'relative',
+      }}
     >
       <Inlinediv>
         <WhiteBox>
@@ -98,7 +104,7 @@ const MemoLogin = () => {
               <small style={{ color: '#626262', marginRight: '15px' }}>아이디 찾기</small>
             </Link>
             <Link style={{ color: 'transparent' }} to="/memoSignup">
-              <small style={{ color: '#626262' }}>비밀번호 찾기</small>
+              <small style={{ color: '#626262' }}>비밀찾기</small>
             </Link>
           </div>
         </WhiteBox>
