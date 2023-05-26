@@ -149,17 +149,7 @@ const MemoWorkspace: VFC = () => {
   }
 
   return (
-    <LeftSideBar
-      style={{
-        display: 'flex',
-        alignItems: 'flex-start',
-        padding: '3px',
-        height: '120%',
-        minHeight: 780,
-        minWidth: 780,
-        background: ' #bebebe',
-      }}
-    >
+    <LeftSideBar>
       <GroupSidebar>
         {/* 서치 바 */}
         <SearchTextDiv onSubmit={onSearch}>
@@ -378,7 +368,7 @@ const MemoWorkspace: VFC = () => {
               render={() => (
                 <div
                   style={{
-                    display: `${groupname ? 'flex' : 'none'}`,
+                    display: 'flex',
                     flexDirection: 'column',
                     width: '100%',
                     height: '20%',
