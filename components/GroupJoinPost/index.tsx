@@ -33,9 +33,10 @@ function GroupJoinPost({ name, id }: Props) {
       )
       .then((r) => {
         console.log('JoinClear');
-        return <Redirect to={'/MemoWorkspace'} />;
+        alert('가입신청이 완료되었습니다.');
       })
       .catch((e) => {
+        alert('err: ');
         console.log(id, ': JoinPostErr=>Post 실패', e, tockenData);
       });
   };

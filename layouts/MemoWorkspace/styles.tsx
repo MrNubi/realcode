@@ -50,6 +50,18 @@ export const DireecMessageBar = styled.div`
   background: white;
   border-radius: 15px;
 `;
+export const LeftSideBar = styled.div`
+  display: flex;
+  align-items: flex-start;
+  padding: 3px;
+  height: 120%;
+  min-height: 780;
+  min-width: 780;
+  background: #bebebe;
+  @media (max-width: 880px) {
+    display: none;
+  }
+`;
 
 export const GroupSidebar = styled.div`
   width: 20%;

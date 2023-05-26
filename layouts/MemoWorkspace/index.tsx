@@ -16,6 +16,7 @@ import {
   DashedLine,
   GroupSidebarTitle,
   GroupTopBarHidden,
+  LeftSideBar,
 } from './styles';
 import searchIcon from './SearchIcon.png';
 import useInput from '@hooks/useInput';
@@ -148,7 +149,7 @@ const MemoWorkspace: VFC = () => {
   }
 
   return (
-    <div
+    <LeftSideBar
       style={{
         display: 'flex',
         alignItems: 'flex-start',
@@ -377,7 +378,7 @@ const MemoWorkspace: VFC = () => {
               render={() => (
                 <div
                   style={{
-                    display: 'flex',
+                    display: `${groupname ? 'flex' : 'none'}`,
                     flexDirection: 'column',
                     width: '100%',
                     height: '20%',
@@ -393,21 +394,21 @@ const MemoWorkspace: VFC = () => {
 
         {/* 
 
-  display: flex;
+            display: flex;
 
-  flex-direction: column;
+            flex-direction: column;
 
-  width: 100%;
+            width: 100%;
 
-  height: 20%;
-  
-  margin: 5px;
+            height: 20%;
+            
+            margin: 5px;
 
-  background: #ffffff;
+            background: #ffffff;
 
-  border-radius: 15px;
-  
-  */}
+            border-radius: 15px;
+            
+            */}
 
         {/*워크스페이스 : 상세 / 내용 / dmbar*/}
 
@@ -437,7 +438,7 @@ const MemoWorkspace: VFC = () => {
           setShowFetchGroupModal={setShowUpdateGroupModal}
         />
       </div>
-    </div>
+    </LeftSideBar>
   );
 };
 
