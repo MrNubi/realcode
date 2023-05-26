@@ -31,9 +31,13 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
     (e) => {
       e.preventDefault();
       console.log('text :', Text);
-      console.log('text :', groupNum);
+      console.log('textG :', groupNum);
       if (!Text || !Text.trim()) {
         console.log('text :', Text);
+        return;
+      }
+      if (!groupNum) {
+        console.log('groupNum return :', groupNum);
         return;
       }
       axios
@@ -41,7 +45,6 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
           `https://memolucky.run.goorm.io/group/group-data/${decodeURI(`${groupname}`)}/`,
           {
             group: `${groupNum}`,
-
             name: `${Text}`,
             file_type: 'folder',
           },

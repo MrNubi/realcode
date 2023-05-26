@@ -278,10 +278,12 @@ const MemoWorkspace: VFC = () => {
             to={'/MemoWorkspaceJoin'}
             style={{
               textDecoration: 'none',
+              justifyContent: 'center',
+              alignItems: 'center',
               textAlign: 'center',
               width: '100%',
               margin: 9,
-              fontSize: 10,
+              fontSize: 20,
               height: '45px',
               border: '1px solid white',
               borderRadius: '15px',
@@ -295,9 +297,11 @@ const MemoWorkspace: VFC = () => {
           <button
             style={{
               textDecoration: 'none',
+              justifyContent: 'center',
+              alignItems: 'center',
               textAlign: 'center',
               width: '100%',
-              fontSize: 10,
+              fontSize: 20,
 
               margin: 9,
               height: '45px',
