@@ -139,14 +139,11 @@ const MemoWorkspace: VFC = () => {
       sessionStorage.clear();
       location.reload();
       alert('삭제되었습니다.');
+      return <Redirect to="/MemoLogin" />;
     } else {
       alert('취소합니다.');
     }
   }, []);
-  var tockenCheck = sessionStorage.getItem('tocken');
-  if (!tockenCheck) {
-    return <Redirect to="/MemoLogin" />;
-  }
 
   return (
     <LeftSideBar>
@@ -217,6 +214,10 @@ const MemoWorkspace: VFC = () => {
               </div>
               {GroupData &&
                 GroupData.results.map((r, i) => {
+                  if ((i = 0)) {
+                    console.log('return R0 test', r);
+                  }
+                  console.log('return R test', r);
                   return (
                     <GroupSidebarA
                       key={r.id}
