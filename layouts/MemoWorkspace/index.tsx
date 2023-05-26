@@ -142,6 +142,10 @@ const MemoWorkspace: VFC = () => {
       alert('취소합니다.');
     }
   }, []);
+  var tockenCheck = sessionStorage.getItem('tocken');
+  if (!tockenCheck) {
+    return <Redirect to="/MemoLogin" />;
+  }
 
   return (
     <div
@@ -275,7 +279,7 @@ const MemoWorkspace: VFC = () => {
           </div>
         </div>
 
-        <DashedLine />
+        <DashedLine style={{ marginBottom: 5 }} />
         <div
           style={{
             display: 'flex',
@@ -295,7 +299,7 @@ const MemoWorkspace: VFC = () => {
               alignItems: 'center',
               textAlign: 'center',
               width: '100%',
-              margin: 9,
+              margin: 5,
               fontSize: 20,
               height: '45px',
               border: '1px solid white',
@@ -316,8 +320,8 @@ const MemoWorkspace: VFC = () => {
               width: '100%',
               fontSize: 20,
 
-              margin: 9,
-              height: '45px',
+              margin: 5,
+              height: '40px',
               border: '1px solid white',
               borderRadius: '15px',
               cursor: 'pointer',
@@ -338,8 +342,8 @@ const MemoWorkspace: VFC = () => {
               width: '100%',
               fontSize: 20,
 
-              margin: 9,
-              height: '45px',
+              margin: 5,
+              height: '40px',
               border: '1px solid white',
               borderRadius: '15px',
               cursor: 'pointer',
