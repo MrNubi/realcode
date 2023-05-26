@@ -25,12 +25,13 @@ const InviteChannelModal: VFC<Props> = ({ show, onCloseModal, setShowInviteChann
     groupmemo?: string;
     groupinnerdata?: string;
   }>();
-  const group = sessionStorage.getItem(`inner${groupinnerdata}`);
-  const groupNum = group ? JSON.parse(`${group}`).group : '';
+  const group = sessionStorage.getItem(`group`);
+  const groupNum = group ? JSON.parse(`${group}`).id : '';
   const onCreateGroup = useCallback(
     (e) => {
       e.preventDefault();
       console.log('text :', Text);
+      console.log('group :', group, `${group}`);
       console.log('textG :', groupNum);
       if (!Text || !Text.trim()) {
         console.log('text :', Text);

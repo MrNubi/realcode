@@ -133,6 +133,16 @@ const MemoWorkspace: VFC = () => {
     Groupcall();
   }
 
+  const onLogOut = useCallback(() => {
+    if (window.confirm('로그아웃 하시겠습니까?')) {
+      sessionStorage.clear();
+      location.reload();
+      alert('삭제되었습니다.');
+    } else {
+      alert('취소합니다.');
+    }
+  }, []);
+
   return (
     <div
       style={{
@@ -140,6 +150,8 @@ const MemoWorkspace: VFC = () => {
         alignItems: 'flex-start',
         padding: '3px',
         height: '120%',
+        minHeight: 780,
+        minWidth: 780,
         background: ' #bebebe',
       }}
     >
@@ -277,6 +289,7 @@ const MemoWorkspace: VFC = () => {
           <NavLink
             to={'/MemoWorkspaceJoin'}
             style={{
+              paddingTop: 2,
               textDecoration: 'none',
               justifyContent: 'center',
               alignItems: 'center',
@@ -315,6 +328,28 @@ const MemoWorkspace: VFC = () => {
             onClick={openCreateNewGroup}
           >
             새 그룹 만들기
+          </button>
+          <button
+            style={{
+              textDecoration: 'none',
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+              width: '100%',
+              fontSize: 20,
+
+              margin: 9,
+              height: '45px',
+              border: '1px solid white',
+              borderRadius: '15px',
+              cursor: 'pointer',
+
+              backgroundColor: '#B8B5B5',
+              color: 'white',
+            }}
+            onClick={onLogOut}
+          >
+            로그아웃
           </button>
         </div>
       </GroupSidebar>

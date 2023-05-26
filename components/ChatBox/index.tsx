@@ -5,6 +5,7 @@ import { ChatArea, FileButton, Form, MentionsTextarea, SendButton, Toolbox } fro
 import { MGroupDataMemo, MLogin } from '@typings/memot';
 import useSWR from 'swr';
 import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
+import sendBtn from '../../img/sendIcon.png';
 
 interface Props {
   chat: string;
@@ -48,8 +49,17 @@ const ChatBox: VFC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholder }) 
 
         <Toolbox>
           <FileButton type="file"></FileButton>
-          <SendButton
-            className={
+          <SendButton style={{ backgroundImage: sendBtn, backgroundSize: 'cover' }}></SendButton>
+        </Toolbox>
+      </Form>
+    </ChatArea>
+  );
+};
+
+export default ChatBox;
+
+/*
+    className={
               'c-button-unstyled c-icon_button c-icon_button--light c-icon_button--size_medium c-texty_input__button c-texty_input__button--send' +
               (chat?.trim() ? '' : ' c-texty_input__button--disabled')
             }
@@ -58,13 +68,5 @@ const ChatBox: VFC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholder }) 
             data-sk="tooltip_parent"
             type="submit"
             disabled={!chat?.trim()}
-          >
             <i className="c-icon c-icon--paperplane-filled" aria-hidden="true" />
-          </SendButton>
-        </Toolbox>
-      </Form>
-    </ChatArea>
-  );
-};
-
-export default ChatBox;
+*/
