@@ -59,7 +59,7 @@ export const LeftSideBar = styled.div`
   min-width: 780;
   background: #bebebe;
   @media (max-width: 880px) {
-    display: none;
+    visibility: hidden;
   }
 `;
 
@@ -72,6 +72,9 @@ export const GroupSidebar = styled.div`
   margin-right: 10px;
   background: #ffffff;
   border-radius: 15px;
+  @media (max-width: 800px) {
+    display: none;
+  }
 `;
 export const SearchTextDiv = styled.form`
   display:flex;
