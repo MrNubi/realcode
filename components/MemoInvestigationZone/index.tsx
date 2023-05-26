@@ -46,10 +46,12 @@ const MemoInvestigtionZone: VFC<TT> = ({ tocken }) => {
       })
       .then((r) => {
         JoinMutate(r.data);
+        alert('가입신청이 완료되었습니다.');
         console.log('JoinErr : NONE(clear)', join);
       })
 
       .catch((e) => {
+        alert('가입 신청이 되지않았습니다.');
         console.log('JoinErr : ', e);
       });
   }
