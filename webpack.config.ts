@@ -78,6 +78,7 @@ const config: Configuration = {
     filename: '[name].js',
     publicPath: '/dist/',
   },
+
   devServer: {
     historyApiFallback: true, // react router
     port: 3090,

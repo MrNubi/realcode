@@ -79,7 +79,7 @@ const ChannelListMeMo: FC<componentChannelList> = ({ onCreateNewGrop }: componen
         />
       </div> */}
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {!channelCollapse &&
+        {onCreateNewGrop !== undefined &&
           InnerGroupData?.results.map((r, i) => {
             return (
               <div
