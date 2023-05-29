@@ -6,6 +6,7 @@ export const Header = styled.header`
   font-size: 1.125rem;
   line-height: 1.75rem;
   font-weight: 700;
+  min-height: 500px;
 `;
 
 export const Inlinediv = styled.div`
@@ -26,8 +27,8 @@ export const WhiteBox = styled.div`
   justify-contents: center;
   min-height: 250px;
   min-width:300px;
-  width: 75%;
-  height: 40%;
+  width: 384px;
+  height: 200px;
   background-color: white;
   padding: 12px;
   padding-left: 50px;
@@ -35,11 +36,11 @@ export const WhiteBox = styled.div`
   border-radius: 0.75rem;
 
   margin: auto;
-  @media all and (min-width: 768px) {
-    .md\:w-96 {
-      width: 384px;
-    }
-  }
+  // @media all and (min-width: 768px) {
+  //   .md\:w-96 {
+  //     width: 384px;
+  //   }
+  // }
 `;
 
 export const WhiteBox2 = styled.div`
@@ -50,7 +51,7 @@ export const WhiteBox2 = styled.div`
   min-height: 250px;
   min-width:300px;
   width: 100%;
-  height: 60%;
+  height: 100%;
   background-color: white;
   padding: 12px;
   padding-left: 50px;
@@ -58,11 +59,7 @@ export const WhiteBox2 = styled.div`
   border-radius: 0.75rem;
   margin-left: auto;
   margin-right: auto;
-  @media all and (min-width: 768px) {
-    .md\:w-96 {
-      width: 384px;
-    }
-  }
+
 `;
 
 export const LoginBtn = styled.button`

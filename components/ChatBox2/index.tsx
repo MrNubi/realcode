@@ -9,6 +9,7 @@ import useInput from '@hooks/useInput';
 import axios from 'axios';
 import sendBtn from '../../img/sendIcon.png';
 import { url } from 'inspector';
+import { SendButtonHidden } from '@components/ChatBox/styles';
 
 interface Props {
   placeholder?: string;
@@ -118,13 +119,26 @@ const ChatBox2: VFC<Props> = ({ placeholder, groupinnerdata }) => {
               console.log('onChangFiles', File);
             }}
           ></FileButton>
-          <SendButton
-            data-qa="texty_send_button"
-            aria-label="Send message"
-            data-sk="tooltip_parent"
+          <SendButtonHidden
             type="submit"
-            style={{ backgroundImage: sendBtn, width: 20, height: 20, backgroundSize: 'cover' }}
-          ></SendButton>
+            disabled={!replyData?.trim()}
+            id="sendBtnRiply"
+            style={{ background: sendBtn, visibility: 'hidden', backgroundSize: 'cover' }}
+          ></SendButtonHidden>
+
+          <img
+            style={{
+              position: 'absolute',
+              right: 5,
+              top: 5,
+              width: 30,
+              height: 30,
+            }}
+            src={sendBtn}
+            onClick={() => {
+              document.getElementById('sendBtnRiply')?.click();
+            }}
+          ></img>
         </Toolbox>
       </Form>
     </ChatArea>

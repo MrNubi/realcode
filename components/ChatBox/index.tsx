@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import autosize from 'autosize';
 import React, { useCallback, useEffect, useRef, VFC } from 'react';
-import { ChatArea, FileButton, Form, MentionsTextarea, SendButton, Toolbox } from './styles';
+import { ChatArea, FileButton, Form, MentionsTextarea, SendButton, SendButtonHidden, Toolbox } from './styles';
 import { MGroupDataMemo, MLogin } from '@typings/memot';
 import useSWR from 'swr';
 import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
@@ -49,14 +49,26 @@ const ChatBox: VFC<Props> = ({ chat, onSubmitForm, onChangeChat, placeholder }) 
 
         <Toolbox>
           <FileButton type="file"></FileButton>
-          <SendButton
-            data-qa="texty_send_button"
-            aria-label="Send message"
-            data-sk="tooltip_parent"
+          <SendButtonHidden
             type="submit"
             disabled={!chat?.trim()}
-            style={{ backgroundImage: sendBtn, width: 20, height: 20, backgroundSize: 'cover' }}
-          ></SendButton>
+            id="sendBtn"
+            style={{ background: sendBtn, visibility: 'hidden', backgroundSize: 'cover' }}
+          ></SendButtonHidden>
+
+          <img
+            style={{
+              position: 'absolute',
+              right: 5,
+              top: 5,
+              width: 30,
+              height: 30,
+            }}
+            src={sendBtn}
+            onClick={() => {
+              document.getElementById('sendBtn')?.click();
+            }}
+          ></img>
         </Toolbox>
       </Form>
     </ChatArea>

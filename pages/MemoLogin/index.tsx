@@ -75,7 +75,7 @@ const MemoLogin = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        background: 'pink',
+        background: 'yellow',
         position: 'relative',
       }}
     >
