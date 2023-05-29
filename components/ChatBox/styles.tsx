@@ -65,6 +65,11 @@ export const SendButton = styled.button`
   right: 5px;
   top: 5px;
 `;
+export const SendButtonHidden = styled.button`
+  position: absolute;
+  right: 15px;
+  top: 5px;
+`;
 export const FileButton = styled.input`
 color:white;
 ::file-selector-button {
