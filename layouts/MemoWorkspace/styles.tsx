@@ -115,11 +115,6 @@ export const SearchTextArea = styled.input`
   }
 `;
 
-export const FolderImage = styled.image`
-  s
-
-`;
-
 export const GroupSidebarTitle = styled.div`
   background-color: white;
 

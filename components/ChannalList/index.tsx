@@ -1,32 +1,41 @@
 // import useSocket from '@hooks/useSocket';
 import { CollapseButton } from '../DMList/styles';
 import { IChannel, IUser } from '@typings/db';
-import fetcher from '../../utills/fetcher';
 import React, { FC, useCallback, useState } from 'react';
 import { useParams } from 'react-router';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import useSWR from 'swr';
+import { MGroup, MInnerGroup, MLogin } from '@typings/memot';
+import fetchMemoGet from '../../utills/fetchMemoGet';
+import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
+import { GroupSidebarTitle } from '@layouts/MemoWorkspace/styles';
+import FolderOPen from '../../img/folder_open.png';
+import FolderClose from '../../img/folder_close.png';
 
 const ChannelList: FC = () => {
-  const { workspace } = useParams<{ workspace?: string }>();
-  // const [socket] = useSocket(workspace);
+  const memoUrl = 'https://memolucky.run.goorm.io';
+  const MemoLoginUrl = `/users/dj-rest-auth/login/`;
+  const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
+
+  const { groupname, groupinnerdata } = useParams<{ groupname?: string; groupinnerdata?: string }>();
+
   const {
-    data: userData,
-    error,
-    mutate,
-  } = useSWR<IUser>('/api/users', fetcher, {
-    dedupingInterval: 2000, // 2초
+    data: GroupData,
+    error: GroupErr,
+    mutate: GroupMutate,
+  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${tockenData}`), {
+    dedupingInterval: 1000,
   });
-  const { data: channelData } = useSWR<IChannel[]>(userData ? `/api/workspaces/${workspace}/channels` : null, fetcher);
+
   const [channelCollapse, setChannelCollapse] = useState(false);
 
   const toggleChannelCollapse = useCallback(() => {
     setChannelCollapse((prev) => !prev);
   }, []);
-
+  console.log('groupname :::', decodeURI(groupinnerdata ? groupinnerdata : `1+${groupinnerdata}`));
   return (
-    <>
-      <h2>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+      {/* <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'gray' }}>
         <CollapseButton collapse={channelCollapse} onClick={toggleChannelCollapse}>
           <i
             className="c-icon p-channel_sidebar__section_heading_expand p-channel_sidebar__section_heading_expand--show_more_feature c-icon--caret-right c-icon--inherit c-icon--inline"
@@ -34,23 +43,61 @@ const ChannelList: FC = () => {
             aria-hidden="true"
           />
         </CollapseButton>
-        <span>Channels</span>
-      </h2>
-      <div>
-        {!channelCollapse &&
-          channelData?.map((channel) => {
-            return (
-              <NavLink
-                key={channel.name}
-                activeClassName="selected"
-                to={`/workspace/${workspace}/channel/${channel.name}`}
+        <span>File</span>
+        <DashedLine />
+        <img
+          src={plus}
+          style={{ marginRight: 5, backgroundColor: 'white' }}
+          alt="create_group_plusImg"
+          onClick={(e) => {
+            console.log('File plus_clicked : ', groupname, groupinnerdata);
+            e.preventDefault();
+            onCreateNewGrop;
+            console.log('addfolderclick');
+          }}
+        />
+      </div> */}
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        {GroupData?.results.map((r) => {
+          return (
+            <div
+              key={r.id}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                marginBottom: 10,
+                msOverflowY: 'auto',
+              }}
+            >
+              <Link
+                style={{ cursor: 'pointer' }}
+                to={groupname === `${r.name}` ? `/Memoworkspace` : `/Memoworkspace/${r.name}`}
               >
-                <span># {channel.name}</span>
-              </NavLink>
-            );
-          })}
+                <GroupSidebarTitle>
+                  <img
+                    style={{ marginRight: 5, backgroundColor: 'white' }}
+                    src={groupname === `${r.name}` ? FolderOPen : FolderClose}
+                    alt="group_boxImg"
+                  />
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                      color: 'red',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {r.name}
+                  </span>
+                </GroupSidebarTitle>
+              </Link>
+            </div>
+          );
+        })}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -1,8 +1,5 @@
-import Menu from '@components/Menu';
 import React, { useCallback, useEffect, useState, VFC } from 'react';
 
-import leaf from '../../img/leaf.png';
-import ChannelList from '@components/ChannalList';
 import { Redirect, Route, Switch, useParams } from 'react-router';
 import {
   SearchTextDiv,
@@ -21,11 +18,8 @@ import {
 import searchIcon from './SearchIcon.png';
 import useInput from '@hooks/useInput';
 import Box from '../../img/Box.png';
-import FolderOPen from '../../img/folder_open.png';
-import FolderClose from '../../img/folder_close.png';
+
 import plus from '../../img/add_group.png';
-import Setting from '../../img/Setting.png';
-import memo from '../../img/memo.png';
 
 import useSWR from 'swr';
 import { MGroup, MInnerGroup, MLogin, MUSer } from '@typings/memot';
@@ -36,19 +30,18 @@ import axios from 'axios';
 import GroupSidebarA from '@components/GroupSideBarA';
 import ChannelListMeMo from '@components/ChannelListMemo';
 import userProfile from '../../img/user.png';
-import { channel } from 'diagnostics_channel';
-import ChatBox from '@components/ChatBox';
+
 import InviteChannelModal from '@components/InviteChannelModal';
 import fetcherMemoLocal from '../../utills/fetcherMemoLocal';
 import InviteGroupModal from '@components/inviteGroupModal';
 import GroupTitleBar from '@components/GroupTitleBar';
 import MemoInvestigtionZone from '@components/MemoInvestigationZone';
 import FetchGroupModal from '@components/FetchGroupModal';
+import ChannelList from '@components/ChannalList';
 
 const MemoWorkspace: VFC = () => {
   const [searchText, onChangeSearchText, setSearchText] = useInput('');
   const memoUrl = 'https://memolucky.run.goorm.io';
-  const MemoLoginUrl = `/users/dj-rest-auth/login/`;
 
   const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
 
@@ -212,23 +205,9 @@ const MemoWorkspace: VFC = () => {
                   <img src={plus} alt="" onClick={openCreateNewGroup} />
                 </GroupSidebarTitle>
               </div>
-              {GroupData &&
-                GroupData.results.map((r, i) => {
-                  if ((i = 0)) {
-                    console.log('return R0 test', r);
-                  }
-                  console.log('return R test', r);
-                  return (
-                    <GroupSidebarA
-                      key={r.id}
-                      tocken={`${tockenData}`}
-                      i={i}
-                      clickFolder={folderOpen}
-                      resultName={r.name}
-                      clickInnerFolder={innerFolderOpen}
-                    ></GroupSidebarA>
-                  );
-                })}
+              <Switch>
+                <Route path="/MemoWorkspace" component={ChannelList} />
+              </Switch>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', width: '50%', height: '100%' }}>
               <div style={{ display: 'flex', height: 40 }}>
@@ -261,11 +240,24 @@ const MemoWorkspace: VFC = () => {
                       onCreateNewGrop={(e) => {
                         e.preventDefault();
                         setShowInviteChannel((prev) => !prev);
+                        return true;
                       }}
                     />
                   )}
                 />
-                <Route path="/MemoWorkspace/:groupname" component={ChannelListMeMo} />
+                <Route
+                  path="/MemoWorkspace/:groupname"
+                  render={() => (
+                    <ChannelListMeMo
+                      onCreateNewGrop={(e) => {
+                        e.preventDefault();
+                        setShowInviteChannel((prev) => !prev);
+                        return true;
+                      }}
+                    />
+                  )}
+                />
+                <Route path="/MemoWorkspace" component={ChannelListMeMo} />
               </Switch>
             </div>
           </div>

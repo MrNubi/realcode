@@ -33,9 +33,7 @@ function GroupSidebarA({ tocken, resultName, i, clickFolder, clickInnerFolder }:
     data: GroupData,
     error: GroupErr,
     mutate: GroupMutate,
-  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', tocken), {
-    dedupingInterval: 10000,
-  });
+  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', tocken), {});
   const {
     data: InnerGroupData,
     error: InnerGroupErr,
@@ -43,9 +41,7 @@ function GroupSidebarA({ tocken, resultName, i, clickFolder, clickInnerFolder }:
   } = useSWR<MInnerGroup>(
     `${groupname ? memoUrl + `/group/group-data/${decodeURI(groupname)}/` : null}`,
     fetchMemoGet(`${groupname ? memoUrl + `/group/group-data/${decodeURI(groupname)}/` : null}`, tocken),
-    {
-      dedupingInterval: 10000,
-    },
+    {},
   );
   if (!InnerGroupData) {
     axios
