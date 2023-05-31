@@ -32,11 +32,6 @@ const ChannelListMeMo: FC<componentChannelList> = ({ onCreateNewGrop }: componen
     }
     return groupname!!;
   };
-  const {
-    data: GroupData,
-    error: GroupErr,
-    mutate: GroupMutate,
-  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${tockenData}`), {});
 
   const {
     data: InnerGroupData,

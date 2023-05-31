@@ -66,6 +66,11 @@ const MemoWorkspace: VFC = () => {
     setShowCreateGroup(false);
     setShowUpdateGroupModal(false);
   }, [setShowInviteChannel]);
+  const {
+    data: GroupData,
+    error: GroupErr,
+    mutate: GroupMutate,
+  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${tockenData}`), {});
 
   // const openFetchModal = () => {
   //   setShowUpdateGroupModal((prev) => !prev);
@@ -161,10 +166,8 @@ const MemoWorkspace: VFC = () => {
                   <img src={plus} alt="" onClick={openCreateNewGroup} />
                 </GroupSidebarTitle>
               </div>
-              <Switch>
-                <Route path="/MemoWorkspace/:groupname" component={ChannelList} />
-                <Route path="/MemoWorkspace" component={ChannelList} />
-              </Switch>
+
+              <Route path="/MemoWorkspace" component={ChannelList} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', width: '50%', height: '100%' }}>
               <div style={{ display: 'flex', height: 40 }}>
@@ -294,11 +297,15 @@ const MemoWorkspace: VFC = () => {
             }}
             onClick={() => {
               if (window.confirm('로그아웃 하시겠습니까?')) {
+                console.log('로그아웃');
                 sessionStorage.clear();
-
-                return <Redirect to="/MemoLogin" />;
               } else {
                 alert('취소합니다.');
+              }
+
+              if (!sessionStorage.getItem('tocken')) {
+                console.log('datacheck login in: ', tockenData);
+                return <Redirect to="/" />;
               }
             }}
           >

@@ -64,6 +64,11 @@ const MemoLogin = () => {
   //   return <div>로딩중...</div>;
   // }
   if (`${tockenData}` != 'non-tocken' && tockenData != undefined) {
+    let tocken = sessionStorage.getItem('tocken');
+    if (!tocken) {
+      console.log('!tocken');
+      return;
+    }
     console.log('datacheck login in: ', tockenData);
     return <Redirect to="/Memoworkspace" />;
   }

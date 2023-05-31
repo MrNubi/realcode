@@ -6,7 +6,6 @@ export const Header = styled.header`
   font-size: 1.125rem;
   line-height: 1.75rem;
   font-weight: 700;
-  min-height: 500px;
 `;
 
 export const Inlinediv = styled.div`
@@ -14,33 +13,32 @@ export const Inlinediv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 425px;
+  width: 80vh;
 
+  height: 100vh;
   padding: 24px;
 `;
 export const WhiteBox = styled.div`
   display: felx;
   overflow: hidden
-  
   align-items: center;
   justify-contents: center;
   min-height: 250px;
   min-width:300px;
-  width: 400px;
-  height: 200px;
+  width: 75%;
+  height: 40%;
   background-color: white;
   padding: 12px;
   padding-left: 50px;
   padding-right: 50px;
   border-radius: 0.75rem;
-
-  margin: auto;
-  // @media all and (min-width: 768px) {
-  //   .md\:w-96 {
-  //     width: 384px;
-        height:192px
-  //   }
-  // }
+  margin-left: auto;
+  margin-right: auto;
+  @media all and (min-width: 768px) {
+    .md\:w-96 {
+      width: 384px;
+    }
+  }
 `;
 
 export const WhiteBox2 = styled.div`
@@ -51,7 +49,7 @@ export const WhiteBox2 = styled.div`
   min-height: 250px;
   min-width:300px;
   width: 100%;
-  height: 100%;
+  height: 60%;
   background-color: white;
   padding: 12px;
   padding-left: 50px;
@@ -59,7 +57,11 @@ export const WhiteBox2 = styled.div`
   border-radius: 0.75rem;
   margin-left: auto;
   margin-right: auto;
-
+  @media all and (min-width: 768px) {
+    .md\:w-96 {
+      width: 384px;
+    }
+  }
 `;
 
 export const LoginBtn = styled.button`

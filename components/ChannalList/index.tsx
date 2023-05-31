@@ -49,45 +49,44 @@ const ChannelList: FC = () => {
         />
       </div> */}
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {GroupData &&
-          GroupData?.results.map((r) => {
-            return (
-              <div
-                key={r.id}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  width: '100%',
-                  marginBottom: 10,
-                  msOverflowY: 'auto',
-                }}
+        {GroupData?.results.map((r) => {
+          return (
+            <div
+              key={r.id}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                width: '100%',
+                marginBottom: 10,
+                msOverflowY: 'auto',
+              }}
+            >
+              <NavLink
+                style={{ cursor: 'pointer' }}
+                to={groupname === `${r.name}` ? `/Memoworkspace` : `/Memoworkspace/${r.name}`}
               >
-                <NavLink
-                  style={{ cursor: 'pointer' }}
-                  to={groupname === `${r.name}` ? `/Memoworkspace` : `/Memoworkspace/${r.name}`}
-                >
-                  <GroupSidebarTitle>
-                    <img
-                      style={{ marginRight: 5, backgroundColor: 'white' }}
-                      src={groupname === `${r.name}` ? FolderOPen : FolderClose}
-                      alt="group_boxImg"
-                    />
-                    <span
-                      style={{
-                        display: 'inline-block',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        color: 'red',
-                        textOverflow: 'ellipsis',
-                      }}
-                    >
-                      {r.name}
-                    </span>
-                  </GroupSidebarTitle>
-                </NavLink>
-              </div>
-            );
-          })}
+                <GroupSidebarTitle>
+                  <img
+                    style={{ marginRight: 5, backgroundColor: 'white' }}
+                    src={groupname === `${r.name}` ? FolderOPen : FolderClose}
+                    alt="group_boxImg"
+                  />
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                      color: 'red',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {r.name}
+                  </span>
+                </GroupSidebarTitle>
+              </NavLink>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
