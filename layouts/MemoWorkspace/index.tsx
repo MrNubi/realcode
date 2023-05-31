@@ -304,8 +304,8 @@ const MemoWorkspace: VFC = () => {
               }
 
               if (!sessionStorage.getItem('tocken')) {
-                console.log('datacheck login in: ', tockenData);
-                return <Redirect to="/" />;
+                console.log('datacheck login out: ', tockenData);
+                document.location.href = '/';
               }
             }}
           >
