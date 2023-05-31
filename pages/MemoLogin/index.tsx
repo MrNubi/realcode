@@ -65,56 +65,55 @@ const MemoLogin = () => {
   // }
   if (`${tockenData}` != 'non-tocken' && tockenData != undefined) {
     let tocken = sessionStorage.getItem('tocken');
+
     if (!tocken) {
       console.log('!tocken');
-      return;
+      return (
+        <div
+          id="container"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            background: 'pink',
+          }}
+        >
+          <Inlinediv>
+            <WhiteBox>
+              <Header>MEMOP</Header>
+              <form onSubmit={onSubmit}>
+                <MeMoInput className=" mb-3" placeholder="ID" value={username} setValue={setUsername} />
+                <MeMoInput
+                  className=" mb-3
+                "
+                  type="password"
+                  placeholder="PW"
+                  value={password}
+                  setValue={setPassword}
+                />
+                <LoginBtn type="submit">LogIn</LoginBtn>
+              </form>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <Link style={{ color: 'transparent' }} to="/memoSignup">
+                  <small style={{ color: '#626262', marginRight: '15px' }}>아이디 찾기</small>
+                </Link>
+                <Link style={{ color: 'transparent' }} to="/memoSignup">
+                  <small style={{ color: '#626262' }}>비밀찾기</small>
+                </Link>
+              </div>
+            </WhiteBox>
+          </Inlinediv>
+        </div>
+      );
     }
-    console.log('datacheck login in: ', tockenData);
-    return <Redirect to="/Memoworkspace" />;
   }
-
-  return (
-    <div
-      id="container"
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        background: 'pink',
-      }}
-    >
-      <Inlinediv>
-        <WhiteBox>
-          <Header>MEMOP</Header>
-          <form onSubmit={onSubmit}>
-            <MeMoInput className=" mb-3" placeholder="ID" value={username} setValue={setUsername} />
-            <MeMoInput
-              className=" mb-3
-            "
-              type="password"
-              placeholder="PW"
-              value={password}
-              setValue={setPassword}
-            />
-            <LoginBtn type="submit">LogIn</LoginBtn>
-          </form>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <Link style={{ color: 'transparent' }} to="/memoSignup">
-              <small style={{ color: '#626262', marginRight: '15px' }}>아이디 찾기</small>
-            </Link>
-            <Link style={{ color: 'transparent' }} to="/memoSignup">
-              <small style={{ color: '#626262' }}>비밀찾기</small>
-            </Link>
-          </div>
-        </WhiteBox>
-      </Inlinediv>
-    </div>
-  );
+  console.log('datacheck login in: ', tockenData);
+  return <Redirect to="/Memoworkspace" />;
 };
 
 export default MemoLogin;
