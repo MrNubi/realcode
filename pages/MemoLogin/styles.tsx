@@ -14,9 +14,9 @@ export const Inlinediv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80vh;
+  width: 400px;
 
-  height: 100vh;
+  height: 200px;
   padding: 24px;
 `;
 export const WhiteBox = styled.div`
@@ -27,7 +27,7 @@ export const WhiteBox = styled.div`
   justify-contents: center;
   min-height: 250px;
   min-width:300px;
-  width: 384px;
+  width: 400px;
   height: 200px;
   background-color: white;
   padding: 12px;
@@ -39,6 +39,7 @@ export const WhiteBox = styled.div`
   // @media all and (min-width: 768px) {
   //   .md\:w-96 {
   //     width: 384px;
+        height:192px
   //   }
   // }
 `;

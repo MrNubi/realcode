@@ -127,17 +127,6 @@ const MemoWorkspace: VFC = () => {
     Groupcall();
   }
 
-  const onLogOut = useCallback(() => {
-    if (window.confirm('로그아웃 하시겠습니까?')) {
-      sessionStorage.clear();
-      location.reload();
-      alert('삭제되었습니다.');
-      return <Redirect to="/MemoLogin" />;
-    } else {
-      alert('취소합니다.');
-    }
-  }, []);
-
   return (
     <LeftSideBar>
       <GroupSidebar>
@@ -206,6 +195,7 @@ const MemoWorkspace: VFC = () => {
                 </GroupSidebarTitle>
               </div>
               <Switch>
+                <Route path="/MemoWorkspace/:groupname" component={ChannelList} />
                 <Route path="/MemoWorkspace" component={ChannelList} />
               </Switch>
             </div>
@@ -257,7 +247,7 @@ const MemoWorkspace: VFC = () => {
                     />
                   )}
                 />
-                <Route path="/MemoWorkspace" component={ChannelListMeMo} />
+                <Route path="/MemoWorkspace" render={() => <div></div>} />
               </Switch>
             </div>
           </div>
@@ -335,7 +325,15 @@ const MemoWorkspace: VFC = () => {
               backgroundColor: '#B8B5B5',
               color: 'white',
             }}
-            onClick={onLogOut}
+            onClick={() => {
+              if (window.confirm('로그아웃 하시겠습니까?')) {
+                sessionStorage.clear();
+
+                return <Redirect to="/MemoLogin" />;
+              } else {
+                alert('취소합니다.');
+              }
+            }}
           >
             로그아웃
           </button>

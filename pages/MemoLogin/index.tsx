@@ -75,8 +75,7 @@ const MemoLogin = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        background: 'yellow',
-        position: 'relative',
+        background: 'pink',
       }}
     >
       <Inlinediv>
