@@ -14,9 +14,8 @@ export const Inlinediv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 400px;
+  width: 425px;
 
-  height: 200px;
   padding: 24px;
 `;
 export const WhiteBox = styled.div`

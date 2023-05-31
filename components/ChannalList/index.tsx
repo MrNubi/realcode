@@ -14,25 +14,16 @@ import FolderClose from '../../img/folder_close.png';
 
 const ChannelList: FC = () => {
   const memoUrl = 'https://memolucky.run.goorm.io';
-  const MemoLoginUrl = `/users/dj-rest-auth/login/`;
   const { data: tockenData, mutate: tockenMutate } = useSWR<MLogin>('tocken', fetcherMemoLocal);
 
-  const { groupname, groupinnerdata } = useParams<{ groupname?: string; groupinnerdata?: string }>();
+  const { groupname } = useParams<{ groupname?: string }>();
 
   const {
     data: GroupData,
     error: GroupErr,
     mutate: GroupMutate,
-  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${tockenData}`), {
-    dedupingInterval: 1000,
-  });
+  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${tockenData}`), {});
 
-  const [channelCollapse, setChannelCollapse] = useState(false);
-
-  const toggleChannelCollapse = useCallback(() => {
-    setChannelCollapse((prev) => !prev);
-  }, []);
-  console.log('groupname :::', decodeURI(groupinnerdata ? groupinnerdata : `1+${groupinnerdata}`));
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       {/* <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'gray' }}>
@@ -58,44 +49,45 @@ const ChannelList: FC = () => {
         />
       </div> */}
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {GroupData?.results.map((r) => {
-          return (
-            <div
-              key={r.id}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                width: '100%',
-                marginBottom: 10,
-                msOverflowY: 'auto',
-              }}
-            >
-              <Link
-                style={{ cursor: 'pointer' }}
-                to={groupname === `${r.name}` ? `/Memoworkspace` : `/Memoworkspace/${r.name}`}
+        {GroupData &&
+          GroupData?.results.map((r) => {
+            return (
+              <div
+                key={r.id}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  width: '100%',
+                  marginBottom: 10,
+                  msOverflowY: 'auto',
+                }}
               >
-                <GroupSidebarTitle>
-                  <img
-                    style={{ marginRight: 5, backgroundColor: 'white' }}
-                    src={groupname === `${r.name}` ? FolderOPen : FolderClose}
-                    alt="group_boxImg"
-                  />
-                  <span
-                    style={{
-                      display: 'inline-block',
-                      overflow: 'hidden',
-                      whiteSpace: 'nowrap',
-                      color: 'red',
-                      textOverflow: 'ellipsis',
-                    }}
-                  >
-                    {r.name}
-                  </span>
-                </GroupSidebarTitle>
-              </Link>
-            </div>
-          );
-        })}
+                <NavLink
+                  style={{ cursor: 'pointer' }}
+                  to={groupname === `${r.name}` ? `/Memoworkspace` : `/Memoworkspace/${r.name}`}
+                >
+                  <GroupSidebarTitle>
+                    <img
+                      style={{ marginRight: 5, backgroundColor: 'white' }}
+                      src={groupname === `${r.name}` ? FolderOPen : FolderClose}
+                      alt="group_boxImg"
+                    />
+                    <span
+                      style={{
+                        display: 'inline-block',
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        color: 'red',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {r.name}
+                    </span>
+                  </GroupSidebarTitle>
+                </NavLink>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

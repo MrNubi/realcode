@@ -53,14 +53,6 @@ const MemoWorkspace: VFC = () => {
     }
     return groupname!!;
   };
-  const {
-    data: GroupData,
-    error: GroupErr,
-    mutate: GroupMutate,
-  } = useSWR<MGroup>(memoUrl + '/group', fetchMemoGet(memoUrl + '/group', `${tockenData}`), {
-    dedupingInterval: 1000,
-    errorRetryCount: 10,
-  });
 
   const [folderOpen, setFolderOpen] = useState(-1);
   const [innerFolderOpen, setInnerFolderOpen] = useState(-1);
@@ -91,7 +83,6 @@ const MemoWorkspace: VFC = () => {
   const onClickUserName = useCallback(() => {
     setClickUserName((prev) => !prev);
     console.log(clickUserName);
-    console.log(GroupData);
   }, []);
   const onSearch = useCallback(
     (e: any) => {
@@ -101,31 +92,7 @@ const MemoWorkspace: VFC = () => {
     [searchText],
   );
 
-  const Groupcall = useCallback(() => {
-    axios
-      .get(
-        memoUrl + '/group',
-
-        {
-          headers: {
-            Authorization: `Bearer ${tockenData}`,
-          },
-
-          withCredentials: true,
-        },
-      )
-      .then((r) => {
-        GroupMutate(r.data, false);
-        console.log('get: 3차 성공', r.data);
-      })
-      .catch(() => console.log('get: 3차실패', tockenData));
-  }, [tockenData]);
-
   console.log('mwLogin:  ', tockenData);
-  console.log('mwGroup:  ', GroupData);
-  if (tockenData && !GroupData) {
-    Groupcall();
-  }
 
   return (
     <LeftSideBar>
