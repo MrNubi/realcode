@@ -297,7 +297,7 @@ const MemoWorkspace: VFC = () => {
             }}
             onClick={() => {
               if (window.confirm('로그아웃 하시겠습니까?')) {
-                console.log('로그아웃');
+                console.log('로그아웃 ㅜ');
                 sessionStorage.clear();
               } else {
                 alert('취소합니다.');
